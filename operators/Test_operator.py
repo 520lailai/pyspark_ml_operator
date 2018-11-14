@@ -157,7 +157,8 @@ def testSplitOperator(spark):
         ["id", "country", "hour", "clicked"])
     dataset = operator.handle([dataset], spark)
     print("-------------8、testSplitOperator success")
-    dataset[0].show()
+    for df in dataset:
+      df.show()
 
 
 def testMathFunctionsOperator(spark):
@@ -255,8 +256,8 @@ def testTableStatsOperator(spark):
          (4, "HK", 19, 30.0),
          (5, "MZ", 21, 30.0)],
         ["id", "country", "hour", "clicked"])
-    operator.handle([dataset], spark)
-    print("-------------14、testDescribeOperator success")
+    dataset = operator.handle([dataset], spark)
+    print("-------------14、testTableStatsOperator success")
     dataset[0].show()
 
 
