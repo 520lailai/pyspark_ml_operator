@@ -13,7 +13,7 @@ from pyspark.sql.functions import when
 
 class FeatureExceptionSmoothOperator(Operator):
     def handle(self, dataframe_list, spark):
-        col_name = self.conf["inputCol"]
+        col_name = self.conf["input_col"]
         min_thresh = self.conf["min_thresh"]
         max_thresh = self.conf["max_thresh"]
         df = dataframe_list[0]

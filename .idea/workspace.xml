@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cc8c202c-d9c5-4d6c-b9cd-fb746729fef3" name="Default Changelist" comment="" />
+    <list default="true" id="cc8c202c-d9c5-4d6c-b9cd-fb746729fef3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/operators/FeatureExceptionSmoothOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/FeatureExceptionSmoothOperator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/operators/Test_operator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/Test_operator.py" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,25 +26,25 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="iml" value="1" />
-          <entry key="py" value="321" />
+          <entry key="py" value="323" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="IDEA_MODULE" value="1" />
-          <entry key="Python" value="321" />
+          <entry key="Python" value="323" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="25" />
-          <entry key="py" value="6263" />
+          <entry key="py" value="6323" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="25" />
-          <entry key="Python" value="6263" />
+          <entry key="Python" value="6323" />
         </counts>
       </usages-collector>
     </session>
@@ -71,18 +74,6 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/operators/MathFunctionsOperator.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="117">
-              <caret line="8" column="23" selection-end-line="38" />
-              <folding>
-                <element signature="e#24#53#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/operators/JoinOperator.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="76">
@@ -92,28 +83,40 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/operators/FeatureExceptionSmoothOperator.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="266">
+              <caret line="15" column="41" lean-forward="true" selection-start-line="15" selection-start-column="41" selection-end-line="15" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/operators/Test_operator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3393">
-              <caret line="315" column="25" selection-start-line="315" selection-start-column="25" selection-end-line="315" selection-end-column="25" />
+            <state relative-caret-position="-4">
+              <caret line="267" column="27" selection-start-line="267" selection-start-column="27" selection-end-line="267" selection-end-column="27" />
               <folding>
                 <element signature="e#24#60#0" expanded="true" />
-                <marker date="1542182248748" expanded="true" signature="935:9480" ph="..." />
-                <marker date="1542182248748" expanded="true" signature="1878:9480" ph="..." />
-                <marker date="1542182248748" expanded="true" signature="4490:5129" ph="..." />
-                <marker date="1542182248748" expanded="true" signature="6125:6190" ph="..." />
-                <marker date="1542182248748" expanded="true" signature="7991:8065" ph="..." />
-                <marker date="1542182248748" expanded="true" signature="9099:9159" ph="..." />
+                <marker date="1542183225935" expanded="true" signature="935:9582" ph="..." />
+                <marker date="1542183225935" expanded="true" signature="1948:9582" ph="..." />
+                <marker date="1542183225935" expanded="true" signature="4568:5209" ph="..." />
+                <marker date="1542183225935" expanded="true" signature="6207:6274" ph="..." />
+                <marker date="1542183225935" expanded="true" signature="8081:8158" ph="..." />
+                <marker date="1542183225935" expanded="true" signature="9195:9258" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/operators/FeatureExceptionSmoothOperator.py">
+        <entry file="file://$PROJECT_DIR$/operators/OneHotEncoderEstimatorOperator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+            <state relative-caret-position="93">
+              <caret line="12" column="3" selection-end-line="36" />
+              <folding>
+                <element signature="e#24#53#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -177,6 +180,9 @@
       <replace>dataframe_list</replace>
     </replaceStrings>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="GradleLocalSettings">
     <option name="projectSyncType">
       <map>
@@ -209,12 +215,12 @@
         <option value="$PROJECT_DIR$/operators/Operator.py" />
         <option value="$PROJECT_DIR$/operators/MinMaxScalerOperator.py" />
         <option value="$PROJECT_DIR$/operators/JoinOperator.py" />
-        <option value="$PROJECT_DIR$/operators/FeatureExceptionSmoothOperator.py" />
         <option value="$PROJECT_DIR$/operators/DefaultValueFillOperator.py" />
         <option value="$PROJECT_DIR$/operators/BucketizerOperator.py" />
         <option value="$PROJECT_DIR$/operators/ApplySqlOperator.py" />
         <option value="$PROJECT_DIR$/operators/ApproxQuantileOperator.py" />
         <option value="$PROJECT_DIR$/operators/Test_operator.py" />
+        <option value="$PROJECT_DIR$/operators/FeatureExceptionSmoothOperator.py" />
       </list>
     </option>
   </component>
@@ -236,6 +242,7 @@
     <option name="width" value="1440" />
     <option name="height" value="805" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <autoscrollFromSource ProjectPane="true" />
@@ -276,7 +283,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542181879545" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542183271023" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -354,19 +361,19 @@
       <workItem from="1542022676780" duration="27270000" />
       <workItem from="1542109672289" duration="15878000" />
       <workItem from="1542170474835" duration="6423000" />
-      <workItem from="1542178497606" duration="3095000" />
+      <workItem from="1542178497606" duration="3454000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="93892000" />
+    <option name="totallyTimeSpent" value="94251000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="805" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49929875" visible="true" weight="0.18454936" />
-      <window_info active="true" id="Structure" order="1" sideWeight="0.50070125" side_tool="true" visible="true" weight="0.18454936" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49929875" visible="true" weight="0.18454936" />
+      <window_info id="Structure" order="1" sideWeight="0.50070125" side_tool="true" visible="true" weight="0.18454936" />
       <window_info id="Designer" order="2" />
       <window_info id="Learn" order="3" />
       <window_info id="UI Designer" order="4" />
@@ -381,7 +388,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Terminal" order="9" />
       <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -444,16 +451,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/operators/OneHotEncoderEstimatorOperator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="93">
-          <caret line="12" column="3" selection-end-line="36" />
-          <folding>
-            <element signature="e#24#53#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/operators/MinMaxScalerOperator.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="152">
@@ -492,13 +489,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
           <caret line="9" column="24" selection-end-line="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/operators/FeatureExceptionSmoothOperator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
         </state>
       </provider>
     </entry>
@@ -567,17 +557,34 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/operators/Test_operator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3393">
-          <caret line="315" column="25" selection-start-line="315" selection-start-column="25" selection-end-line="315" selection-end-column="25" />
+        <state relative-caret-position="-4">
+          <caret line="267" column="27" selection-start-line="267" selection-start-column="27" selection-end-line="267" selection-end-column="27" />
           <folding>
             <element signature="e#24#60#0" expanded="true" />
-            <marker date="1542182248748" expanded="true" signature="935:9480" ph="..." />
-            <marker date="1542182248748" expanded="true" signature="1878:9480" ph="..." />
-            <marker date="1542182248748" expanded="true" signature="4490:5129" ph="..." />
-            <marker date="1542182248748" expanded="true" signature="6125:6190" ph="..." />
-            <marker date="1542182248748" expanded="true" signature="7991:8065" ph="..." />
-            <marker date="1542182248748" expanded="true" signature="9099:9159" ph="..." />
+            <marker date="1542183225935" expanded="true" signature="935:9582" ph="..." />
+            <marker date="1542183225935" expanded="true" signature="1948:9582" ph="..." />
+            <marker date="1542183225935" expanded="true" signature="4568:5209" ph="..." />
+            <marker date="1542183225935" expanded="true" signature="6207:6274" ph="..." />
+            <marker date="1542183225935" expanded="true" signature="8081:8158" ph="..." />
+            <marker date="1542183225935" expanded="true" signature="9195:9258" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operators/OneHotEncoderEstimatorOperator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="93">
+          <caret line="12" column="3" selection-end-line="36" />
+          <folding>
+            <element signature="e#24#53#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operators/FeatureExceptionSmoothOperator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="15" column="41" lean-forward="true" selection-start-line="15" selection-start-column="41" selection-end-line="15" selection-end-column="41" />
         </state>
       </provider>
     </entry>
