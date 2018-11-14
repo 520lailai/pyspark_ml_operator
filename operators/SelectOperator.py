@@ -19,7 +19,6 @@ class SelectOperator(Operator):
             dataframe = df.select(column_name).filter(filter_condition)
             self.result_type = "single"
             self.status = "finished"
-            dataframe.show()
             return [dataframe]
         else:
             raise ValueError

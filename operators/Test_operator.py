@@ -26,9 +26,9 @@ def testTableReadOperator(spark):
                  "partition_val": None};
     operator = TableReadOperator(op_id="123", op_type="readtable")
     operator.conf = conf_read
-    dataframe = operator.handle([], spark)
+    dataset_list = operator.handle([], spark)
     print ("-----------------1、TableReadOperator")
-    dataframe[0].show()
+    dataset_list[0].show()
 
 
 def testTableWriteOperator(spark):
@@ -65,9 +65,11 @@ def testSampleOperator(spark):
          (8, "OA", 18, 5.0),
          (9, "PZ", 15, 0.0)],
         ["id", "country", "hour", "clicked"])
-    dataset = operator.handle([dataset], spark)
-    print("-------------3、testSampleOperator success")
-    dataset[0].show()
+    print ("-----------------3、testSampleOperator")
+    dataset.show()
+    print(conf)
+    dataset_list = operator.handle([dataset], spark)
+    dataset_list[0].show()
 
 
 def testDefaultValueFillOperator(spark):
@@ -85,9 +87,11 @@ def testDefaultValueFillOperator(spark):
          (8, None, 18, None),
          (9, "PZ", 15, 0.0)],
         ["id", "country", "hour", "clicked"])
-    dataset = operator.handle([dataset], spark)
-    print("-------------4、testDefaultValueFillOperator success")
-    dataset[0].show()
+    print("-------------4、testDefaultValueFillOperator")
+    dataset.show()
+    print(conf)
+    dataset_list = operator.handle([dataset], spark)
+    dataset_list[0].show()
 
 
 def testMinMaxScalerOperator(spark):
@@ -97,14 +101,17 @@ def testMinMaxScalerOperator(spark):
             "min": 0};
     operator = MinMaxScalerOperator(op_id="123", op_type="SelectOperator")
     operator.conf = conf
-    dataFrame = spark.createDataFrame([
+    dataset = spark.createDataFrame([
         (0, Vectors.dense([1.0, 0.1, -1.0]),),
         (1, Vectors.dense([2.0, 1.1, 1.0]),),
         (2, Vectors.dense([3.0, 10.1, 3.0]),)
     ], ["id", "features"])
-    dataset = operator.handle([dataFrame], spark)
-    print("-------------5、testMinMaxScalerOperator success")
-    dataset[0].show()
+    print ("-----------------5、testMinMaxScalerOperator")
+    dataset.show()
+    print(conf)
+    dataset_list = operator.handle([dataset], spark)
+    dataset_list[0].show()
+
 
 
 def testStandardScalerOperator(spark):
@@ -114,15 +121,17 @@ def testStandardScalerOperator(spark):
             "with_mean": False};
     operator = StandardScalerOperator(op_id="123", op_type="StandardScalerOperator")
     operator.conf = conf
-    dataFrame = spark.createDataFrame([
+    dataset = spark.createDataFrame([
         (0, Vectors.dense([1.0, 0.1, -1.0]),),
         (1, Vectors.dense([2.0, 1.1, 1.0]),),
         (2, Vectors.dense([3.0, 10.1, 3.0]),)
     ], ["id", "features"])
 
-    dataset = operator.handle([dataFrame], spark)
-    print("-------------6、testStandardScalerOperator success")
-    dataset[0].show()
+    print("-------------6、testStandardScalerOperator")
+    dataset.show()
+    print(conf)
+    dataset_list = operator.handle([dataset], spark)
+    dataset_list[0].show()
 
 
 def testJoinOperator(spark):
@@ -141,9 +150,12 @@ def testJoinOperator(spark):
          (3, "lili", 15, "female")],
         ["id", "name", "age", "sex"])
 
-    dataset = operator.handle([dataset1, dataset2], spark)
-    print("-------------7、testStandardScalerOperator success")
-    dataset[0].show()
+    print("-------------7、testJoinOperator")
+    dataset1.show()
+    dataset2.show()
+    print(conf)
+    dataset_list = operator.handle([dataset1, dataset2], spark)
+    dataset_list[0].show()
 
 
 def testSplitOperator(spark):
@@ -154,11 +166,18 @@ def testSplitOperator(spark):
     dataset = spark.createDataFrame(
         [(1, "US", 18, 1.0),
          (2, "CA", 12, 0.0),
-         (3, "NZ", 15, 0.0)],
+         (3, "EA", 11, 0.0),
+         (4, "CA", 12, 0.0),
+         (5, "UA", 17, 0.0),
+         (6, "CA", 12, 0.0),
+         (7, "NZ", 18, 0.0)],
         ["id", "country", "hour", "clicked"])
-    dataset = operator.handle([dataset], spark)
-    print("-------------8、testSplitOperator success")
-    for df in dataset:
+
+    print("-------------8、testSplitOperator")
+    dataset.show()
+    print(conf)
+    dataset_list = operator.handle([dataset], spark)
+    for df in dataset_list:
       df.show()
 
 
@@ -173,9 +192,12 @@ def testMathFunctionsOperator(spark):
          (2, "CA", 12, 0.0),
          (3, "NZ", 15, 0.0)],
         ["id", "country", "hour", "clicked"])
-    dataset = operator.handle([dataset], spark)
-    print("-------------9、testMathFunctionsOperator success")
-    dataset[0].show()
+    print("-------------9、testMathFunctionsOperator")
+    dataset.show()
+    print(conf)
+    dataset_list = operator.handle([dataset], spark)
+    for df in dataset_list:
+        df.show()
 
 
 def testBucketizerOperator(spark):
@@ -185,10 +207,14 @@ def testBucketizerOperator(spark):
     operator = BucketizerOperator(op_id="123", op_type="SelectOperator")
     operator.conf = conf
     data = [(-999.9,), (-0.5,), (-0.3,), (0.0,), (0.2,), (999.9,)]
-    dataFrame = spark.createDataFrame(data, ["features"])
-    dataset = operator.handle([dataFrame], spark)
-    print("-------------10、testBucketizerOperator success")
-    dataset[0].show()
+    dataset = spark.createDataFrame(data, ["features"])
+    print("-------------10、testBucketizerOperator")
+    dataset.show()
+    print(conf)
+    dataset_list = operator.handle([dataset], spark)
+    for df in dataset_list:
+        df.show()
+
 
 
 def testFeatureExceptionSmoothOperator(spark):
@@ -204,9 +230,12 @@ def testFeatureExceptionSmoothOperator(spark):
          (4, "CA", 4, 0.0),
          (5, "NZ", 15, 0.0)],
         ["id", "country", "hour", "clicked"])
-    dataset = operator.handle([dataset], spark)
-    print("-------------11、testFeatureExceptionSmoothOperator success")
-    dataset[0].show()
+    print("-------------11、testFeatureExceptionSmoothOperator")
+    dataset.show()
+    print(conf)
+    dataset_list = operator.handle([dataset], spark)
+    for df in dataset_list:
+        df.show()
 
 
 def testOneHotEncoderEstimatorOperator(spark):
@@ -217,7 +246,7 @@ def testOneHotEncoderEstimatorOperator(spark):
             "drop_last": False};
     operator = OneHotEncoderEstimatorOperator(op_id="123", op_type="SelectOperator")
     operator.conf = conf
-    df = spark.createDataFrame([
+    dataset = spark.createDataFrame([
         (0, "a"),
         (1, "b"),
         (2, "c"),
@@ -225,10 +254,12 @@ def testOneHotEncoderEstimatorOperator(spark):
         (4, "a"),
         (5, "c")
     ], ["id", "category"])
-    dataset = operator.handle([df], spark)
-    print("-------------12、testOneHotEncoderEstimatorOperator success")
-    dataset[0].show()
-
+    print("-------------12、testOneHotEncoderEstimatorOperator")
+    dataset.show()
+    print(conf)
+    dataset_list = operator.handle([dataset], spark)
+    for df in dataset_list:
+        df.show()
 
 def testApproxQuantileOperator(spark):
     conf = {"input_col": "hour",
@@ -241,10 +272,12 @@ def testApproxQuantileOperator(spark):
          (2, "CA", 12, 0.0),
          (3, "NZ", 15, 0.0)],
         ["id", "country", "hour", "clicked"])
-    dataset = operator.handle([dataset], spark)
-    print("-------------13、testApproxQuantileOperator success")
-    dataset[0].show()
-
+    print("-------------13、testApproxQuantileOperator")
+    dataset.show()
+    print(conf)
+    dataset_list = operator.handle([dataset], spark)
+    for df in dataset_list:
+        df.show()
 
 def testTableStatsOperator(spark):
     conf = {"cols": ["hour", "clicked"]};
@@ -257,18 +290,22 @@ def testTableStatsOperator(spark):
          (4, "HK", 19, 30.0),
          (5, "MZ", 21, 30.0)],
         ["id", "country", "hour", "clicked"])
-    dataset = operator.handle([dataset], spark)
-    print("-------------14、testTableStatsOperator success")
-    dataset[0].show()
+    print("-------------14、testTableStatsOperator")
+    dataset.show()
+    print(conf)
+    dataset_list = operator.handle([dataset], spark)
+    for df in dataset_list:
+        df.show()
+
 
 
 def testApplySqlOperator(spark):
+    print("-------------15、testApplySqlOperator")
     conf = {"sql": "select * from lai_test.test1"};
     operator = ApplySqlOperator(op_id="123", op_type="SelectOperator")
     operator.conf = conf
-    dataset = operator.handle([], spark)
-    print("-------------15、testApplySqlOperator success")
-    dataset[0].show()
+    dataset_list = operator.handle([], spark)
+    dataset_list[0].show()
 
 
 def testSelectOperator(spark):
@@ -281,9 +318,12 @@ def testSelectOperator(spark):
          (2, "CA", 12, 0.0),
          (3, "NZ", 15, 0.0)],
         ["id", "country", "hour", "clicked"])
-    dataset = operator.handle([dataset], spark)
-    print("-------------16、testApplySqlOperator success")
-    dataset[0].show()
+    print("-------------16、testSelectOperator")
+    dataset.show()
+    print(conf)
+    dataset_list = operator.handle([dataset], spark)
+    for df in dataset_list:
+        df.show()
 
 
 
@@ -291,49 +331,64 @@ if __name__ == "__main__":
     spark = SparkSession.builder.enableHiveSupport().getOrCreate()
     # 1、test TableReadOperator
     testTableReadOperator(spark)
-
+    print('\n')
     # 2、test TableReadOperator
     testTableWriteOperator(spark)
+    print('\n')
 
     # 3、test TableReadOperator
     testSampleOperator(spark)
+    print('\n')
 
     # 4、test DefaultValueFillOperator
     testDefaultValueFillOperator(spark)
+    print('\n')
 
     # 5、test DefaultValueFillOperator
     testMinMaxScalerOperator(spark)
+    print('\n')
 
     # 6、test DefaultValueFillOperator
     testStandardScalerOperator(spark)
+    print('\n')
 
     # 7、test DefaultValueFillOperator
     testJoinOperator(spark)
+    print('\n')
 
     # 8、test DefaultValueFillOperator
     testSplitOperator(spark)
+    print('\n')
 
     # 9、test DefaultValueFillOperator
     testMathFunctionsOperator(spark)
+    print('\n')
 
     # 10、test DefaultValueFillOperator
     testBucketizerOperator(spark)
+    print('\n')
 
     # 11、test DefaultValueFillOperator
     testFeatureExceptionSmoothOperator(spark)
+    print('\n')
 
     # 12、test DefaultValueFillOperator
     testOneHotEncoderEstimatorOperator(spark)
+    print('\n')
 
     # 13、test DefaultValueFillOperator
     testApproxQuantileOperator(spark)
+    print('\n')
 
     # 14、test DefaultValueFillOperator
     testTableStatsOperator(spark)
+    print('\n')
 
     # 15、test DefaultValueFillOperator
     testApplySqlOperator(spark)
+    print('\n')
 
     # 16、test SelectOperator
     testSelectOperator(spark)
+    print('\n')
 
