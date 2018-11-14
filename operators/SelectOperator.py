@@ -2,7 +2,8 @@
 from Operator import Operator
 
 ''' conf[]：
-       sql:String, 
+       column_name:String, 
+       filter_condition : String, where expression
     dataframe_list:  []
 '''
 
@@ -10,12 +11,12 @@ from Operator import Operator
 class SelectOperator(Operator):
 
     def handle(self, dataframe_list, spark):
-        columnName = self.conf["columnName"]
-        filterCondition = self.conf["filterCondition"]
+        column_name = self.conf["column_name"]
+        filter_condition = self.conf["filter_condition"]
         df = dataframe_list[0]
 
         if df:
-            dataframe = df.select(columnName).filter(filterCondition)
+            dataframe = df.select(column_name).filter(filter_condition)
             self.result_type = "single"
             self.status = "finished"
             dataframe.show()

@@ -17,7 +17,6 @@ class TableStatsOperator(Operator):
             dataframe = df.describe(cols)
             self.result_type = "single"
             self.status = "finished"
-            dataframe.show()
             return [dataframe]
         else:
             raise ValueError

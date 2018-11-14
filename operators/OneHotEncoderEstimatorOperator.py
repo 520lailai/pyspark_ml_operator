@@ -23,8 +23,8 @@ class OneHotEncoderEstimatorOperator(Operator):
         df = dataframe_list[0]
 
         if df:
-            stringIndexer = StringIndexer(inputCol=string_indexer_input_col, outputCol=string_indexer_output_col)
-            model = stringIndexer.fit(df)
+            string_indexer = StringIndexer(inputCol=string_indexer_input_col, outputCol=string_indexer_output_col)
+            model = string_indexer.fit(df)
             indexed = model.transform(df)
             encoder = OneHotEncoder(dropLast=drop_last, inputCol=onehot_encoder_input_col,
                                     outputCol=onehot_encoder_output_col)

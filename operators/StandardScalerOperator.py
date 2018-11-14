@@ -24,11 +24,11 @@ class StandardScalerOperator(Operator):
         if df:
             scaler = StandardScaler(inputCol=input_col, outputCol=output_col,
                                     withStd=with_std, withMean=with_mean)
-            scalerModel = scaler.fit(df)
-            scaledData = scalerModel.transform(df)
+            scaler_model = scaler.fit(df)
+            scaled_data = scaler_model.transform(df)
 
             self.result_type = "single"
             self.status = "finished"
-            return [scaledData]
+            return [scaled_data]
         else:
             raise ValueError

@@ -17,6 +17,7 @@ from ApplySqlOperator import ApplySqlOperator
 from MathFunctionsOperator import MathFunctionsOperator
 from ApproxQuantileOperator import ApproxQuantileOperator
 from TableStatsOperator import TableStatsOperator
+from SelectOperator import SelectOperator
 
 
 def testTableReadOperator(spark):
@@ -25,9 +26,9 @@ def testTableReadOperator(spark):
                  "partition_val": None};
     operator = TableReadOperator(op_id="123", op_type="readtable")
     operator.conf = conf_read
-    datafrme = operator.handle([], spark)
+    dataframe = operator.handle([], spark)
     print ("-----------------1、TableReadOperator")
-    datafrme[0].show()
+    dataframe[0].show()
 
 
 def testTableWriteOperator(spark):
@@ -270,6 +271,22 @@ def testApplySqlOperator(spark):
     dataset[0].show()
 
 
+def testSelectOperator(spark):
+    conf = {"column_name": ["country", "clicked"],
+            "filter_condition": "hour>=15"};
+    operator = SelectOperator(op_id="123", op_type="SelectOperator")
+    operator.conf = conf
+    dataset = spark.createDataFrame(
+        [(1, "US", 18, 1.0),
+         (2, "CA", 12, 0.0),
+         (3, "NZ", 15, 0.0)],
+        ["id", "country", "hour", "clicked"])
+    dataset = operator.handle([dataset], spark)
+    print("-------------16、testApplySqlOperator success")
+    dataset[0].show()
+
+
+
 if __name__ == "__main__":
     spark = SparkSession.builder.enableHiveSupport().getOrCreate()
     # 1、test TableReadOperator
@@ -316,4 +333,7 @@ if __name__ == "__main__":
 
     # 15、test DefaultValueFillOperator
     testApplySqlOperator(spark)
+
+    # 16、test SelectOperator
+    testSelectOperator(spark)
 

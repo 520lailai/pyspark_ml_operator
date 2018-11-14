@@ -3,7 +3,7 @@ from Operator import Operator
 
 ''' 
     conf[]：
-       "using_columns": String, 
+        "using_columns": String, 
         "join_type": String 
     dataframe_list:  []
 '''
