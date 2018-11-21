@@ -36,4 +36,4 @@ class TableReadOperator(Operator):
 
 class partitionValException(BaseException):
     def __init__(self, mesg="partition table must have partition value"):
-        print mesg
+        logging mesg

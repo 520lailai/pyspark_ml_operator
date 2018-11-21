@@ -29,4 +29,4 @@ class FeatureExceptionSmoothOperator(Operator):
 
 class partitionValException(BaseException):
     def __init__(self, mesg="this is a partition table, does not have partitionVal"):
-        print mesg
+        logging mesg

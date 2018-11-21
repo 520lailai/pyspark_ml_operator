@@ -28,4 +28,4 @@ class JoinOperator(Operator):
 
 class InputDataFrameException(BaseException):
     def __init__(self, mesg="input dataframe null!"):
-        print mesg
+        logging mesg
