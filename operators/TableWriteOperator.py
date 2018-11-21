@@ -24,6 +24,9 @@ class TableWriteOperator(Operator):
         options = self.conf["options"]
         name = db_name + "." + table_name
 
+        if not mode:
+            mode = 'overwrite'
+
         if not partition_by:
             partition_by = None
 
@@ -36,4 +39,4 @@ class TableWriteOperator(Operator):
         self.result_type = "single"
         self.status = "finished"
 
-        return None
+        return dataframe_list

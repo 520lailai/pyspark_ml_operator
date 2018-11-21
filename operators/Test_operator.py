@@ -9,15 +9,16 @@ from DefaultValueFillOperator import DefaultValueFillOperator
 from MinMaxScalerOperator import MinMaxScalerOperator
 from StandardScalerOperator import StandardScalerOperator
 from JoinOperator import JoinOperator
-from SplitOperator import SplitOperator
+from RandomSplitOperator import RandomSplitOperator
 from BucketizerOperator import BucketizerOperator
 from FeatureExceptionSmoothOperator import FeatureExceptionSmoothOperator
 from OneHotEncoderEstimatorOperator import OneHotEncoderEstimatorOperator
-from ApplySqlOperator import ApplySqlOperator
+from ApplyQuerySqlOperator import ApplyQuerySqlOperator
 from MathFunctionsOperator import MathFunctionsOperator
 from ApproxQuantileOperator import ApproxQuantileOperator
 from TableStatsOperator import TableStatsOperator
 from SelectOperator import SelectOperator
+from TableToKVOperator import TableToKVOperator
 
 
 def testTableReadOperator(spark):
@@ -161,7 +162,7 @@ def testJoinOperator(spark):
 def testSplitOperator(spark):
     conf = {"weights": [0.2, 0.8],
             "seed": 123.2};
-    operator = SplitOperator(op_id="123", op_type="readtable")
+    operator = RandomSplitOperator(op_id="123", op_type="readtable")
     operator.conf = conf
     dataset = spark.createDataFrame(
         [(1, "US", 18, 1.0),
@@ -183,8 +184,7 @@ def testSplitOperator(spark):
 
 def testMathFunctionsOperator(spark):
     spark = SparkSession.builder.enableHiveSupport().getOrCreate()
-    conf = {"input_col": "hour",
-            "function_name": "log10"};
+    conf = {"function_expressions" :["log10(hour)", "2*hour", "abs(hour)",  "max(hour)",  "min(hour)",  "sqrt(hour)"]};
     operator = MathFunctionsOperator(op_id="123", op_type="SelectOperator")
     operator.conf = conf
     dataset = spark.createDataFrame(
@@ -299,10 +299,10 @@ def testTableStatsOperator(spark):
 
 
 
-def testApplySqlOperator(spark):
+def testApplyQuerySqlOperator(spark):
     print("-------------15、testApplySqlOperator")
-    conf = {"sql": "select * from lai_test.test1"};
-    operator = ApplySqlOperator(op_id="123", op_type="SelectOperator")
+    conf = {"sql_query": "select * from lai_test.test1"};
+    operator = ApplyQuerySqlOperator(op_id="123", op_type="SelectOperator")
     operator.conf = conf
     dataset_list = operator.handle([], spark)
     dataset_list[0].show()
@@ -325,6 +325,23 @@ def testSelectOperator(spark):
     for df in dataset_list:
         df.show()
 
+
+def testTableToKVOperator(spark):
+    conf = {"selected_col_names": ["country", "clicked"],
+            "append_col_names": ["id"]};
+    operator = TableToKVOperator(op_id="123", op_type="SelectOperator")
+    operator.conf = conf
+    dataset = spark.createDataFrame(
+        [(1, "US", 18, 1.0),
+         (2, "CA", 12, 0.0),
+         (3, "NZ", 15, 0.0)],
+        ["id", "country", "hour", "clicked"])
+    print("-------------17、testSelectOperator")
+    dataset.show()
+    print(conf)
+    dataset_list = operator.handle([dataset], spark)
+    for df in dataset_list:
+        df.show()
 
 
 if __name__ == "__main__":
@@ -385,10 +402,14 @@ if __name__ == "__main__":
     print('\n')
 
     # 15、test DefaultValueFillOperator
-    testApplySqlOperator(spark)
+    testApplyQuerySqlOperator(spark)
     print('\n')
 
     # 16、test SelectOperator
     testSelectOperator(spark)
+    print('\n')
+
+    # 17、test SelectOperator
+    testTableToKVOperator(spark)
     print('\n')
 

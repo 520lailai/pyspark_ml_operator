@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 from Operator import Operator
-import ml.dmlc.xgboost4j.scala.spark.{DataUtils, XGBoost}
-import ml.dmlc.xgboost4j.scala.spark.{DataUtils, XGBoost}
 
 ''' 
     conf[]：
@@ -11,7 +9,7 @@ import ml.dmlc.xgboost4j.scala.spark.{DataUtils, XGBoost}
 '''
 
 
-class XGBoostTrainOperator(Operator):
+class RandomSplitOperator(Operator):
 
     def handle(self, dataframe_list, spark):
         weights = self.conf["weights"]

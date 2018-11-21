@@ -3,16 +3,16 @@ from Operator import Operator
 
 ''' 
     conf[]：
-       sql:String, 
+       sql_query:String, 
     dataframe_list:  []
     spark : SparkSession
 '''
 
 
-class ApplySqlOperator(Operator):
+class ApplyQuerySqlOperator(Operator):
 
     def handle(self, dataframe_list, spark):
-        sql = self.conf["sql"]
+        sql = self.conf["sql_query"]
         if spark and sql:
             dataframe = spark.sql(sql)
             self.result_type = "single"
