@@ -43,12 +43,14 @@ def testTableWriteOperator(spark):
     operator = TableWriteOperator(op_id="123", op_type="readtable")
     operator.conf = conf_write
     dataset = spark.createDataFrame(
-        [(1, "US", 18, 1.0),
-         (2, "CA", 12, 0.0),
-         (3, "NZ", 15, 0.0)],
-        ["id", "country", "hour", "clicked"])
-    operator.handle([dataset], spark)
+        [(1, "lailai", 18, "female"),
+         (2, "guguo", 12, "female"),
+         (3, "lili", 15, "female")],
+        ["id", "name", "age", "sex"])
     print ("-----------------2、testTableWriteOperator")
+    dataset.show()
+    operator.handle([dataset], spark)
+    print ("testTableWriteOperator finish")
 
 
 def testSampleOperator(spark):
@@ -336,7 +338,7 @@ def testTableToKVOperator(spark):
          (2, "CA", 12, 0.0),
          (3, "NZ", 15, 0.0)],
         ["id", "country", "hour", "clicked"])
-    print("-------------17、testSelectOperator")
+    print("-------------17、testTableToKVOperator")
     dataset.show()
     print(conf)
     dataset_list = operator.handle([dataset], spark)
@@ -409,7 +411,7 @@ if __name__ == "__main__":
     testSelectOperator(spark)
     print('\n')
 
-    # 17、test SelectOperator
+    # 17、test TableToKVOperator
     testTableToKVOperator(spark)
     print('\n')
 

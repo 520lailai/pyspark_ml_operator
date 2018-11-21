@@ -8,9 +8,10 @@ from pyspark.ml.classification import RandomForestClassifier
 
 ''' 
     conf[]：
-         withReplacement: boolean, can elements be sampled multiple times 
-         fraction: float, size of the sample as a fraction of this RDD's size
-         seed:float, seed for the random number generator
+         inputCol: 
+         outputCol:
+         seed:float
+         numTrees
     spark: SparkSession
 '''
 
