@@ -23,10 +23,10 @@ class MathFunctionsOperator(Operator):
 
         # parameter check,
         check_dataframe(df)
-        check_str_parameter(col_names)
-        check_str_parameter(scale_method)
-        check_str_parameter(is_replace)
-        check_str_parameter(new_col_name)
+        check_str_parameter(col_names, "the Parameter:col_names is null")
+        check_str_parameter(scale_method, "the Parameter:scale_method is null")
+        check_str_parameter(is_replace, "the Parameter:col_names is null")
+        check_str_parameter(new_col_name, "the Parameter:new_col_name is null")
         if not (len(col_names) == len(scale_method) ==len(is_replace) == len(new_col_name)) :
             raise ParameterException("the Parameter error")
 

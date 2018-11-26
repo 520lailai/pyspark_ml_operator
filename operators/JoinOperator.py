@@ -18,15 +18,12 @@ class JoinOperator(Operator):
         join_columns = self.conf["join_columns"]
         select_columns = self.conf["select_columns"]
         join_type = self.conf["join_type"]
-
         df1 = dataframe_list[0]
         df2 = dataframe_list[1]
         check_dataframe(df1)
         check_dataframe(df2)
-
         check_str_parameter(join_columns, "the parameter join_columns is null")
         check_str_parameter(select_columns,  "the parameter join_columns is null")
-
         try:
             # express_list
             join_columns_list = join_columns.replace("1.", "").replace("2.", "").split(",")
@@ -45,6 +42,5 @@ class JoinOperator(Operator):
         except Exception as e:
             logging.exception(e)
             raise ParameterException("intput parameter error, pelease check again", e)
-
         dataframe = df1.join(df2, express_list, join_type).select(col_list)
         return [dataframe]

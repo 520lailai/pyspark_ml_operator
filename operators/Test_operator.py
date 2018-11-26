@@ -160,10 +160,10 @@ def testJoinOperator(spark):
         ["id2", "country", "hour2", "clicked2"])
 
     logging("-------------7、testJoinOperator")
-    dataset1.show()
-    dataset2.show()
+    df1.show()
+    df2.show()
     logging(conf)
-    dataset_list = operator.handle([dataset1, dataset2], spark)
+    dataset_list = operator.handle([df1, df2], spark)
     dataset_list[0].show()
 
 

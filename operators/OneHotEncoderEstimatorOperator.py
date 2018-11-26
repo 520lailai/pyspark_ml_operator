@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from Operator import Operator
-from pyspark.ml.feature import OneHotEncoder, StringIndexer
+from pyspark.ml.feature import OneHotEncoderEstimator
 from OperatorsUtils import *
 
 ''' 
@@ -26,7 +26,7 @@ class OneHotEncoderEstimatorOperator(Operator):
         check_str_parameter(input_cols, "the parameter:input_cols is null!")
         check_str_parameter(output_cols, "the parameter:output_cols is null!")
 
-        encoder = OneHotEncoder(inputCols=input_cols, outputCols=output_cols)
+        encoder = OneHotEncoderEstimator(inputCols=input_cols, outputCols=output_cols)
         if drop_last is not None:
             drop_last = bool_convert(drop_last)
             encoder.setDropLast(drop_last)
@@ -34,5 +34,6 @@ class OneHotEncoderEstimatorOperator(Operator):
         if handle_invalid:
             encoder.setHandleInvalid(handle_invalid)
 
-        encoded = encoder.transform(df)
+        model = encoder.fit(df)
+        encoded = model.transform(df)
         return [encoded]
