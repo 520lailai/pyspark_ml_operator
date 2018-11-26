@@ -15,7 +15,7 @@ class SampleOperator(Operator):
 
     def handle(self, dataframe_list, spark):
         with_replacement = self.conf["with_replacement"]
-        fraction = bool_convert(self.conf["fraction"])
+        fraction = float_convert(self.conf["fraction"])
         seed = self.conf["seed"]
         df = dataframe_list[0]
 

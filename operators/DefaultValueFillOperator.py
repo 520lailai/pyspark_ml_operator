@@ -23,11 +23,8 @@ class DefaultValueFillOperator(Operator):
         check_str_parameter(col_value, "the parameter:col_value is null")
         check_str_parameter(col_name, "the parameter:col_name is null")
 
-        cols_list = col_name.split(",")
-        values_str_list = col_value.split(",")
-        col_value = convert_cols_parameter(df.schema.fields, cols_list, values_str_list)
+        col_value_dict = convert_cols_parameter(df.schema.fields, col_name.split(","), col_value.split(","))
 
-        convert_cols_parameter(col_value, "the parameter:values is error")
+        dataframe = df.na.fill(value=col_value_dict, subset=None)
 
-        dataframe = df.na.fill(value=col_value, subset=col_name)
         return [dataframe]

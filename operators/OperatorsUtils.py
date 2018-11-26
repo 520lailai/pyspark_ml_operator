@@ -54,14 +54,14 @@ def float_convert(float_str):
 def bool_convert(bool_str):
     if bool_str is None:
         raise ParameterException("the parameter convert error : ", bool_str)
-    if (type(bool_str) == bool):
+    if type(bool_str) == bool:
         return bool_str
     if bool_str is 'False':
         return False
     elif bool_str is 'True':
         return True
     else:
-        raise ParameterException("input bool parameter error !")
+        raise ParameterException("input bool parameter error :"+str(bool_str))
 
 
 def check_cols(select_col, cols):
@@ -127,6 +127,7 @@ def str_convert_floatlist(float_str):
 
 
 def convert_cols_parameter(fields, cols_list, values_str_list):
+    col_value_dict = {}
     col_type = {}
     for struct_type in fields:
         col_type[struct_type.name] = struct_type.dataType
@@ -136,7 +137,7 @@ def convert_cols_parameter(fields, cols_list, values_str_list):
         if not col_type[col]:
             raise ParameterException("the col name is error:" + str(col))
         try:
-            if not values_str_list[i]:
+            if values_str_list[i] is None:
                 values_str_list[i] = values_str_list[i]
             elif isinstance(col_type[col], LongType):
                 values_str_list[i] = long(values_str_list[i])
@@ -148,9 +149,10 @@ def convert_cols_parameter(fields, cols_list, values_str_list):
                 values_str_list[i] = bool(values_str_list[i])
         except Exception:
             raise ParameterException("parameter convert error :" + str(values_str_list[i]))
-    return values_str_list
+        col_value_dict[col] = values_str_list[i]
+    return col_value_dict
 
 
 class ParameterException(BaseException):
     def __init__(self, mesg=""):
-        logging(mesg)
+        print(mesg)
