@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 from Operator import Operator
 from pyspark.sql.functions import when
+import logging
+from OperatorsUtils import *
 
 ''' 
     conf[]：
-        "input_col": "hour", 
-        "min_thresh": "7", 
-        "max_thresh": "15" 
-    dataframe_list: []
+        input_col:  String  ex: "hour"
+        min_thresh: float   ex: "7.0"
+        max_thresh: float   ex: "15.0"
+    dataframe_list: [df]
 '''
 
 
@@ -18,15 +20,13 @@ class FeatureExceptionSmoothOperator(Operator):
         max_thresh = self.conf["max_thresh"]
         df = dataframe_list[0]
 
+        min_thresh = float_convert(min_thresh)
+        max_thresh = float_convert(max_thresh)
+
+        check_dataframe(df)
+        check_str_parameter(col_name, "the parameter:col_name is null!")
+
         df1 = df.withColumn(col_name, when(df[col_name] > max_thresh, max_thresh).otherwise(df[col_name]))
         df2 = df1.withColumn(col_name, when(df1[col_name] < min_thresh, min_thresh).otherwise(df1[col_name]))
 
-        self.result_type = "single"
-        self.status = "finished"
-
         return [df2]
-
-
-class partitionValException(BaseException):
-    def __init__(self, mesg="this is a partition table, does not have partitionVal"):
-        logging mesg

@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 from Operator import Operator
+from OperatorsUtils import *
 
 '''
     conf[]
-        db_name:String,
-        table_name:  String,
-        save_format: String, the format used to save
-        mode:   String, one of `append`, `overwrite`, `error`, `ignore` (default: error)
-        partition_by: String, names of partitioning columns
-        options: String:(k1=v1,k2=v2.....)  all other string options
+        db_name:      String,
+        table_name:   String,
+        save_format:  String,  the format used to save
+        mode:         String,  one of `append`, `overwrite`, `error`, `ignore` (default: error)
+        partition_by: String,  names of partitioning columns
+        options:      String:(k1=v1,k2=v2.....)  all other string options
     spark: SparkSession
 '''
 
@@ -22,7 +23,12 @@ class TableWriteOperator(Operator):
         mode = self.conf["mode"]
         partition_by = self.conf["partition_by"]
         options = self.conf["options"]
+
+        check_strlist_parameter(db_name, "the parameter:db_name is null!")
+        check_strlist_parameter(table_name, "the parameter:table_name is null!")
         name = db_name + "." + table_name
+
+        check_dataframe(dataframe_list)
 
         if not mode:
             mode = 'overwrite'
@@ -35,8 +41,5 @@ class TableWriteOperator(Operator):
                 df.write.saveAsTable(name, format=save_format, mode=mode, partitionBy=partition_by, options=options)
             else:
                 df.write.saveAsTable(name, format=save_format, mode=mode, partitionBy=partition_by)
-
-        self.result_type = "single"
-        self.status = "finished"
 
         return dataframe_list

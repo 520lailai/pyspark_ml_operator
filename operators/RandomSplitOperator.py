@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from Operator import Operator
+from OperatorsUtils import *
 
 ''' 
     conf[]：
-       "weights": list[], 
-        "seed": flost, 
+        "weights": list[],   "0.2,0.8"
+        "seed": float,       "2134"
     dataframe_list: []
 '''
 
@@ -16,13 +17,17 @@ class RandomSplitOperator(Operator):
         seed = self.conf["seed"]
         df = dataframe_list[0]
 
-        if df:
-            dataframe = df.randomSplit(weights, seed)
-            self.result_type = "multi"
-            self.status = "finished"
-            redataframe = []
-            for df in dataframe:
-                redataframe.append(df)
-            return redataframe
+        check_dataframe(df)
+
+        weights = str_convert_floatlist(weights)
+
+        if seed is None:
+            seed = None
         else:
-            raise ValueError
+            seed = float_convert(seed)
+
+        dataframe = df.randomSplit(weights, seed)
+        redataframe = []
+        for df in dataframe:
+            redataframe.append(df)
+        return redataframe

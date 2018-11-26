@@ -1,4 +1,5 @@
 import abc
+import logging
 
 
 class Operator:
@@ -25,7 +26,7 @@ class Operator:
                     if len(preOperator.resultsDataframeNameList) > 0:
                         params.append(preOperator.resultsDataframeNameList[0])
                     else:
-                        logging "no output"
+                        logging("no output")
                 else:
                     relations = preOperator["relation"]
                     if relations is not None:

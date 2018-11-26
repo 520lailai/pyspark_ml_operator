@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from Operator import Operator
+from OperatorsUtils import *
+from WriteRedisOperator import WriteRedisOperator
 
 ''' 
    conf[]：
-       "cols":[], 
-    dataframe_list:  []
+       "cols":[],
+   dataframe_list: []
 '''
 
 
@@ -13,10 +15,14 @@ class TableStatsOperator(Operator):
     def handle(self, dataframe_list, spark):
         cols = self.conf["cols"]
         df = dataframe_list[0]
-        if df:
-            dataframe = df.describe(cols)
-            self.result_type = "single"
-            self.status = "finished"
-            return [dataframe]
+
+        check_dataframe(df)
+        dataframe = None
+
+        if cols is None:
+            dataframe = df.summary()
         else:
-            raise ValueError
+            check_strlist_parameter(cols)
+            dataframe = df.select(cols).summary()
+
+        return [dataframe]

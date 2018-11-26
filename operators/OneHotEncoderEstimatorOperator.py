@@ -1,36 +1,38 @@
 # -*- coding: utf-8 -*-
 from Operator import Operator
 from pyspark.ml.feature import OneHotEncoder, StringIndexer
+from OperatorsUtils import *
 
 ''' 
     conf[]：
-       "string_indexer_input_col": String,
-        "string_indexer_output_col": String,
-        "onehot_encoder_input_col": String,
-        "onehot_encoder_output_col": String,
-        "drop_last": False 
+        input_cols: [String]    ex: "hour, clicked"
+        output_cols: [String],  ex: "onehot_hour, one_hot_clicked"
+        drop_last: bool,        ex: "False"
+        handle_invalid: String, ex:  None
     dataframe_list: []
 '''
 
 
 class OneHotEncoderEstimatorOperator(Operator):
     def handle(self, dataframe_list, spark):
-        string_indexer_input_col = self.conf["string_indexer_input_col"]
-        string_indexer_output_col = self.conf["string_indexer_output_col"]
-        onehot_encoder_input_col = self.conf["onehot_encoder_input_col"]
-        onehot_encoder_output_col = self.conf["onehot_encoder_output_col"]
+        input_cols = str_convert_strlist(self.conf["input_cols"])
+        output_cols = str_convert_strlist(self.conf["output_cols"])
         drop_last = self.conf["drop_last"]
+        handle_invalid = self.conf["handle_invalid"]
+
         df = dataframe_list[0]
 
-        if df:
-            string_indexer = StringIndexer(inputCol=string_indexer_input_col, outputCol=string_indexer_output_col)
-            model = string_indexer.fit(df)
-            indexed = model.transform(df)
-            encoder = OneHotEncoder(dropLast=drop_last, inputCol=onehot_encoder_input_col,
-                                    outputCol=onehot_encoder_output_col)
-            encoded = encoder.transform(indexed)
-            self.result_type = "single"
-            self.status = "finished"
-            return [encoded]
-        else:
-            raise ValueError
+        check_dataframe(df)
+        check_str_parameter(input_cols, "the parameter:input_cols is null!")
+        check_str_parameter(output_cols, "the parameter:output_cols is null!")
+
+        encoder = OneHotEncoder(inputCols=input_cols, outputCols=output_cols)
+        if drop_last is not None:
+            drop_last = bool_convert(drop_last)
+            encoder.setDropLast(drop_last)
+
+        if handle_invalid:
+            encoder.setHandleInvalid(handle_invalid)
+
+        encoded = encoder.transform(df)
+        return [encoded]
