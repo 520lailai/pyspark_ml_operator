@@ -24,9 +24,8 @@ class JoinOperator(Operator):
         check_dataframe(df1)
         check_dataframe(df2)
 
-        check_str_parameter(join_columns)
-        check_str_parameter(select_columns)
-        check_str_parameter(join_type)
+        check_str_parameter(join_columns, "the parameter join_columns is null")
+        check_str_parameter(select_columns,  "the parameter join_columns is null")
 
         try:
             # express_list

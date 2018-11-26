@@ -146,16 +146,18 @@ def testJoinOperator(spark):
             "join_type": "inner"};
     operator = JoinOperator(op_id="123", op_type="readtable")
     operator.conf = conf
-    dataset1 = spark.createDataFrame(
-        [(1, "US", 18, 1.0),
-         (2, "CA", 12, 0.0),
-         (3, "NZ", 15, 0.0)],
-        ["id", "country", "hour", "clicked"])
-    dataset2 = spark.createDataFrame(
-        [(1, "lailai", 18, "female"),
-         (2, "guguo", 12, "female"),
-         (3, "lili", 15, "female")],
-        ["id", "name", "age", "sex"])
+    df1 = spark.createDataFrame(
+        [(1, "US", 19, 1.0),
+         (2, "CA", 6, 4.0),
+         (3, "CA", 20, 0.0),
+         (4, "NO", 4, 7.0)],
+        ["id1", "country", "hour1", "clicked1"])
+    df2 = spark.createDataFrame(
+        [(1, "US", 19, 1.0),
+         (2, "CA", 6, 4.0),
+         (3, "CA", 20, 0.0),
+         (4, "NO", 4, 7.0)],
+        ["id2", "country", "hour2", "clicked2"])
 
     logging("-------------7、testJoinOperator")
     dataset1.show()
