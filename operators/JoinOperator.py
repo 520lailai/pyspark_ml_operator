@@ -25,7 +25,6 @@ class JoinOperator(Operator):
         check_dataframe(df2)
 
         try:
-
             # express_list
             join_columns_list = join_columns.replace("1.", "").replace("2.", "").split(",")
             express_list = []
@@ -40,8 +39,8 @@ class JoinOperator(Operator):
                     col_list.append(df1[col.replace("1.", "")])
                 elif "2." in col:
                     col_list.append(df2[col.replace("2.", "")])
-        except Exception:
-            raise ParameterException("can not parse the intput parameter, pelease check again")
+        except Exception as e:
+            raise ParameterException("can not parse the intput parameter, pelease check again", e)
 
         dataframe = df1.join(df2, express_list, join_type).select(col_list)
         return [dataframe]
