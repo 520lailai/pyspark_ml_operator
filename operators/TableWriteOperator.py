@@ -24,8 +24,8 @@ class TableWriteOperator(Operator):
         partition_by = self.conf["partition_by"]
         options = self.conf["options"]
 
-        check_strlist_parameter(db_name, "the parameter:db_name is null!")
-        check_strlist_parameter(table_name, "the parameter:table_name is null!")
+        check_str_parameter(db_name, "the parameter:db_name is null!")
+        check_str_parameter(table_name, "the parameter:table_name is null!")
         name = db_name + "." + table_name
 
         check_dataframe(dataframe_list)
