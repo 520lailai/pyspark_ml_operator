@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from Operator import Operator
+from DataProcessingOperator import DataProcessingOperator
 from pyspark.sql import Row
 from collections import OrderedDict
 from OperatorsUtils import *
@@ -11,7 +11,7 @@ from OperatorsUtils import *
 '''
 
 
-class TableToKVOperator(Operator):
+class TableToKVOperator(DataProcessingOperator):
 
     def handle(self, dataframe_list, spark):
         selected_col_names = self.conf["selected_col_names"]
@@ -35,8 +35,9 @@ class TableToKVOperator(Operator):
 def map_function(row, selected_col_names, append_col_names):
     new_row = {};
     kv_str = ""
-    for col in append_col_names:
-        new_row[col] = row[col]
+    if append_col_names:
+        for col in append_col_names:
+            new_row[col] = row[col]
     for col in selected_col_names:
         if col and str(row[col]):
             kv_str = kv_str + col + ":" + str(row[col]) + ","

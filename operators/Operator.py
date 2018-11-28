@@ -1,34 +1,32 @@
-import abc
-import logging
+from abc import abstractmethod
 
 
 class Operator:
-    def __init__(self, op_id, op_type, result_type="single"):
+
+    def __init__(self,
+                 op_id,
+                 op_type,
+                 op_category,
+                 conf,
+                 relation,
+                 result_type="single"):
+
         self.op_id = op_id
         self.op_type = op_type
+        self.op_category = op_category
         self.status = "inited"
         self.result_type = result_type
-        self.preOperatorList = []
-        self.nextOperatorList = []
-        self.resultsDataframeNameList = []
-        self.conf = {}
-        self.relation = {}
+        self.pre_operator_list = []
+        self.next_operator_list = []
+        self.result_df_name_list = []
+        self.conf = conf
+        self.relation = relation
 
-    @abc.abstractmethod
-    def handle(self, dataframe_list, spark):
+    @abstractmethod
+    def handle(self, df_name_list, spark_session):
         return
 
-    def getPreDataFrameList(self):
-        params = []
-        if len(self.preOperatorList) > 0:
-            for preOperator in self.preOperatorList:
-                if preOperator.result_type == "single":
-                    if len(preOperator.resultsDataframeNameList) > 0:
-                        params.append(preOperator.resultsDataframeNameList[0])
-                    else:
-                        logging("no output")
-                else:
-                    relations = preOperator["relation"]
-                    if relations is not None:
-                        params.append(preOperator.resultsDataframeNameList[int(relations[self.op_id]) - 1])
-        return params
+    @abstractmethod
+    def get_pre_df_list(self):
+        return
+

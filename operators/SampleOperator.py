@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from Operator import Operator
+from DataProcessingOperator import DataProcessingOperator
 from OperatorsUtils import *
 
 ''' 
@@ -11,7 +11,7 @@ from OperatorsUtils import *
 '''
 
 
-class SampleOperator(Operator):
+class SampleOperator(DataProcessingOperator):
 
     def handle(self, dataframe_list, spark):
         with_replacement = self.conf["with_replacement"]

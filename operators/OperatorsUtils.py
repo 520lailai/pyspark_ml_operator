@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import logging
 from pyspark.sql.types import LongType
 from pyspark.sql.types import IntegerType
 from pyspark.sql.types import FloatType
@@ -21,9 +20,9 @@ def check_str_parameter(param, mesg):
 def check_strlist_parameter(param):
     if not param:
         raise ParameterException("parameter null exception ")
-    if type(param) is list:
+    if type(param) == list:
         for s in param:
-            check_str_parameter(s, "the parameter list has null parameter: ", s)
+            check_str_parameter(s, "the parameter list has null parameter: ")
     else:
         raise ParameterException("not a str list : ", param)
 
@@ -56,12 +55,12 @@ def bool_convert(bool_str):
         raise ParameterException("the parameter convert error : ", bool_str)
     if type(bool_str) == bool:
         return bool_str
-    if bool_str is 'False':
+    if bool_str == 'False':
         return False
-    elif bool_str is 'True':
+    elif bool_str == 'True':
         return True
     else:
-        raise ParameterException("input bool parameter error :"+str(bool_str))
+        raise ParameterException("input bool parameter error :" + str(bool_str))
 
 
 def check_cols(select_col, cols):
@@ -121,35 +120,40 @@ def str_convert_floatlist(float_str):
                  StructField(c,StringType,true), 
                  StructField(hour,LongType,true), 
                  StructField(clicked,DoubleType,true)]
-        cols_list :['id','country','hour', 'clicked']
-        values_str_list:['0','china','100','78.0']
+        col_name_value:
+        [
+           ["col1", "34"],
+           ["col2", 'hah'],
+           ["col3","89.9"]
+        ]
  if the col value is None ,ignore it'''
 
 
-def convert_cols_parameter(fields, cols_list, values_str_list):
-    col_value_dict = {}
+def convert_cols_parameter(fields, col_name_value):
     col_type = {}
     for struct_type in fields:
         col_type[struct_type.name] = struct_type.dataType
-    for i, col in enumerate(cols_list):
-        col = col.strip()
-        values_str_list[i] = values_str_list[i].strip()
+
+    col_value_dict = {}
+    for col_value in enumerate(col_name_value):
+        col = col_value[0]
+        value = col_value[1]
         if not col_type[col]:
             raise ParameterException("the col name is error:" + str(col))
         try:
-            if values_str_list[i] is None:
-                values_str_list[i] = values_str_list[i]
-            elif isinstance(col_type[col], LongType):
-                values_str_list[i] = long(values_str_list[i])
+            if isinstance(col_type[col], LongType):
+                value = long(value)
             elif isinstance(col_type[col], IntegerType):
-                values_str_list[i] = int(values_str_list[i])
+                value = int(value)
             elif isinstance(col_type[col], FloatType) or isinstance(col_type[col], DoubleType):
-                values_str_list[i] = float(values_str_list[i])
+                value = float(value)
             elif isinstance(col_type[col], BooleanType):
-                values_str_list[i] = bool(values_str_list[i])
+                value = bool(value)
         except Exception:
-            raise ParameterException("parameter convert error :" + str(values_str_list[i]))
-        col_value_dict[col] = values_str_list[i]
+            raise ParameterException("parameter convert error :" + str(value))
+        col_value_dict[col] = value
+        if not col_value_dict:
+            raise ParameterException("parameter null error :" + str(col_value_dict))
     return col_value_dict
 
 

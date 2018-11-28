@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-from Operator import Operator
-import logging
+from DataProcessingOperator import DataProcessingOperator
 from OperatorsUtils import *
 
 ''' conf[]：db_name:String, table_name:String, partition_val:String, 
     spark: SparkSession'''
 
 
-class TableReadOperator(Operator):
+class TableReadOperator(DataProcessingOperator):
     def handle(self, dataframe_list, spark):
         db_name = self.conf["db_name"]
         table_name = self.conf["table_name"]
@@ -36,4 +35,4 @@ class TableReadOperator(Operator):
 
 class partitionValException(BaseException):
     def __init__(self, mesg="partition table must have partition value"):
-        logging(mesg)
+        print(mesg)

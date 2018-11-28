@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from Operator import Operator
+from DataProcessingOperator import DataProcessingOperator
 from OperatorsUtils import *
 
 ''' conf[]：
@@ -9,7 +9,7 @@ from OperatorsUtils import *
 '''
 
 
-class SelectOperator(Operator):
+class SelectOperator(DataProcessingOperator):
 
     def handle(self, dataframe_list, spark):
         column_names = self.conf["column_names"]
@@ -17,11 +17,10 @@ class SelectOperator(Operator):
         df = dataframe_list[0]
 
         check_dataframe(df)
-        check_strlist_parameter(column_names, "the parameter:column_name is null!")
+        check_strlist_parameter(column_names)
         check_str_parameter(filter_condition, "the parameter:filter_condition is null!")
 
         column_names = str_convert_strlist(column_names)
-
 
         dataframe = df.select(column_names).filter(filter_condition)
         return [dataframe]

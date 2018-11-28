@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from Operator import Operator
+from DataProcessingOperator import DataProcessingOperator
 from OperatorsUtils import *
 
 ''' 
@@ -10,7 +10,7 @@ from OperatorsUtils import *
 '''
 
 
-class ApplyQuerySqlOperator(Operator):
+class ApplyQuerySqlOperator(DataProcessingOperator):
 
     def handle(self, dataframe_list, spark):
         sql_query = self.conf["sql_query"]

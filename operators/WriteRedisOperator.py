@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from Operator import Operator
+from DataProcessingOperator import DataProcessingOperator
 import redis
 from OperatorsUtils import *
 
@@ -13,7 +13,7 @@ from OperatorsUtils import *
 '''
 
 
-class WriteRedisOperator(Operator):
+class WriteRedisOperator(DataProcessingOperator):
 
     def handle(self, dataframe_list, spark):
         host = self.conf["host"]
@@ -36,4 +36,4 @@ class WriteRedisOperator(Operator):
 
 class WriteRedisError(BaseException):
     def __init__(self, mesg="write redis meet error"):
-        logging(mesg)
+        print(mesg)

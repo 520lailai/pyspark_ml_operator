@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from Operator import Operator
+from DataProcessingOperator import DataProcessingOperator
 from OperatorsUtils import *
 from WriteRedisOperator import WriteRedisOperator
 
@@ -10,19 +10,15 @@ from WriteRedisOperator import WriteRedisOperator
 '''
 
 
-class TableStatsOperator(Operator):
+class TableStatsOperator(DataProcessingOperator):
 
     def handle(self, dataframe_list, spark):
         cols = self.conf["cols"]
         df = dataframe_list[0]
-
         check_dataframe(df)
-        dataframe = None
-
         if cols is None:
             dataframe = df.summary()
         else:
             check_strlist_parameter(cols)
             dataframe = df.select(cols).summary()
-
         return [dataframe]
