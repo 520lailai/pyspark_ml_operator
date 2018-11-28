@@ -130,14 +130,18 @@ def str_convert_floatlist(float_str):
 
 
 def convert_cols_parameter(fields, col_name_value):
+    if type(col_name_value) != list :
+        raise ParameterException("the parameter not a list")
     col_type = {}
     for struct_type in fields:
         col_type[struct_type.name] = struct_type.dataType
-
     col_value_dict = {}
-    for col_value in enumerate(col_name_value):
+    for col_value in col_name_value:
+        if type(col_value) != list:
+            raise ParameterException("the parameter not a list")
         col = col_value[0]
         value = col_value[1]
+        print(col,value)
         if not col_type[col]:
             raise ParameterException("the col name is error:" + str(col))
         try:
