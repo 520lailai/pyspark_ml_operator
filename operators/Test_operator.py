@@ -27,8 +27,8 @@ def testTableReadOperator(spark):
     conf_read = {"db_name": "lai_test",
                  "table_name": "test1",
                  "partition_val": None};
-    operator = TableReadOperator(op_id="123", op_type="readtable")
-    operator.conf = conf_read
+    # op_id, op_type, conf, relation, result_type
+    operator = TableReadOperator(op_id="123", op_type="readtable", conf=conf_read, relation="", result_type="")
     dataset_list = operator.handle([], spark)
     print("-----------------1、TableReadOperator")
     dataset_list[0].show()
@@ -42,8 +42,7 @@ def testTableWriteOperator(spark):
                   "partition_by": "id",
                   "options": None};
 
-    operator = TableWriteOperator(op_id="123", op_type="readtable")
-    operator.conf = conf_write
+    operator = TableWriteOperator(op_id="123", op_type="readtable", conf=conf_write, relation="", result_type="")
     dataset = spark.createDataFrame(
         [(1, "lailai", 18, "female"),
          (2, "guguo", 12, "female"),
@@ -59,7 +58,7 @@ def testSampleOperator(spark):
     conf = {"with_replacement": True,
             "fraction": "0.6",
             "seed": "325.4"};
-    operator = SampleOperator(op_id="123", op_type="readtable")
+    operator = SampleOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     operator.conf = conf
     dataset = spark.createDataFrame(
         [(1, "US", 18, 1.0),
@@ -81,8 +80,7 @@ def testSampleOperator(spark):
 
 def testDefaultValueFillOperator(spark):
     conf = {"col_name_value": [["country", "china"], ["hour", "100"], ["clicked", "99.99"]]};
-    operator = DefaultValueFillOperator(op_id="123", op_type="readtable")
-    operator.conf = conf
+    operator = DefaultValueFillOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     dataset = spark.createDataFrame(
         [(1, "US", 18, 1.0),
          (2, "CA", 12, None),
@@ -106,8 +104,7 @@ def testStandardScalerOperator(spark):
             "output_col": "scaled_features",
             "with_std": True,
             "with_mean": False};
-    operator = StandardScalerOperator(op_id="123", op_type="StandardScalerOperator")
-    operator.conf = conf
+    operator = StandardScalerOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     dataset = spark.createDataFrame([
         (0, Vectors.dense([1.0, 0.1, -1.0]),),
         (1, Vectors.dense([2.0, 1.1, 1.0]),),
@@ -126,8 +123,7 @@ def testJoinOperator(spark):
             "select_left_columns": [["id1", "id1"], ["country", "country1"], ["hour1", "hour1"]],
             "select_left_columns": [["id2", "id2"], ["country", "country2"], ["hour2", "hour2"]],
             "join_type": "inner"};
-    operator = JoinOperator(op_id="123", op_type="readtable")
-    operator.conf = conf
+    operator = JoinOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     df1 = spark.createDataFrame(
         [(1, "US", 19, 1.0),
          (2, "CA", 6, 4.0),
@@ -153,8 +149,7 @@ def testSplitOperator(spark):
     conf = {"left_weight": "0.2",
             "right_weight": "0.8",
             "seed": 123.2};
-    operator = RandomSplitOperator(op_id="123", op_type="readtable")
-    operator.conf = conf
+    operator = RandomSplitOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     dataset = spark.createDataFrame(
         [(1, "US", 18, 1.0),
          (2, "CA", 12, 0.0),
@@ -179,8 +174,7 @@ def testMathFunctionsOperator(spark):
         ["hour", "log2", "True", "scaled_hour"],
         ["clicked", "sqrt", "False", "scaled_clicked"]
     ]};
-    operator = MathFunctionsOperator(op_id="123", op_type="SelectOperator")
-    operator.conf = conf
+    operator = MathFunctionsOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     dataset = spark.createDataFrame(
         [(1, "US", 18, 1.0),
          (2, "CA", 12, 0.0),
@@ -196,8 +190,7 @@ def testMathFunctionsOperator(spark):
 
 def testBucketizerOperator(spark):
     conf = {"bucketizer_conf": [["equal_distance", "100", "features", "features_bucketed", "True"]]}
-    operator = BucketizerOperator(op_id="123", op_type="SelectOperator")
-    operator.conf = conf
+    operator = BucketizerOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     data = [(-999.9,), (-0.5,), (-0.3,), (0.0,), (0.2,), (999.9,)]
     dataset = spark.createDataFrame(data, ["features"])
     print("-------------9、testBucketizerOperator")
@@ -210,8 +203,7 @@ def testBucketizerOperator(spark):
 
 def testFeatureExceptionSmoothOperator(spark):
     conf = {"smooth_conf": [["hour", "7", "15"], ["clicked", "10", "50"]]};
-    operator = FeatureExceptionSmoothOperator(op_id="123", op_type="readtable")
-    operator.conf = conf
+    operator = FeatureExceptionSmoothOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     dataset = spark.createDataFrame(
         [(1, "US", 18, 1.0),
          (2, "CA", 12, 10.0),
@@ -233,8 +225,7 @@ def testOneHotEncoderEstimatorOperator(spark):
             "drop_last": "False",
             "handle_invalid": None,
             };
-    operator = OneHotEncoderEstimatorOperator(op_id="123", op_type="SelectOperator")
-    operator.conf = conf
+    operator = OneHotEncoderEstimatorOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     dataset = spark.createDataFrame(
         [(1, "US", 18, 1.0),
          (2, "CA", 12, 0.0),
@@ -254,8 +245,7 @@ def testApproxQuantileOperator(spark):
     conf = {"input_cols": "hour, clicked",
             "probabilities": '0.5, 0.75, 0.9, 0.95, 0.99',
             "relative_error": '0.8'};
-    operator = ApproxQuantileOperator(op_id="123", op_type="SelectOperator")
-    operator.conf = conf
+    operator = ApproxQuantileOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     dataset = spark.createDataFrame(
         [(1, "US", 18, 1.0),
          (2, "CA", 12, 0.0),
@@ -271,8 +261,7 @@ def testApproxQuantileOperator(spark):
 
 def testTableStatsOperator(spark):
     conf = {"cols": ["hour", "clicked"]};
-    operator = TableStatsOperator(op_id="123", op_type="readtable")
-    operator.conf = conf
+    operator = TableStatsOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     dataset = spark.createDataFrame(
         [(1, "US", 18, 10.0),
          (2, "CA", 12, 20.0),
@@ -291,8 +280,7 @@ def testTableStatsOperator(spark):
 def testApplyQuerySqlOperator(spark):
     print("-------------14、testApplySqlOperator")
     conf = {"sql_query": "select * from lai_test.test1"};
-    operator = ApplyQuerySqlOperator(op_id="123", op_type="SelectOperator")
-    operator.conf = conf
+    operator = ApplyQuerySqlOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     dataset_list = operator.handle([], spark)
     dataset_list[0].show()
 
@@ -300,8 +288,7 @@ def testApplyQuerySqlOperator(spark):
 def testSelectOperator(spark):
     conf = {"column_names": ["country", "clicked"],
             "filter_condition": "hour>=15"};
-    operator = SelectOperator(op_id="123", op_type="SelectOperator")
-    operator.conf = conf
+    operator = SelectOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     dataset = spark.createDataFrame(
         [(1, "US", 18, 1.0),
          (2, "CA", 12, 0.0),
@@ -318,8 +305,7 @@ def testSelectOperator(spark):
 def testTableToKVOperator(spark):
     conf = {"selected_col_names": ["country", "clicked"],
             "append_col_names": ["id"]};
-    operator = TableToKVOperator(op_id="123", op_type="SelectOperator")
-    operator.conf = conf
+    operator = TableToKVOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     dataset = spark.createDataFrame(
         [(1, "US", 18, 1.0),
          (2, "CA", 12, 0.0),
@@ -337,8 +323,7 @@ def testNormalizedOperator(spark):
     conf = {"normalize_scaler_con": [["hour", "scaler_hour", "0", "1", "False"],
                                      ["clicked", "scaler_clicked", "10", "20", "False"],
                                      ["fetaure", "scaler_fetaure", "0", "1", "False"]]}
-    operator = NormalizedOperator(op_id="123", op_type="SelectOperator")
-    operator.conf = conf
+    operator = NormalizedOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     dataset = spark.createDataFrame(
         [(1, "US", 18, 1.0, Vectors.dense(2.7, 0.1, -1.0)),
          (2, "CA", 12, 0.0, Vectors.dense(1.6, 0.8, -1.0)),
@@ -356,8 +341,7 @@ def testLabelFeatureToLibsvm(spark):
     conf = {"column_name": "clicked",
             "label": "id",
             "output": "label_libsvm_clicked"}
-    operator = LabelFeatureToLibsvm(op_id="123", op_type="SelectOperator")
-    operator.conf = conf
+    operator = LabelFeatureToLibsvm(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     dataset = spark.createDataFrame(
         [(1, "US", 18, [1.0, 2.9, 4.5]),
          (2, "CA", 12, [2.0, 1.3, 7.1]),
@@ -375,8 +359,7 @@ def testVectorAssemblerOperator(spark):
     conf = {"column_name": "clicked",
             "label": "id",
             "output": "label_libsvm_clicked"}
-    operator = VectorAssemblerOperator(op_id="123", op_type="SelectOperator")
-    operator.conf = conf
+    operator = VectorAssemblerOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     dataset = spark.createDataFrame(
         [(1, "US", 18, [1.0, 2.9, 4.5]),
          (2, "CA", 12, [2.0, 1.3, 7.1]),

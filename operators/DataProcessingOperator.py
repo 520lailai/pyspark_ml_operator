@@ -1,10 +1,10 @@
+# -*- coding: utf-8 -*-
 import collections
 from abc import abstractmethod
 from Operator import Operator
-from DataProcessingOperator import DataProcessingOperator
 
 
-class DataProcessingOperator(DataProcessingOperator):
+class DataProcessingOperator(Operator):
 
     def __init__(self, op_id, op_type, conf, relation, result_type):
         self.op_category = "DataProcessing"

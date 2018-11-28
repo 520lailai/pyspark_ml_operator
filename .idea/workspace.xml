@@ -2,32 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cc8c202c-d9c5-4d6c-b9cd-fb746729fef3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/operators/DataProcessingOperator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/operators/LabelFeatureToLibsvm.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/operators/NormalizedOperator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/operators/VectorAssemblerOperator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operators/ApplyQuerySqlOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/ApplyQuerySqlOperator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operators/ApproxQuantileOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/ApproxQuantileOperator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operators/BucketizerOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/BucketizerOperator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operators/DefaultValueFillOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/DefaultValueFillOperator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operators/FeatureExceptionSmoothOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/FeatureExceptionSmoothOperator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operators/JoinOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/JoinOperator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operators/MathFunctionsOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/MathFunctionsOperator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operators/MinMaxScalerOperator.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/operators/OneHotEncoderEstimatorOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/OneHotEncoderEstimatorOperator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operators/Operator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/Operator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operators/OperatorsUtils.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/OperatorsUtils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operators/RandomSplitOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/RandomSplitOperator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operators/SampleOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/SampleOperator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operators/SelectOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/SelectOperator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operators/StandardScalerOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/StandardScalerOperator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operators/TableReadOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/TableReadOperator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operators/TableStatsOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/TableStatsOperator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operators/TableToKVOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/TableToKVOperator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operators/TableWriteOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/TableWriteOperator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/operators/DataProcessingOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/DataProcessingOperator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/operators/LabelFeatureToLibsvm.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/LabelFeatureToLibsvm.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/operators/Test_operator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/Test_operator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operators/WriteRedisOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/WriteRedisOperator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/operators/VectorAssemblerOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/VectorAssemblerOperator.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -50,27 +28,27 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="iml" value="3" />
-          <entry key="py" value="719" />
+          <entry key="py" value="722" />
           <entry key="pyi" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="IDEA_MODULE" value="3" />
-          <entry key="Python" value="719" />
+          <entry key="Python" value="722" />
           <entry key="PythonStub" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="45" />
-          <entry key="py" value="17012" />
+          <entry key="py" value="17055" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="45" />
-          <entry key="Python" value="17012" />
+          <entry key="Python" value="17055" />
         </counts>
       </usages-collector>
     </session>
@@ -80,26 +58,44 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/operators/Test_operator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="19" column="47" lean-forward="true" selection-start-line="19" selection-start-column="47" selection-end-line="19" selection-end-column="47" />
+            <state relative-caret-position="513">
+              <caret line="27" column="39" lean-forward="true" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="39" />
+              <folding>
+                <element signature="e#24#60#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/operators/SampleOperator.py">
+        <entry file="file://$PROJECT_DIR$/operators/DataProcessingOperator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="15" column="44" lean-forward="true" selection-start-line="15" selection-start-column="44" selection-end-line="15" selection-end-column="44" />
+            <state relative-caret-position="152">
+              <caret line="8" column="66" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="66" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/operators/SelectOperator.py">
+        <entry file="file://$PROJECT_DIR$/operators/JoinOperator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="15" column="56" lean-forward="true" selection-start-line="15" selection-start-column="56" selection-end-line="15" selection-end-column="56" />
+            <state>
+              <caret selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/operators/LabelFeatureToLibsvm.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="23" selection-start-column="23" selection-end-column="23" />
+              <folding>
+                <element signature="e#0#28#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -116,8 +112,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/operators/VectorAssemblerOperator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="12" column="29" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="29" />
+            <state>
+              <caret column="23" selection-start-column="23" selection-end-column="23" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
               </folding>
@@ -163,18 +159,6 @@
               <folding>
                 <element signature="e#24#81#0" expanded="true" />
                 <marker date="1543398913297" expanded="true" signature="258:259" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/operators/RandomSplitOperator.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="8" column="23" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
-              <folding>
-                <element signature="e#24#81#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -263,11 +247,9 @@
         <option value="$PROJECT_DIR$/operators/TableStatsOperator.py" />
         <option value="$PROJECT_DIR$/operators/TableToKVOperator.py" />
         <option value="$PROJECT_DIR$/operators/TableWriteOperator.py" />
-        <option value="$PROJECT_DIR$/operators/VectorAssemblerOperator.py" />
         <option value="$PROJECT_DIR$/operators/WriteRedisOperator.py" />
         <option value="$PROJECT_DIR$/operators/ApplyQuerySqlOperator.py" />
         <option value="$PROJECT_DIR$/operators/ApproxQuantileOperator.py" />
-        <option value="$PROJECT_DIR$/operators/DataProcessingOperator.py" />
         <option value="$PROJECT_DIR$/operators/FeatureExceptionSmoothOperator.py" />
         <option value="$PROJECT_DIR$/operators/JoinOperator.py" />
         <option value="$PROJECT_DIR$/operators/LabelFeatureToLibsvm .py" />
@@ -275,6 +257,9 @@
         <option value="$PROJECT_DIR$/operators/NormalizedOperator.py" />
         <option value="$PROJECT_DIR$/operators/RandomSplitOperator.py" />
         <option value="$PROJECT_DIR$/operators/StandardScalerOperator.py" />
+        <option value="$PROJECT_DIR$/operators/LabelFeatureToLibsvm.py" />
+        <option value="$PROJECT_DIR$/operators/VectorAssemblerOperator.py" />
+        <option value="$PROJECT_DIR$/operators/DataProcessingOperator.py" />
         <option value="$PROJECT_DIR$/operators/Test_operator.py" />
       </list>
     </option>
@@ -329,7 +314,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543410650017" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543411968826" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -412,14 +397,14 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="263173000" />
+    <option name="totallyTimeSpent" value="264255000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="14" y="26" width="1513" height="801" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8617771" visible="true" weight="0.16179469" />
-      <window_info id="Structure" order="1" sideWeight="0.13822284" side_tool="true" visible="true" weight="0.16179469" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8617771" visible="true" weight="0.19442557" />
+      <window_info id="Structure" order="1" sideWeight="0.13822284" side_tool="true" visible="true" weight="0.19442557" />
       <window_info id="Designer" order="2" />
       <window_info id="Learn" order="3" />
       <window_info id="UI Designer" order="4" />
@@ -575,23 +560,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/operators/LabelFeatureToLibsvm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="20" column="14" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/operators/JoinOperator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="17" column="20" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/operators/FeatureExceptionSmoothOperator.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="290">
@@ -605,16 +573,6 @@
           <caret line="24" column="80" selection-start-line="24" selection-start-column="66" selection-end-line="24" selection-end-column="80" />
           <folding>
             <element signature="e#25#53#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/operators/DataProcessingOperator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="14" column="31" lean-forward="true" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -730,20 +688,50 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/operators/JoinOperator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/operators/VectorAssemblerOperator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="12" column="29" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="29" />
+        <state>
+          <caret column="23" selection-start-column="23" selection-end-column="23" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/operators/LabelFeatureToLibsvm.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="23" selection-start-column="23" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operators/DataProcessingOperator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="8" column="66" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="66" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/operators/Test_operator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="19" column="47" lean-forward="true" selection-start-line="19" selection-start-column="47" selection-end-line="19" selection-end-column="47" />
+        <state relative-caret-position="513">
+          <caret line="27" column="39" lean-forward="true" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="39" />
+          <folding>
+            <element signature="e#24#60#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
