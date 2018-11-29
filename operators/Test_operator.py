@@ -19,7 +19,7 @@ from TableStatsOperator import TableStatsOperator
 from SelectOperator import SelectOperator
 from TableToKVOperator import TableToKVOperator
 from NormalizedOperator import NormalizedOperator
-from LabelFeatureToLibsvm import LabelFeatureToLibsvm
+from LabelFeatureToLibsvmOperator import *
 from VectorAssemblerOperator import VectorAssemblerOperator
 
 
@@ -31,7 +31,7 @@ def testTableReadOperator(spark):
     operator = TableReadOperator(op_id="123", op_type="readtable", conf=conf_read, relation="", result_type="")
     dataset_list = operator.handle([], spark)
     print("-----------------1、TableReadOperator")
-    dataset_list[0].show()
+    dataset_list[0].show(truncate=False)
 
 
 def testTableWriteOperator(spark):
@@ -41,7 +41,6 @@ def testTableWriteOperator(spark):
                   "mode": "overwrite",
                   "partition_by": "id",
                   "options": None};
-
     operator = TableWriteOperator(op_id="123", op_type="readtable", conf=conf_write, relation="", result_type="")
     dataset = spark.createDataFrame(
         [(1, "lailai", 18, "female"),
@@ -75,7 +74,7 @@ def testSampleOperator(spark):
     dataset.show()
     print(conf)
     dataset_list = operator.handle([dataset], spark)
-    dataset_list[0].show()
+    dataset_list[0].show(truncate=False)
 
 
 def testDefaultValueFillOperator(spark):
@@ -96,11 +95,11 @@ def testDefaultValueFillOperator(spark):
     dataset.show()
     print(conf)
     dataset_list = operator.handle([dataset], spark)
-    dataset_list[0].show()
+    dataset_list[0].show(truncate=False)
 
 
 def testStandardScalerOperator(spark):
-    conf = { "standard_scaler_conf" :[["features", "scaled_features", "True", "False", "False"]]};
+    conf = {"standard_scaler_conf": [["features", "scaled_features", "True", "False", "False"]]};
     operator = StandardScalerOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     dataset = spark.createDataFrame([
         (0, Vectors.dense([1.0, 0.1, -1.0]),),
@@ -112,7 +111,7 @@ def testStandardScalerOperator(spark):
     dataset.show()
     print(conf)
     dataset_list = operator.handle([dataset], spark)
-    dataset_list[0].show()
+    dataset_list[0].show(truncate=False)
 
 
 def testJoinOperator(spark):
@@ -139,7 +138,7 @@ def testJoinOperator(spark):
     df2.show()
     print(conf)
     dataset_list = operator.handle([df1, df2], spark)
-    dataset_list[0].show()
+    dataset_list[0].show(truncate=False)
 
 
 def testSplitOperator(spark):
@@ -162,7 +161,7 @@ def testSplitOperator(spark):
     print(conf)
     dataset_list = operator.handle([dataset], spark)
     for df in dataset_list:
-        df.show()
+        df.show(truncate=False)
 
 
 def testMathFunctionsOperator(spark):
@@ -182,7 +181,8 @@ def testMathFunctionsOperator(spark):
     print(conf)
     dataset_list = operator.handle([dataset], spark)
     for df in dataset_list:
-        df.show()
+        df.show(truncate=False)
+
 
 def testBucketizerOperator(spark):
     conf = {"bucketizer_conf": [["equal_distance", "100", "features", "features_bucketed", "True"]]}
@@ -194,7 +194,8 @@ def testBucketizerOperator(spark):
     print(conf)
     dataset_list = operator.handle([dataset], spark)
     for df in dataset_list:
-        df.show()
+        df.show(truncate=False)
+
 
 def testFeatureExceptionSmoothOperator(spark):
     conf = {"smooth_conf": [["hour", "7", "15"], ["clicked", "10", "50"]]};
@@ -211,7 +212,7 @@ def testFeatureExceptionSmoothOperator(spark):
     print(conf)
     dataset_list = operator.handle([dataset], spark)
     for df in dataset_list:
-        df.show()
+        df.show(truncate=False)
 
 
 def testOneHotEncoderEstimatorOperator(spark):
@@ -233,7 +234,7 @@ def testOneHotEncoderEstimatorOperator(spark):
     print(conf)
     dataset_list = operator.handle([dataset], spark)
     for df in dataset_list:
-        df.show()
+        df.show(truncate=False)
 
 
 def testApproxQuantileOperator(spark):
@@ -251,7 +252,7 @@ def testApproxQuantileOperator(spark):
     print(conf)
     dataset_list = operator.handle([dataset], spark)
     for df in dataset_list:
-        df.show()
+        df.show(truncate=False)
 
 
 def testTableStatsOperator(spark):
@@ -269,7 +270,7 @@ def testTableStatsOperator(spark):
     print(conf)
     dataset_list = operator.handle([dataset], spark)
     for df in dataset_list:
-        df.show()
+        df.show(truncate=False)
 
 
 def testApplyQuerySqlOperator(spark):
@@ -277,7 +278,7 @@ def testApplyQuerySqlOperator(spark):
     conf = {"sql_query": "select * from lai_test.test1"};
     operator = ApplyQuerySqlOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     dataset_list = operator.handle([], spark)
-    dataset_list[0].show()
+    dataset_list[0].show(truncate=False)
 
 
 def testSelectOperator(spark):
@@ -294,7 +295,7 @@ def testSelectOperator(spark):
     print(conf)
     dataset_list = operator.handle([dataset], spark)
     for df in dataset_list:
-        df.show()
+        df.show(truncate=False)
 
 
 def testTableToKVOperator(spark):
@@ -311,13 +312,13 @@ def testTableToKVOperator(spark):
     print(conf)
     dataset_list = operator.handle([dataset], spark)
     for df in dataset_list:
-        df.show()
+        df.show(truncate=False)
 
 
 def testNormalizedOperator(spark):
-    conf = {"normalize_scaler_con": [["hour", "scaler_hour", "0", "1", "False"],
-                                     ["clicked", "scaler_clicked", "10", "20", "False"],
-                                     ["fetaure", "scaler_fetaure", "0", "1", "False"]]}
+    conf = {"normalize_scaler_conf": [["hour", "scaler_hour", "0", "1", "False"],
+                                      ["clicked", "scaler_clicked", "10", "20", "False"],
+                                      ["fetaure", "scaler_fetaure", "0", "1", "False"]]}
     operator = NormalizedOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     dataset = spark.createDataFrame(
         [(1, "US", 18, 1.0, Vectors.dense(2.7, 0.1, -1.0)),
@@ -329,43 +330,42 @@ def testNormalizedOperator(spark):
     print(conf)
     dataset_list = operator.handle([dataset], spark)
     for df in dataset_list:
-        df.show()
+        df.show(truncate=False)
 
 
 def testLabelFeatureToLibsvm(spark):
     conf = {"column_name": "clicked",
             "label": "id",
             "output": "label_libsvm_clicked"}
-    operator = LabelFeatureToLibsvm(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
+    operator = LabelFeatureToLibsvmOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     dataset = spark.createDataFrame(
         [(1, "US", 18, [1.0, 2.9, 4.5]),
          (2, "CA", 12, [2.0, 1.3, 7.1]),
          (3, "NZ", 15, [3.0, 2.6, 6.3])],
         ["id", "country", "hour", "clicked"])
-    print("-------------18、testLabelFeatureToLibsvm")
+    print("-------------18、testLabelFeatureToLibsvmOperator")
     dataset.show()
     print(conf)
     dataset_list = operator.handle([dataset], spark)
     for df in dataset_list:
-        df.show()
+        df.show(truncate=False)
 
 
 def testVectorAssemblerOperator(spark):
-    conf = {"column_name": "clicked",
-            "label": "id",
+    conf = {"column_names": ["hour", "clicked"],
             "output": "label_libsvm_clicked"}
     operator = VectorAssemblerOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     dataset = spark.createDataFrame(
-        [(1, "US", 18, [1.0, 2.9, 4.5]),
-         (2, "CA", 12, [2.0, 1.3, 7.1]),
-         (3, "NZ", 15, [3.0, 2.6, 6.3])],
+        [(1, "US", 18, Vectors.dense(1.0, 2.9, 4.5)),
+         (2, "CA", 12, Vectors.dense(2.0, 1.3, 7.1)),
+         (3, "NZ", 15, Vectors.dense(3.0, 2.6, 6.3))],
         ["id", "country", "hour", "clicked"])
     print("-------------19、testVectorAssemblerOperator")
     dataset.show()
     print(conf)
     dataset_list = operator.handle([dataset], spark)
     for df in dataset_list:
-        df.show()
+        df.show(truncate=False)
 
 
 if __name__ == "__main__":
@@ -440,3 +440,6 @@ if __name__ == "__main__":
     # 18、test LabelFeatureToLibsvm
     testLabelFeatureToLibsvm(spark)
     print('\n')
+
+    # 19
+    testVectorAssemblerOperator(spark)

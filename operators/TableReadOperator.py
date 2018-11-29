@@ -11,6 +11,7 @@ class TableReadOperator(DataProcessingOperator):
         db_name = self.conf["db_name"]
         table_name = self.conf["table_name"]
         partition_val = self.conf["partition_val"]
+        limit_num = self.conf["limit_num"]
 
         check_str_parameter(db_name, "the parameter:db_name is null!")
         check_str_parameter(table_name, "the parameter:table_name is null!")
@@ -27,6 +28,9 @@ class TableReadOperator(DataProcessingOperator):
         sql = "select * from " + db_name + "." + table_name
         if partition_val:
             sql += " where " + partition_val
+
+        if limit_num:
+            sql += " limit " + str(limit_num)
 
         # 4. query
         dataframe = spark.sql(sql)
