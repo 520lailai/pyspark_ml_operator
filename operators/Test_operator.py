@@ -100,10 +100,7 @@ def testDefaultValueFillOperator(spark):
 
 
 def testStandardScalerOperator(spark):
-    conf = {"input_col": "features",
-            "output_col": "scaled_features",
-            "with_std": True,
-            "with_mean": False};
+    conf = { "standard_scaler_conf" :[["features", "scaled_features", "True", "False", "False"]]};
     operator = StandardScalerOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     dataset = spark.createDataFrame([
         (0, Vectors.dense([1.0, 0.1, -1.0]),),
@@ -121,7 +118,7 @@ def testStandardScalerOperator(spark):
 def testJoinOperator(spark):
     conf = {"join_columns": [["id1", "id2"], ["country", "country"]],
             "select_left_columns": [["id1", "id1"], ["country", "country1"], ["hour1", "hour1"]],
-            "select_left_columns": [["id2", "id2"], ["country", "country2"], ["hour2", "hour2"]],
+            "select_right_columns": [["id2", "id2"], ["country", "country2"], ["hour2", "hour2"]],
             "join_type": "inner"};
     operator = JoinOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     df1 = spark.createDataFrame(
@@ -187,7 +184,6 @@ def testMathFunctionsOperator(spark):
     for df in dataset_list:
         df.show()
 
-
 def testBucketizerOperator(spark):
     conf = {"bucketizer_conf": [["equal_distance", "100", "features", "features_bucketed", "True"]]}
     operator = BucketizerOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
@@ -199,7 +195,6 @@ def testBucketizerOperator(spark):
     dataset_list = operator.handle([dataset], spark)
     for df in dataset_list:
         df.show()
-
 
 def testFeatureExceptionSmoothOperator(spark):
     conf = {"smooth_conf": [["hour", "7", "15"], ["clicked", "10", "50"]]};
@@ -329,7 +324,7 @@ def testNormalizedOperator(spark):
          (2, "CA", 12, 0.0, Vectors.dense(1.6, 0.8, -1.0)),
          (3, "NZ", 15, 0.0, Vectors.dense(6.8, 6.1, -1.0))],
         ["id", "country", "hour", "clicked", "fetaure"])
-    print("-------------17、testTableToKVOperator")
+    print("-------------17、testNormalizedOperator")
     dataset.show()
     print(conf)
     dataset_list = operator.handle([dataset], spark)
@@ -347,7 +342,7 @@ def testLabelFeatureToLibsvm(spark):
          (2, "CA", 12, [2.0, 1.3, 7.1]),
          (3, "NZ", 15, [3.0, 2.6, 6.3])],
         ["id", "country", "hour", "clicked"])
-    print("-------------18、testTableToKVOperator")
+    print("-------------18、testLabelFeatureToLibsvm")
     dataset.show()
     print(conf)
     dataset_list = operator.handle([dataset], spark)
@@ -365,7 +360,7 @@ def testVectorAssemblerOperator(spark):
          (2, "CA", 12, [2.0, 1.3, 7.1]),
          (3, "NZ", 15, [3.0, 2.6, 6.3])],
         ["id", "country", "hour", "clicked"])
-    print("-------------19、testTableToKVOperator")
+    print("-------------19、testVectorAssemblerOperator")
     dataset.show()
     print(conf)
     dataset_list = operator.handle([dataset], spark)

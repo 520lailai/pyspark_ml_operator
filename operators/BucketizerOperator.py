@@ -50,4 +50,5 @@ def getBucketSplits(max_value, min_value, distance):
     while temp < max_value:
         splits.append(temp)
         temp += distance
+    splits.append(temp)
     return splits
