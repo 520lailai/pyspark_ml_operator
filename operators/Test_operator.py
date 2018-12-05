@@ -26,6 +26,7 @@ from VectorAssemblerOperator import VectorAssemblerOperator
 def testTableReadOperator(spark):
     conf_read = {"db_name": "lai_test",
                  "table_name": "test1",
+                 "limit": "2",
                  "partition_val": None};
     # op_id, op_type, conf, relation, result_type
     operator = TableReadOperator(op_id="123", op_type="readtable", conf=conf_read, relation="", result_type="")
@@ -215,24 +216,60 @@ def testFeatureExceptionSmoothOperator(spark):
         df.show(truncate=False)
 
 
+''' 
+  conf[]：
+      onehot_conf : [input_col[String], output_col[String]]
+      drop_last: bool
+      handle_invalid :String
+      other_col_output: List[String]
+      is_output_model : bool True
+  dataframe_list: []
+'''
+
+
 def testOneHotEncoderEstimatorOperator(spark):
-    conf = {"input_cols": "hour,clicked",
-            "output_cols": "onehot_hour,onehot_clicked",
-            "drop_last": "False",
-            "handle_invalid": None,
+    conf = {"onehot_conf": [["country", "country_onehot"], ["hour", "hour-onehot"], ["score", "score-onehot"]],
+            "drop_last": True,
+            "handle_invalid": "keep",
+            "other_col_output": ["id", "clicked"],
+            "is_output_model": True,
             };
     operator = OneHotEncoderEstimatorOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
     dataset = spark.createDataFrame(
-        [(1, "US", 18, 1.0),
-         (2, "CA", 12, 0.0),
-         (3, "CA", 5, 0.0),
-         (4, "CA", 4, 0.0),
-         (5, "NZ", 15, 0.0)],
-        ["id", "country", "hour", "clicked"])
+        [(1, "China", 18, 1.5, 2),
+         (2, "America", 12, 0.0, 4),
+         (3, "Brazil", 5, 0.5, 5),
+         (4, "united kiongdom ", 4, 6.7, 9),
+         (5, "Vietnam", 15, 0.0, 5)],
+        ["id", "country", "hour", "score", "clicked"])
     print("-------------11、testOneHotEncoderEstimatorOperator")
     dataset.show()
     print(conf)
     dataset_list = operator.handle([dataset], spark)
+    for df in dataset_list:
+        df.show(truncate=False)
+    return dataset_list
+
+
+def testOneHotEncoderEstimatorOperator2(spark, model):
+    conf = {"onehot_conf": [["country", "country_onehot"], ["hour", "hour-onehot"], ["score", "score-onehot"]],
+            "drop_last": True,
+            "handle_invalid": "keep",
+            "other_col_output": ["id", "clicked"],
+            "is_output_model": True,
+            };
+    operator = OneHotEncoderEstimatorOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
+    dataset = spark.createDataFrame(
+        [(1, "China", 18, 1.5, 2),
+         (2, "America", 12, 0.0, 4),
+         (3, "Brazil", 5, 0.5, 5),
+         (4, "united kiongdom ", 4, 6.7, 9),
+         (5, "Vietnam", 15, 0.0, 5)],
+        ["id", "country", "hour", "score", "clicked"])
+    print("-------------11_1、testOneHotEncoderEstimatorOperator2")
+    dataset.show()
+    print(conf)
+    dataset_list = operator.handle([dataset, model], spark)
     for df in dataset_list:
         df.show(truncate=False)
 
@@ -410,8 +447,10 @@ if __name__ == "__main__":
     print('\n')
 
     # 11、test DefaultValueFillOperator
-    testOneHotEncoderEstimatorOperator(spark)
+    dataset_list = testOneHotEncoderEstimatorOperator(spark)
     print('\n')
+
+    testOneHotEncoderEstimatorOperator2(spark, dataset_list[1])
 
     # 12、test DefaultValueFillOperator
     testApproxQuantileOperator(spark)

@@ -46,7 +46,7 @@ class NormalizedOperator(DataProcessingOperator):
             elif type == 'bigint' or type == 'double':
                 max_value = df.agg({input_col: "max"}).collect()[0][0]
                 min_value = df.agg({input_col: "min"}).collect()[0][0]
-                df = df.withColumn(output_col[i], normalized(col(input_col), max_value, min_value))
+                df = df.withColumn(output_col, normalized(col(input_col), max_value, min_value))
             else:
                 raise ParameterException("input col must be bigint/double/vector,does not support: " + type)
             if is_drop_input:
