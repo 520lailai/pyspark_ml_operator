@@ -41,14 +41,14 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
             check_str_parameter(input_cols, "the parameter:input_col is null!")
             check_str_parameter(output_cols, "the parameter:output_col is null!")
 
-        print("1、parse parameter", "input_cols:", input_cols, "output_cols:",output_cols)
+        print("1.parse parameter", "input_cols:", input_cols, "output_cols:",output_cols)
 
         # 2、get col_type
         dtype = df.dtypes
         col_type = {}
         for name in dtype:
             col_type[name[0]] = name[1]
-        print("2、get col_type", col_type)
+        print("2. get col_type", col_type)
 
         # 3、index encoder
         if input_modle:
@@ -59,7 +59,7 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
                     indexer = StringIndexer(inputCol=col, outputCol=col + "_arthur_index")
                     df = indexer.fit(df).transform(df)
                     input_cols[i] = col + "_arthur_index"
-        print("3、index encoder", "input_cols", input_cols)
+        print("3.index encoder", "input_cols", input_cols)
 
         # 4、onehot encoder
         encoder = OneHotEncoderEstimator(inputCols=input_cols, outputCols=output_cols)
@@ -71,7 +71,7 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
         model = encoder.fit(df)
         encoded = model.transform(df)
 
-        print("4、onehot encoder")
+        print("4. onehot encoder")
 
         # 5、get output model
         output_model = None
@@ -80,14 +80,14 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
                 output_model = input_modle
             else:
                 output_model = get_output_model(df, input_cols, spark)
-        print("5、get output model")
+        print("5. get output model")
 
         # 6、get output table
         for name in encoded.columns:
             if name not in other_col_output and name not in output_cols:
                 encoded = encoded.drop(name)
 
-        print("6、get output table")
+        print("6. get output table")
 
         return [encoded, output_model]
 

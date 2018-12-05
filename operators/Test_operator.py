@@ -21,6 +21,7 @@ from TableToKVOperator import TableToKVOperator
 from NormalizedOperator import NormalizedOperator
 from LabelFeatureToLibsvmOperator import *
 from VectorAssemblerOperator import VectorAssemblerOperator
+from WriteRedisOperator import WriteRedisOperator
 
 
 def testTableReadOperator(spark):
@@ -403,6 +404,21 @@ def testVectorAssemblerOperator(spark):
     dataset_list = operator.handle([dataset], spark)
     for df in dataset_list:
         df.show(truncate=False)
+
+
+def testWriteRedisOperator(spark):
+    conf = {"app_name": "my_test_app",
+            "opid": "234"}
+    operator = WriteRedisOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
+    dataset = spark.createDataFrame(
+        [(1, "US", 18, Vectors.dense(1.0, 2.9, 4.5)),
+         (2, "CA", 12, Vectors.dense(2.0, 1.3, 7.1)),
+         (3, "NZ", 15, Vectors.dense(3.0, 2.6, 6.3))],
+        ["id", "country", "hour", "clicked"])
+    print("-------------20、testWriteRedisOperator")
+    dataset.show()
+    print(conf)
+    operator.handle([dataset], spark)
 
 
 if __name__ == "__main__":
