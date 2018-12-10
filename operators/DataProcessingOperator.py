@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import collections
 from abc import abstractmethod
 from Operator import Operator
@@ -35,3 +34,4 @@ class DataProcessingOperator(Operator):
                     relations = pre_operator.relation
                     if relations is not None:
                         params[pre_operator.op_id] = int(relations[self.op_id]) - 1
+        return params

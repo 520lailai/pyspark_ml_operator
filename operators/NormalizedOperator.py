@@ -4,20 +4,64 @@ from OperatorsUtils import *
 from pyspark.sql.functions import col
 from pyspark.ml.feature import MinMaxScaler
 
-''' 
-    conf[]：
-        normalize_scaler_conf = List【input_col、output_col、min、max、is_drop_input 】
-    dataframe_list:[]
-'''
+""" 
+    模块功能：将每一维特征线性地映射到指定的区间[最小值，最大值]，通常可能是[0, 1]
+    
+    计算公式：
+    Rescaled(ei)=[(ei−Emin)/(Emax−Emin)]∗(max−min)+min
+    
+    输入的列的数据类型可能是：
+    double类型、bigint类型、vector类型。
+    如果是前两种的数据类型，则进行手动的计算
+    如果是vector类型，则调用spark.ml中的MinMaxScaler进行变换
+    
+    注意因为零值转换后可能变为非零值，所以即便为稀疏输入，输出也可能为稠密向量。
+    
+    conf 参数：
+         "normalize_scaler_conf" ：
+          格式：[["输入列名"、"输出列名"、"最小值"，"最大值"、"是否删除输入列"]]
+          
+    例子：
+    1、输入的表：
+    +---+-------+----+-------+--------------+
+    | id|country|hour|clicked|       fetaure|
+    +---+-------+----+-------+--------------+
+    |  1|     US|  18|    1.0|[2.7,0.1,-1.0]|
+    |  2|     CA|  12|    0.0|[1.6,0.8,-1.0]|
+    |  3|     NZ|  15|    0.0|[6.8,6.1,-1.0]|
+    +---+-------+----+-------+--------------+
+    
+    2、conf参数：
+    
+    {
+      'normalize_scaler_conf': 
+          [
+             ['hour', 'scaler_hour', '0', '1', 'False'], 
+             ['clicked', 'scaler_clicked', '10', '20', 'False'], 
+             ['fetaure', 'scaler_fetaure', '0', '1', 'False']
+         ]
+    }
+    
+    
+    3、输出的表：
+    
+    +---+-------+----+-------+--------------+-----------+--------------+-----------------------------+
+    |id |country|hour|clicked|fetaure       |scaler_hour|scaler_clicked|scaler_fetaure               |
+    +---+-------+----+-------+--------------+-----------+--------------+-----------------------------+
+    |1  |US     |18  |1.0    |[2.7,0.1,-1.0]|1.0        |1.0           |[0.2115384615384616,0.0,0.5] |
+    |2  |CA     |12  |0.0    |[1.6,0.8,-1.0]|0.0        |0.0           |[0.0,0.11666666666666668,0.5]|
+    |3  |NZ     |15  |0.0    |[6.8,6.1,-1.0]|0.5        |0.0           |[1.0,1.0,0.5]                |
+    +---+-------+----+-------+--------------+-----------+--------------+-----------------------------+
+
+"""
 
 
 class NormalizedOperator(DataProcessingOperator):
     def handle(self, dataframe_list, spark):
-        normalize_scaler_conf = self.conf["normalize_scaler_conf"]
+        normalize_scaler_conf = self.conf.get("normalize_scaler_conf")
         df = dataframe_list[0]
         check_dataframe(df)
-        if not normalize_scaler_conf:
-            raise ParameterException("the parameter is empty : " + str(normalize_scaler_conf))
+        check_parameter_null_or_empty(normalize_scaler_conf, "normalize_scaler_conf")
 
         type_dict = {}
         for tuple in df.dtypes:
@@ -26,19 +70,24 @@ class NormalizedOperator(DataProcessingOperator):
         for i, conf in enumerate(normalize_scaler_conf):
             if len(conf) < 4:
                 raise ParameterException("the lengths of parameter must more than 5:" + str(conf))
+
             input_col = conf[0]
             output_col = conf[1]
-            min = float_convert(conf[2])
-            max = float_convert(conf[3])
-            is_drop_input = bool_convert(conf[4])
-
-            check_str_parameter(input_col, "the parameter:input_col is null!")
-            check_str_parameter(output_col, "the parameter:output_col is null!")
+            min = conf[2]
+            max = conf[3]
 
             if not min:
-                min = 0;
+                min = 0
+            else:
+                min = float_convert(min)
+
             if not max:
                 max = 1
+            else:
+                max = float_convert(max)
+            is_drop_input = bool_convert(conf[4])
+            check_parameter_null_or_empty(input_col, "input_col")
+            check_parameter_null_or_empty(output_col, "output_col")
 
             type = type_dict[input_col]
             if type == "vector":
@@ -49,6 +98,7 @@ class NormalizedOperator(DataProcessingOperator):
                 df = df.withColumn(output_col, normalized(col(input_col), max_value, min_value))
             else:
                 raise ParameterException("input col must be bigint/double/vector,does not support: " + type)
+
             if is_drop_input:
                 df = df.drop(input_col)
         return [df]
@@ -61,8 +111,8 @@ def normalized(value, max_value, min_value):
 
 
 def min_max_scaler(df, input_col, output_col, min, max):
-    check_str_parameter(input_col, "the parameter:input_col is null!")
-    check_str_parameter(output_col, "the parameter:output_col is null!")
+    check_parameter_null_or_empty(input_col, "input_col")
+    check_parameter_null_or_empty(output_col, "output_col")
     scaler = MinMaxScaler(inputCol=input_col, outputCol=output_col, min=min, max=max)
     scaler_model = scaler.fit(df)
     scaled_data = scaler_model.transform(df)

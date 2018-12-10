@@ -11,8 +11,9 @@ def check_dataframe(df):
         raise ParameterException("the handle function's input dataframe is null")
 
 
-def check_str_parameter(param, mesg):
+def check_parameter_null_or_empty(param, param_name):
     if not param:
+        mesg = "the Parameter:" + param_name + " is null or empty"
         raise ParameterException(mesg)
 
 
@@ -22,7 +23,7 @@ def check_strlist_parameter(param):
         raise ParameterException("parameter null exception ")
     if type(param) == list:
         for s in param:
-            check_str_parameter(s, "the parameter list has null parameter: ")
+            check_parameter_null_or_empty(s, "the parameter list has null parameter: ")
     else:
         raise ParameterException("not a str list : ", param)
 
@@ -115,22 +116,34 @@ def str_convert_floatlist(float_str):
     return float_list_re
 
 
-''' convert the values_str_list: to int, long, float, boolean, or string,
-   ex:  fields :[StructField(id,LongType,true), 
-                 StructField(c,StringType,true), 
-                 StructField(hour,LongType,true), 
-                 StructField(clicked,DoubleType,true)]
-        col_name_value:
+def convert_cols_parameter(fields, col_name_value):
+    '''
+    把字符串类型的列值转化为其原来的类型：列值类型包括：int, long, float, boolean, string,
+
+    ex:  fields :[StructField(id,LongType,true),
+                  StructField(c,StringType,true),
+                  StructField(hour,LongType,true),
+                  StructField(clicked,DoubleType,true)]
+        输入：
         [
            ["col1", "34"],
            ["col2", 'hah'],
            ["col3","89.9"]
         ]
- if the col value is None ,ignore it'''
 
+        输出：
+        [
+           ["col1", 34],
+           ["col2", 'hah'],
+           ["col3", 89.9]
+        ]
 
-def convert_cols_parameter(fields, col_name_value):
-    if type(col_name_value) != list :
+    如果列值为None, 则忽略转化
+    :param fields: 列的schema: [列名：类型]
+    :param col_name_value: 列值字符串列表
+    :return: 列值列表
+    '''
+    if type(col_name_value) != list:
         raise ParameterException("the parameter not a list")
     col_type = {}
     for struct_type in fields:
@@ -141,7 +154,7 @@ def convert_cols_parameter(fields, col_name_value):
             raise ParameterException("the parameter not a list")
         col = col_value[0]
         value = col_value[1]
-        print(col,value)
+        print(col, value)
         if not col_type[col]:
             raise ParameterException("the col name is error:" + str(col))
         try:

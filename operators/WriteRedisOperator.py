@@ -4,27 +4,37 @@ from OperatorsUtils import *
 import json
 from RedisUtils import RedisUtils
 
-''' 
-    conf[]：
-       project_name : String
-       opid : String
-    dataframe_list:  []
-    spark : SparkSession
-'''
+"""
+    模块功能： 运行用户自定义查询sql
+    conf 参数：
+         "key": String，存Redis的key
+    例子：
+    
+    1、输入表：
+    +---+------+---+------+
+    | id|  name|age|   sex|
+    +---+------+---+------+
+    |  1|lailai| 18|female|
+    |  2| guguo| 12|female|
+    |  3|  lili| 15|female|
+    +---+------+---+------+
+    
+     2、cof参数配置：
+     conf = {"key": "test_redis_key"}
+     
+"""
 
 
 class WriteRedisOperator(DataProcessingOperator):
     def handle(self, dataframe_list, spark):
-        project_name = self.conf["project_name"]
-        opid = self.conf["opid"]
-        check_str_parameter(project_name, "the parameter:project_name is null!")
-        check_str_parameter(opid, "the parameter:opid is null!")
+        # 1、参数获取
+        key = self.conf.get("key")
 
-        key = "arthur"+project_name + "-" + opid
-
+        # 2、参数检查
+        check_parameter_null_or_empty(key, "key")
         check_dataframe(dataframe_list)
-        check_str_parameter(key, "the parameter:key is null!")
 
+        # 3、写Redis
         for dataframe in dataframe_list:
             data = json.dumps(dataframe.collect())
-            RedisUtils().write_redis(key, data)
+            RedisUtils.write_redis(key, data)
