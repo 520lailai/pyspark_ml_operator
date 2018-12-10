@@ -22,6 +22,8 @@ class WriteHdfsOperator(DataProcessingOperator):
         # 3、写hdfs
         for dataframe in dataframe_list:
             try:
+                dataframe.rdd.repartition(1).toDF().write.mode("overwrite").text(path=file_path)
+
                 dataframe.rdd.repartition(1).toDF().write.mode("overwrite").csv(path=file_path, quote="", sep=" ")
             except WriteHDFSError:
                 msg = traceback.format_exc()
