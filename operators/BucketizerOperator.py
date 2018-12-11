@@ -85,11 +85,11 @@ class BucketizerOperator(DataProcessingOperator):
             output_col = conf[3]
             is_drop_input = bool_convert(conf[4])
 
-            check_parameter_null_or_empty(splits_type)
-            check_parameter_null_or_empty(split)
-            check_parameter_null_or_empty(input_col)
-            check_parameter_null_or_empty(output_col)
-            check_parameter_null_or_empty(is_drop_input)
+            check_parameter_null_or_empty(splits_type, "splits_type")
+            check_parameter_null_or_empty(split, "split")
+            check_parameter_null_or_empty(input_col, "input_col")
+            check_parameter_null_or_empty(output_col, "output_col")
+            check_parameter_null_or_empty(is_drop_input, "is_drop_input")
 
             if splits_type == "isofrequecy_discretization":
                 if split == 0:

@@ -40,7 +40,6 @@ class UnitTestOperators(unittest.TestCase):
                       "limit": "2",
                       "partition_val": None};
         operator = TableReadOperator(op_id="123", op_type="readtable", conf=conf_read1, relation="", result_type="")
-
         # 1、测试读取的结果的正确性
         dataset_list = operator.handle([], self.spark)
         case = self.spark.createDataFrame(

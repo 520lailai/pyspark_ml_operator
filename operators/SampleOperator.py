@@ -58,8 +58,8 @@ class SampleOperator(DataProcessingOperator):
         df = dataframe_list[0]
 
         # 2、参数检查
-        check_parameter_null_or_empty(with_replacement)
-        check_parameter_null_or_empty(fraction)
+        check_parameter_null_or_empty(with_replacement, "with_replacement")
+        check_parameter_null_or_empty(fraction, "fraction")
         check_dataframe(df)
 
         if seed is None:

@@ -61,7 +61,7 @@ class DefaultValueFillOperator(DataProcessingOperator):
         df = dataframe_list[0]
         col_name_value = self.conf.get("col_name_value")
         # 2、参数检查
-        check_parameter_null_or_empty(col_name_value)
+        check_parameter_null_or_empty(col_name_value, "col_name_value")
         check_dataframe(df)
         # 3、参数格式化
         col_value_dict = convert_cols_parameter(df.schema.fields, col_name_value)

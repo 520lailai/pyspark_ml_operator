@@ -83,8 +83,8 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
         else:
             other_col_output = str_convert_strlist(other_col_output)
 
-        check_parameter_null_or_empty(onehot_conf)
-        check_parameter_null_or_empty(handle_invalid)
+        check_parameter_null_or_empty(onehot_conf, "onehot_conf")
+        check_parameter_null_or_empty(handle_invalid, "handle_invalid")
 
         # 1.1、获得输入的表，和模型表
         df = dataframe_list[0]

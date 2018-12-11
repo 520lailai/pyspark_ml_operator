@@ -9,7 +9,7 @@ sys.path.append("")
 class RedisUtils:
     try:
         config = ConfigParser.RawConfigParser()
-        config.read("../core/conf/common.conf")
+        config.read("conf/common.conf")
         __host = config.get("redis", "redis_host")
         __port = int(config.get("redis", "redis_port"))
     except IOError:
