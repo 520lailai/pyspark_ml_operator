@@ -2,7 +2,7 @@
 from DataProcessingOperator import DataProcessingOperator
 from pyspark.ml.feature import OneHotEncoderEstimator
 from pyspark.ml.feature import StringIndexer
-from OperatorsUtils import *
+from OperatorsParameterParseUtils import *
 from pyspark.sql.types import *
 import traceback
 
@@ -117,7 +117,7 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
             for i, col in enumerate(input_cols):
                 if col_type[col] == 'string' or col_type[col] == 'double':
                     indexer = StringIndexer(inputCol=col, outputCol=col + "_arthur_index",
-                                            handle_invalid=handle_invalid)
+                                            handleInvalid=handle_invalid)
                     df = indexer.fit(df).transform(df)
                     input_cols[i] = col + "_arthur_index"
 

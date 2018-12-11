@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from DataProcessingOperator import DataProcessingOperator
 from pyspark.sql.functions import when
-from OperatorsUtils import *
+from OperatorsParameterParseUtils import *
 
 """ 
     模块功能： 用户指定某些列，将该列中分布在[minThresh, maxThresh]之外的数据
@@ -41,23 +41,33 @@ from OperatorsUtils import *
 
 
 class FeatureExceptionSmoothOperator(DataProcessingOperator):
+    support_type = ["bigint", "smallint", "int", "tinyint", "double", "float"]
+
     def handle(self, dataframe_list, spark):
         # 1、参数获取
         smooth_conf = self.conf.get("smooth_conf")
+
         # 2、参数检测
         check_parameter_null_or_empty(smooth_conf, "smooth_conf")
         df = dataframe_list[0]
         check_dataframe(df)
+        df_schema = get_df_schema(df)
 
         # 3、特征平滑
         for conf in smooth_conf:
             col_name = conf[0]
+            check_cols([col_name], df.columns)
+            col_type = df_schema.get(col_name)
+            if col_type not in self.support_type:
+                raise ParameterException("the input colums type must be a number type, but now is a :"+str(col_type))
+
             min_thresh = float_convert(conf[1])
             max_thresh = float_convert(conf[2])
 
-            check_parameter_null_or_empty(col_name, "col_name")
+            if "int" in col_type:
+                min_thresh = int_convert(conf[1])
+                max_thresh = int_convert(conf[2])
 
             df = df.withColumn(col_name, when(df[col_name] > max_thresh, max_thresh).otherwise(df[col_name]))
             df = df.withColumn(col_name, when(df[col_name] < min_thresh, min_thresh).otherwise(df[col_name]))
-
         return [df]

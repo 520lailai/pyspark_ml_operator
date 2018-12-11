@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from DataProcessingOperator import DataProcessingOperator
 from pyspark.ml.feature import StandardScaler
-from OperatorsUtils import *
+from OperatorsParameterParseUtils import *
 
 """ 
     模块功能： 将特征中的值进行标准差标准化，即转换为均值为0，方差为1的正态分布
@@ -53,6 +53,8 @@ class StandardScalerOperator(DataProcessingOperator):
                 raise ParameterException("the lengths of parameter must more than  4:" + str(conf))
 
             input_col = conf[0]
+            check_cols([input_col], df.columns)
+
             output_col = conf[1]
             with_std = bool_convert(conf[2])
             with_mean = bool_convert(conf[3])

@@ -40,6 +40,14 @@ def int_convert(int_str):
         raise ParameterException("the parameter convert error : ", num)
 
 
+def get_df_schema(df):
+    dtypes = df.dtypes
+    schema = {}
+    for type in dtypes:
+        schema[type[0]] = type[1]
+    return schema
+
+
 def float_convert(float_str):
     if not float_str:
         raise ParameterException("the parameter is null")

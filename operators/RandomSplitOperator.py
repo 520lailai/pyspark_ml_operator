@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from DataProcessingOperator import DataProcessingOperator
-from OperatorsUtils import *
+from OperatorsParameterParseUtils import *
 
 ''' 
     模块功能： 用户指定左右权重和随机数种子，把一个dataframe随机拆分成两份。

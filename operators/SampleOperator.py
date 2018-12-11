@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from DataProcessingOperator import DataProcessingOperator
-from OperatorsUtils import *
+from OperatorsParameterParseUtils import *
 
 """ 
     模块功能:随机采样，用户指定是否是有放回的抽样，采样比例和随机数种子，生成一个随机抽样样本。
@@ -58,7 +58,6 @@ class SampleOperator(DataProcessingOperator):
         df = dataframe_list[0]
 
         # 2、参数检查
-        check_parameter_null_or_empty(with_replacement, "with_replacement")
         check_parameter_null_or_empty(fraction, "fraction")
         check_dataframe(df)
 

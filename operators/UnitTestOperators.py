@@ -25,6 +25,7 @@ from NormalizedOperator import NormalizedOperator
 from LabelFeatureToLibsvmOperator import *
 from VectorAssemblerOperator import VectorAssemblerOperator
 from WriteRedisOperator import WriteRedisOperator
+from JsonUtils import ExtendJSONEncoder
 
 
 class UnitTestOperators(unittest.TestCase):
@@ -45,7 +46,13 @@ class UnitTestOperators(unittest.TestCase):
         case = self.spark.createDataFrame(
             [(7, "US", 18, 1.0),
              (8, "CA", 12, 0.0),
-             (9, "NZ", 15, 0.0)],
+             (9, "NZ", 15, 0.0),
+             (1, "US", 12, 1.0),
+             (5, "US", 12, 1.0),
+             (3, "US", 12, 1.0),
+             (2, "US", 12, 1.0),
+             (6, "US", 12, 1.0),
+             (4, "US", 12, 1.0)],
             ["id", "country", "hour", "clicked"])
 
         self.assertEqual(case.collect(), dataset_list[0].collect())
@@ -200,8 +207,8 @@ class UnitTestOperators(unittest.TestCase):
         self.assertEqual(dataset_list[0].collect(), dataset_re.collect())
 
     def test_splitOperator(self):
-        conf = {"left_weight": "0.5",
-                "right_weight": "0.5",
+        conf = {"left_weight": "0.2",
+                "right_weight": "0.8",
                 "seed": 123.2};
         operator = RandomSplitOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
         dataset = self.spark.createDataFrame(
@@ -227,10 +234,19 @@ class UnitTestOperators(unittest.TestCase):
              (20, "NZ", 18, 0.0)],
             ["id", "country", "hour", "clicked"])
 
-        dataset_list = operator.handle([dataset], self.spark)
+        left_count = 0.0;
+        right_count = 0.0;
+        for i in range(1, 100):
+            dataset_list = operator.handle([dataset], self.spark)
+            left_count += dataset_list[0].count()
+            right_count += dataset_list[1].count()
 
         # 1、拆分的左右量表的比例：
-        self.assertEqual(dataset_list[0].count(), dataset_list[1].count())
+        try:
+            weight = float(left_count) / float(right_count)
+        except ZeroDivisionError:
+            weight = 0.0
+        self.assertEqual(round(weight, 1), round(0.2 / 0.8, 1))
 
     def test_mathFunctionsOperator(self):
         spark = SparkSession.builder.enableHiveSupport().getOrCreate()
@@ -257,7 +273,7 @@ class UnitTestOperators(unittest.TestCase):
         self.assertEqual(dataset_list[0].collect(), dataset_re.collect())
 
     def test_bucketizerOperator(self):
-        conf = {"bucketizer_conf": [["equal_distance", "100", "features", "features_bucketed", "True"]]}
+        conf = {"bucketizer_conf": [["isometric_discretization", "100", "features", "features_bucketed", "True"]]}
         operator = BucketizerOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
         data = [(-999.9,), (-0.5,), (-0.3,), (0.0,), (0.2,), (999.9,)]
         dataset = self.spark.createDataFrame(data, ["features"])
@@ -421,14 +437,14 @@ class UnitTestOperators(unittest.TestCase):
             ["id", "country", "hour", "clicked"])
 
         dataset_re = self.spark.createDataFrame(
-            [("count", 5, 5),
-             ("mean", 17.0, 24.0),
-             ("stddev", 3.5355339059327378, 8.94427190999916),
-             ("min", 12, 10.0),
-             ("25%", 15, 20.0),
-             ("50%", 18, 30.0),
-             ("75%", 19, 30.0),
-             ("max", 21, 30.0)],
+            [("count", "5", "5"),
+             ("mean", "17", "24.0"),
+             ("stddev", "3.5355339059327378", "8.94427190999916"),
+             ("min", "12", "10.0"),
+             ("25%", "15", "20.0"),
+             ("50%", "18", "30.0"),
+             ("75%", "19", "30.0"),
+             ("max", "21", "30.0")],
             ["summary", "hour", "clicked"])
 
         dataset_list = operator.handle([dataset], self.spark)
@@ -443,9 +459,15 @@ class UnitTestOperators(unittest.TestCase):
         dataset_list[0].show(truncate=False)
 
         dataset_re = self.spark.createDataFrame(
-            [(1, "US", 18, 1.0),
-             (2, "CA", 12, 0.0),
-             (3, "NZ", 15, 0.0)],
+            [(7, "US", 18, 1.0),
+             (8, "CA", 12, 0.0),
+             (9, "NZ", 15, 0.0),
+             (1, "US", 12, 1.0),
+             (5, "US", 12, 1.0),
+             (3, "US", 12, 1.0),
+             (2, "US", 12, 1.0),
+             (6, "US", 12, 1.0),
+             (4, "US", 12, 1.0)],
             ["id", "country", "hour", "clicked"])
 
         # 1、测试结果的正确性
@@ -549,7 +571,7 @@ class UnitTestOperators(unittest.TestCase):
         conf = {"key": "test_redis_key"}
         operator = WriteRedisOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
         operator.handle([dataset], self.spark)
-        data = json.dumps(dataset.collect())
+        data = json.dumps(dataset.collect(), cls=ExtendJSONEncoder)
         data_r = RedisUtils.read_redis("test_redis_key")
         self.assertEqual(data, data_r)
 

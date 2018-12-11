@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from DataProcessingOperator import DataProcessingOperator
-from OperatorsUtils import *
+from OperatorsParameterParseUtils import *
 
 """ 
     模块功能： 过滤查询，用户通过指定相关的列和一些刷选条件进行数据的查询

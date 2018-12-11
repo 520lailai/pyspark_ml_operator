@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from DataProcessingOperator import DataProcessingOperator
-from OperatorsUtils import *
+from OperatorsParameterParseUtils import *
 
 """ 
     模块功能： 特征的尺度变换
@@ -62,7 +62,6 @@ class MathFunctionsOperator(DataProcessingOperator):
         # 2、参数的检查
         check_parameter_null_or_empty(col_names, "col_names")
         check_parameter_null_or_empty(scale_method, "scale_method")
-        check_parameter_null_or_empty(is_replace, "is_replace")
         check_parameter_null_or_empty(new_col_name, "new_col_name")
         if not (len(col_names) == len(scale_method) == len(is_replace) == len(new_col_name)):
             raise ParameterException("the Parameter error")

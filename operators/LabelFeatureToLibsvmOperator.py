@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from OperatorsUtils import *
+from OperatorsParameterParseUtils import *
 from DataProcessingOperator import DataProcessingOperator
 from pyspark.sql.types import *
 from pyspark.sql import Row
@@ -76,6 +76,9 @@ class LabelFeatureToLibsvmOperator(DataProcessingOperator):
         '''
         feature = row[col_name]
         type_feature = str(type(feature))
+
+        if type(row[label]) != str and type(row[label]) != float and type(row[label]) != int :
+            raise ParameterException("the label column type must be a string or a number, but now is a "+str(type(row[label])))
 
         if type_feature.find("pyspark.ml.linalg.SparseVector") != -1 or type_feature.find(
                 "pyspark.ml.linalg.DenseVector") != -1:

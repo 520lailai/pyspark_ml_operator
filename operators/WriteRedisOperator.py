@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from DataProcessingOperator import DataProcessingOperator
-from OperatorsUtils import *
+from OperatorsParameterParseUtils import *
 import json
 from RedisUtils import RedisUtils
+from JsonUtils import ExtendJSONEncoder
 
 """
     模块功能： 运行用户自定义查询sql
@@ -36,5 +37,5 @@ class WriteRedisOperator(DataProcessingOperator):
 
         # 3、写Redis
         for dataframe in dataframe_list:
-            data = json.dumps(dataframe.collect())
+            data = json.dumps(dataframe.collect(), cls=ExtendJSONEncoder)
             RedisUtils.write_redis(key, data)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from DataProcessingOperator import DataProcessingOperator
-from OperatorsUtils import *
+from OperatorsParameterParseUtils import *
 from WriteRedisOperator import WriteRedisOperator
 
 """  
@@ -8,7 +8,6 @@ from WriteRedisOperator import WriteRedisOperator
     用于整体数值特征：最大值，最小值，均值，标准差,统计数，分位：p25，p50,p75
     conf 参数：
          "cols": String 列名列表，如果输入为None， 将会统计所有的数值型的列。
-         
     例子：
     
     1、输入表：
@@ -27,7 +26,6 @@ from WriteRedisOperator import WriteRedisOperator
     'cols': ['hour', 'clicked']}
     
     3、结果表：
-    
     +-------+------------------+----------------+
     |summary|hour              |clicked         |
     +-------+------------------+----------------+

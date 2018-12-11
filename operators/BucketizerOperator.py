@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from DataProcessingOperator import DataProcessingOperator
 from pyspark.ml.feature import Bucketizer
-from OperatorsUtils import *
+from OperatorsParameterParseUtils import *
 from pyspark.ml.feature import QuantileDiscretizer
 
 """ 
@@ -89,7 +89,6 @@ class BucketizerOperator(DataProcessingOperator):
             check_parameter_null_or_empty(split, "split")
             check_parameter_null_or_empty(input_col, "input_col")
             check_parameter_null_or_empty(output_col, "output_col")
-            check_parameter_null_or_empty(is_drop_input, "is_drop_input")
 
             if splits_type == "isofrequecy_discretization":
                 if split == 0:
@@ -105,14 +104,23 @@ class BucketizerOperator(DataProcessingOperator):
                     max_value = df.agg({input_col: "max"}).collect()[0][0]
                     min_value = df.agg({input_col: "min"}).collect()[0][0]
                     split = get_bucket_splits(max_value, min_value, distance)
-
+                check_split(split)
                 bucketizer = Bucketizer(splits=split, inputCol=input_col, outputCol=output_col)
                 df = bucketizer.transform(df)
 
             if is_drop_input:
                 df.drop(input_col)
-
         return [df]
+
+
+def check_split(split):
+    if not split:
+        raise ParameterException("the parameter：split is null or empty")
+    if type(split) != list:
+        raise ParameterException("the length of parameter：split must greater than 3")
+    for i in range(1, len(split) - 1):
+        if split[i] <= split[i - 1]:
+            raise ParameterException("the parameter：split must Strictly increasing, ex: s0 < s1 < s2 < ... < sn")
 
 
 def get_bucket_splits(max_value, min_value, distance):
