@@ -21,9 +21,11 @@ class WriteHdfsOperator(DataProcessingOperator):
 
         # 3、写hdfs
         for dataframe in dataframe_list:
+            types = dataframe.dtypes
+            for type in types:
+                if type[1] == 'vector' or type[1] == list:
+                    dataframe = dataframe.withColumn(type[0], dataframe[type[0]].cast("string"))
             try:
-                dataframe.rdd.repartition(1).toDF().write.mode("overwrite").text(path=file_path)
-
                 dataframe.rdd.repartition(1).toDF().write.mode("overwrite").csv(path=file_path, quote="", sep=" ")
             except WriteHDFSError:
                 msg = traceback.format_exc()

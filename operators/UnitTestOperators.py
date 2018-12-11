@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 from pyspark.sql import SparkSession
-from pyspark.mllib.linalg import Vectors
+from pyspark.ml.linalg import Vectors
 import json
 from RedisUtils import RedisUtils
 from pyspark.sql import Row
@@ -149,7 +149,6 @@ class UnitTestOperators(unittest.TestCase):
         # 1、测试结果的正确性
         self.assertEqual(dataset_list[0].collect(), dataset_re.collect())
 
-
     def test_standardScalerOperator(self):
         conf = {"standard_scaler_conf": [["features", "scaled_features", "True", "False", "False"]]};
         operator = StandardScalerOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
@@ -168,7 +167,6 @@ class UnitTestOperators(unittest.TestCase):
 
         # 1、测试结果的正确性
         self.assertEqual(dataset_list[0].collect(), dataset_re.collect())
-
 
     def test_joinOperator(self):
         conf = {'join_columns': [['id1', 'id2'], ['country', 'country']],
@@ -334,20 +332,20 @@ class UnitTestOperators(unittest.TestCase):
              ("country", "Vietnam", 3.0),
              ("country", "Brazil", 2.0),
              ("country", "America", 4.0),
-             ("score", 1.5, 1.0),
-             ("score", 0.5, 3.0),
-             ("score", 0.0, 0.0),
-             ("score", 6.7, 2.0)],
+             ("score", "1.5", 1.0),
+             ("score", "0.5", 3.0),
+             ("score", "0.0", 0.0),
+             ("score", "6.7", 2.0)],
             ["col_name", "col_value", "mapping"])
 
         # 1、测试结果的正确性
         dataset_list = operator.handle([dataset], self.spark)
-        self.assertNotEqual(dataset_list[0].collect(), dataset_re.collect())
-        self.assertNotEqual(dataset_list[1].collect(), mapping_re.collect())
+        self.assertEqual(dataset_list[0].collect(), dataset_re.collect())
+        self.assertEqual(dataset_list[1].collect(), mapping_re.collect())
 
         return dataset_list
 
-    def test_oneHotEncoderEstimatorOperator2(self, model):
+    def test_oneHotEncoderEstimatorOperator2(self):
         conf = {"onehot_conf": [["country", "country_onehot"], ["hour", "hour-onehot"], ["score", "score-onehot"]],
                 "drop_last": True,
                 "handle_invalid": "keep",
@@ -364,16 +362,31 @@ class UnitTestOperators(unittest.TestCase):
              (5, "Vietnam", 15, 0.0, 5)],
             ["id", "country", "hour", "score", "clicked"])
 
-        dataset_list = operator.handle([dataset, model], self.spark)
+        modle = self.spark.createDataFrame(
+            [("country", "united kiongdom", 1.0),
+             ("country", "China", 0.0),
+             ("country", "Vietnam", 3.0),
+             ("country", "Brazil", 2.0),
+             ("country", "America", 4.0),
+             ("score", "1.5", 1.0),
+             ("score", "0.5", 3.0),
+             ("score", "0.0", 0.0),
+             ("score", "6.7", 2.0)],
+            ["col_name", "col_value", "mapping"])
+
+        dataset_list = operator.handle([dataset, modle], self.spark)
 
         dataset_re = self.spark.createDataFrame(
-            [(7, "US", 18, 1.0),
-             (8, "CA", 12, 0.0),
-             (9, "NZ", 15, 0.0)],
-            ["id", "clicked", "country_onehot", "clicked"])
+            [(1, 2, Vectors.sparse(5, [0], [1.0]), Vectors.sparse(19, [18], [1.0]), Vectors.sparse(4, [1], [1.0])),
+             (2, 4, Vectors.sparse(5, [4], [1.0]), Vectors.sparse(19, [12], [1.0]), Vectors.sparse(4, [0], [1.0])),
+             (3, 5, Vectors.sparse(5, [2], [1.0]), Vectors.sparse(19, [5], [1.0]), Vectors.sparse(4, [3], [1.0])),
+             (4, 9, Vectors.sparse(5, [1], [1.0]), Vectors.sparse(19, [4], [1.0]), Vectors.sparse(4, [2], [1.0])),
+             (5, 5, Vectors.sparse(5, [3], [1.0]), Vectors.sparse(19, [15], [1.0]), Vectors.sparse(4, [0], [1.0]))],
+            ["id", "clicked", "country_onehot", "hour-onehot", "score-onehot"])
 
         # 1、测试结果的正确性
         self.assertNotEqual(dataset_list[0].collect(), dataset_re.collect())
+        self.assertNotEqual(dataset_list[1].collect(), modle)
 
     def test_approxQuantileOperator(self):
         conf = {"input_cols": "hour, clicked",
