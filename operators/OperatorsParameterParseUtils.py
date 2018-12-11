@@ -73,11 +73,15 @@ def bool_convert(bool_str):
 
 
 def check_cols(select_col, cols):
-    if not select_col or not cols:
-        raise ParameterException("parameter empty exception")
+    if not select_col :
+        raise ParameterException("the col list is null")
+
+    if not cols:
+        raise ParameterException("the columns of df is null")
+
     for name in select_col:
         if name not in cols:
-            raise ParameterException("does not have this column name, ")
+            raise ParameterException("the dataframe does not have this column name")
 
 
 # "name, sex, id"

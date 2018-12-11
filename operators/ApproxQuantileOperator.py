@@ -56,6 +56,8 @@ class ApproxQuantileOperator(DataProcessingOperator):
         relative_error = float_convert(relative_error)
         check_dataframe(df)
 
+        check_cols(input_cols, df.columns)
+
         # 3、分位计算
         quantile_list = df.approxQuantile(input_cols, probabilities, relative_error)
 
@@ -69,3 +71,14 @@ class ApproxQuantileOperator(DataProcessingOperator):
 
         dataset = spark.createDataFrame(quantile_list, schema)
         return [dataset]
+
+    def probabilities_check(self, probabilities):
+        if not probabilities:
+            raise ParameterException("the probabilities is null")
+        if type(probabilities) != list:
+            raise ParameterException("the probabilities is not a list")
+        for pro in probabilities:
+            if type(pro) != float:
+                raise ParameterException("the probabilities value is not a float")
+            if pro < 0.0 or pro > 1.0:
+                raise ParameterException("the probabilities value must between(0,1)")
