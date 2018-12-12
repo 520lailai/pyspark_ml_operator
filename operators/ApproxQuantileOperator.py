@@ -59,7 +59,7 @@ class ApproxQuantileOperator(DataProcessingOperator):
         self.probabilities_check(probabilities)
 
         check_cols(input_cols, df.columns, self.op_id)
-        self.check_input_cols_type(self, input_cols, get_df_schema())
+        self.check_input_cols_type(self, input_cols, get_df_schema(df))
 
         # 3、分位计算
         quantile_list = df.approxQuantile(input_cols, probabilities, relative_error)
