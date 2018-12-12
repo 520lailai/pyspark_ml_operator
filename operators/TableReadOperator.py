@@ -36,8 +36,8 @@ class TableReadOperator(DataProcessingOperator):
         partition_val = self.conf.get("partition_val")
         limit_num = self.conf.get("limit_num")
 
-        check_parameter_null_or_empty(db_name, "db_name")
-        check_parameter_null_or_empty(table_name, "table_name")
+        check_parameter_null_or_empty(db_name, "db_name", self.op_id)
+        check_parameter_null_or_empty(table_name, "table_name", self.op_id)
 
         # 1. 判断是否为partition的表
         df = spark.sql("desc formatted " + db_name + "." + table_name)

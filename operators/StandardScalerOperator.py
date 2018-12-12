@@ -45,33 +45,33 @@ class StandardScalerOperator(DataProcessingOperator):
     def handle(self, dataframe_list, spark):
         standard_scaler_conf = self.conf.get("standard_scaler_conf")
         df = dataframe_list[0]
-        check_dataframe(df)
-        check_parameter_null_or_empty(standard_scaler_conf, "standard_scaler_conf")
+        check_dataframe(df, self.op_id)
+        check_parameter_null_or_empty(standard_scaler_conf, "standard_scaler_conf", self.op_id)
 
         for conf in standard_scaler_conf:
             if len(conf) < 4:
                 raise ParameterException("the lengths of parameter must more than  4:" + str(conf))
 
             input_col = conf[0]
-            check_cols([input_col], df.columns)
+            check_cols([input_col], df.columns, self.op_id)
 
             output_col = conf[1]
-            with_std = bool_convert(conf[2])
-            with_mean = bool_convert(conf[3])
-            is_drop_input = bool_convert(conf[4])
+            with_std = bool_convert(conf[2], self.op_id)
+            with_mean = bool_convert(conf[3], self.op_id)
+            is_drop_input = bool_convert(conf[4], self.op_id)
 
-            check_parameter_null_or_empty(input_col, "input_col")
-            check_parameter_null_or_empty(output_col, "output_col")
+            check_parameter_null_or_empty(input_col, "input_col", self.op_id)
+            check_parameter_null_or_empty(output_col, "output_col", self.op_id)
 
             if with_std is None:
                 with_std = True
             else:
-                with_std = bool_convert(with_std)
+                with_std = bool_convert(with_std, self.op_id)
 
             if with_mean is None:
                 with_mean = False
             else:
-                with_mean = bool_convert(with_mean)
+                with_mean = bool_convert(with_mean, self.op_id)
 
             scaler = StandardScaler(inputCol=input_col, outputCol=output_col,
                                     withStd=with_std, withMean=with_mean)

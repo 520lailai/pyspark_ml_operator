@@ -52,13 +52,13 @@ class ApproxQuantileOperator(DataProcessingOperator):
         df = dataframe_list[0]
 
         # 2、参数转换与检查
-        input_cols = str_convert_strlist(input_cols)
-        probabilities = str_convert_floatlist(probabilitie_str)
-        relative_error = float_convert(relative_error)
-        check_dataframe(df)
+        input_cols = str_convert_strlist(input_cols, self.op_id)
+        probabilities = str_convert_floatlist(probabilitie_str, self.op_id)
+        relative_error = float_convert(relative_error,  self.op_id)
+        check_dataframe(df, self.op_id)
         self.probabilities_check(probabilities)
 
-        check_cols(input_cols, df.columns)
+        check_cols(input_cols, df.columns, self.op_id)
         self.check_input_cols_type(self, input_cols, get_df_schema())
 
         # 3、分位计算
@@ -77,17 +77,17 @@ class ApproxQuantileOperator(DataProcessingOperator):
 
     def probabilities_check(self, probabilities):
         if not probabilities:
-            raise ParameterException("the probabilities is null")
+            raise ParameterException("[arthur_error] the probabilities is null, opid:"+str(self.op_id))
         if type(probabilities) != list:
-            raise ParameterException("the probabilities is not a list")
+            raise ParameterException("[arthur_error] the probabilities is not a list, opid:"+str(self.op_id))
         for pro in probabilities:
             if type(pro) != float:
-                raise ParameterException("the probabilities value is not a float")
+                raise ParameterException("[arthur_error] the probabilities value is not a float, opid:"+str(self.op_id))
             if pro < 0.0 or pro > 1.0:
-                raise ParameterException("the probabilities value must between(0,1)")
+                raise ParameterException("[arthur_error] the probabilities value must between(0,1), opid:"+str(self.op_id))
 
     def check_input_cols_type(self, input_cols, df_col_schema):
         for col in input_cols:
-            if df_col_schema[col] not in support_type :
-                raise InputColumnTypeException("the input c")
+            if df_col_schema[col] not in self.support_type :
+                raise InputColumnTypeException("[arthur_error] the input columns type is not support, must a number type, opid:"+str(self.op_id))
 

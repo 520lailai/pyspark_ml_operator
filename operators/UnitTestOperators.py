@@ -3,7 +3,7 @@ import unittest
 from pyspark.sql import SparkSession
 from pyspark.ml.linalg import Vectors
 import json
-from operators.tools import RedisUtils
+from tools.RedisUtils import *
 from pyspark.sql import Row
 
 from TableReadOperator import TableReadOperator
@@ -27,6 +27,7 @@ from VectorAssemblerOperator import VectorAssemblerOperator
 from WriteRedisOperator import WriteRedisOperator
 from tools.JsonUtils import ExtendJSONEncoder
 from tools.OperatorsParameterParseUtils import *
+
 
 class UnitTestOperators(unittest.TestCase):
     spark = None
@@ -78,7 +79,7 @@ class UnitTestOperators(unittest.TestCase):
         # 1、测试写入数据的结果正确性
         conf_write1 = {"db_name": "lai_test",
                        "table_name": "test_save_new",
-                       "partition_by": "id",
+                       "partition_by": "p_date=20180910",
                        "limit_num": 100};
         operator = TableWriteOperator(op_id="123", op_type="readtable", conf=conf_write1, relation="", result_type="")
         dataframe_list = operator.handle([dataset], self.spark)
@@ -87,7 +88,7 @@ class UnitTestOperators(unittest.TestCase):
         # 2、测试读取的过程抛出异常
         conf_write2 = {"db_name": "lala",
                        "table_name": "test_save_new",
-                       "partition_by": "id",
+                       "partition_by": "p_date=20180910",
                        "limit_num": 100};
         operator = TableWriteOperator(op_id="123", op_type="readtable", conf=conf_write2, relation="", result_type="")
         with self.assertRaises(Exception):
@@ -363,6 +364,9 @@ class UnitTestOperators(unittest.TestCase):
         self.assertEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
         self.assertEqual(dataset_list[1].sort(["col_name", "col_value"]).collect(),
                          mapping_re.sort(["col_name", "col_value"]).collect())
+
+        dataset_list[0].show()
+        dataset_list[1].show()
 
         return dataset_list
 

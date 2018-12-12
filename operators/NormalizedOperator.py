@@ -60,8 +60,8 @@ class NormalizedOperator(DataProcessingOperator):
     def handle(self, dataframe_list, spark):
         normalize_scaler_conf = self.conf.get("normalize_scaler_conf")
         df = dataframe_list[0]
-        check_dataframe(df)
-        check_parameter_null_or_empty(normalize_scaler_conf, "normalize_scaler_conf")
+        check_dataframe(df, self.op_id)
+        check_parameter_null_or_empty(normalize_scaler_conf, "normalize_scaler_conf", self.op_id)
 
         type_dict = {}
         for tuple in df.dtypes:
@@ -69,7 +69,7 @@ class NormalizedOperator(DataProcessingOperator):
 
         for i, conf in enumerate(normalize_scaler_conf):
             if len(conf) < 4:
-                raise ParameterException("the lengths of parameter must more than 5:" + str(conf))
+                raise ParameterException("the lengths of parameter must more than 5:" + str(conf)+"opid:"+str(self.op_id))
 
             input_col = conf[0]
             output_col = conf[1]
@@ -79,41 +79,41 @@ class NormalizedOperator(DataProcessingOperator):
             if not min:
                 min = 0
             else:
-                min = float_convert(min)
+                min = float_convert(min, self.op_id)
 
             if not max:
                 max = 1
             else:
-                max = float_convert(max)
-            is_drop_input = bool_convert(conf[4])
-            check_parameter_null_or_empty(input_col, "input_col")
-            check_parameter_null_or_empty(output_col, "output_col")
+                max = float_convert(max, self.op_id)
+            is_drop_input = bool_convert(conf[4], self.op_id)
+            check_parameter_null_or_empty(input_col, "input_col", self.op_id)
+            check_parameter_null_or_empty(output_col, "output_col", self.op_id)
 
             type = type_dict[input_col]
             if type == "vector":
-                df = min_max_scaler(df, input_col, output_col, min, max)
+                df = self.min_max_scaler(df, input_col, output_col, min, max)
             elif type == 'bigint' or type == 'double':
                 max_value = df.agg({input_col: "max"}).collect()[0][0]
                 min_value = df.agg({input_col: "min"}).collect()[0][0]
-                df = df.withColumn(output_col, normalized(col(input_col), max_value, min_value))
+                df = df.withColumn(output_col, self.normalized(col(input_col), max_value, min_value))
             else:
-                raise ParameterException("input col must be bigint/double/vector,does not support: " + type)
+                raise ParameterException("input col must be bigint/double/vector,does not support: " + type+"opid:"+str(self.op_id))
 
             if is_drop_input:
                 df = df.drop(input_col)
         return [df]
 
 
-def normalized(value, max_value, min_value):
-    if max_value == min_value:
-        return value
-    return (value - min_value) / (max_value - min_value)
+    def normalized(self, value, max_value, min_value):
+        if max_value == min_value:
+            return value
+        return (value - min_value) / (max_value - min_value)
 
 
-def min_max_scaler(df, input_col, output_col, min, max):
-    check_parameter_null_or_empty(input_col, "input_col")
-    check_parameter_null_or_empty(output_col, "output_col")
-    scaler = MinMaxScaler(inputCol=input_col, outputCol=output_col, min=min, max=max)
-    scaler_model = scaler.fit(df)
-    scaled_data = scaler_model.transform(df)
-    return scaled_data
+    def min_max_scaler(self, df, input_col, output_col, min, max):
+        check_parameter_null_or_empty(input_col, "input_col", self.op_id)
+        check_parameter_null_or_empty(output_col, "output_col", self.op_id)
+        scaler = MinMaxScaler(inputCol=input_col, outputCol=output_col, min=min, max=max)
+        scaler_model = scaler.fit(df)
+        scaled_data = scaler_model.transform(df)
+        return scaled_data

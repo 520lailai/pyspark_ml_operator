@@ -54,8 +54,8 @@ class RandomSplitOperator(DataProcessingOperator):
 
     def handle(self, dataframe_list, spark):
         # 1.参数的获取
-        left_weight = float_convert(self.conf.get("left_weight"))
-        right_weight = float_convert(self.conf.get("right_weight"))
+        left_weight = float_convert(self.conf.get("left_weight"), self.op_id)
+        right_weight = float_convert(self.conf.get("right_weight"), self.op_id)
         seed = self.conf.get("seed")
         df = dataframe_list[0]
 
@@ -63,8 +63,8 @@ class RandomSplitOperator(DataProcessingOperator):
         if seed is None:
             seed = None
         else:
-            seed = float_convert(seed)
-        check_dataframe(df)
+            seed = float_convert(seed, self.op_id)
+        check_dataframe(df, self.op_id)
 
         # 3.随机拆分
         weights = [left_weight, right_weight]

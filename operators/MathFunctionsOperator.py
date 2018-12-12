@@ -43,10 +43,10 @@ class MathFunctionsOperator(DataProcessingOperator):
     def handle(self, dataframe_list, spark):
         # 1、参数的获取和解析
         df = dataframe_list[0]
-        check_dataframe(df)
+        check_dataframe(df, self.op_id)
 
         scaler_conf = self.conf.get("scaler_conf")
-        check_parameter_null_or_empty(scaler_conf, "scaler_conf")
+        check_parameter_null_or_empty(scaler_conf, "scaler_conf", self.op_id)
 
         col_names = []
         scale_method = []
@@ -56,19 +56,19 @@ class MathFunctionsOperator(DataProcessingOperator):
         for conf in scaler_conf:
             col_names.append(conf[0])
             scale_method.append(conf[1])
-            is_replace.append(bool_convert(conf[2]))
+            is_replace.append(bool_convert(conf[2], self.op_id))
             new_col_name.append(conf[3])
 
         # 2、参数的检查
-        check_parameter_null_or_empty(col_names, "col_names")
-        check_parameter_null_or_empty(scale_method, "scale_method")
-        check_parameter_null_or_empty(new_col_name, "new_col_name")
+        check_parameter_null_or_empty(col_names, "col_names", self.op_id)
+        check_parameter_null_or_empty(scale_method, "scale_method", self.op_id)
+        check_parameter_null_or_empty(new_col_name, "new_col_name", self.op_id)
         if not (len(col_names) == len(scale_method) == len(is_replace) == len(new_col_name)):
-            raise ParameterException("the Parameter error")
+            raise ParameterException("the Parameter error,opid:"+str(self.op_id))
 
         # 3、计算函数的表达式
         cols = df.columns
-        check_cols(col_names, cols)
+        check_cols(col_names, cols, self.op_id)
 
         replace_index = []
         for index, col in enumerate(col_names):

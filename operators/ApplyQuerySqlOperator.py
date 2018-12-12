@@ -17,8 +17,8 @@ class ApplyQuerySqlOperator(DataProcessingOperator):
         sql_query = self.conf.get("sql_query")
 
         # 2. 参数检查
-        check_parameter_null_or_empty(sql_query, "sql_query")
-        check_parameter_null_or_empty(spark, "spark")
+        check_parameter_null_or_empty(sql_query, "sql_query", self.op_id)
+        check_parameter_null_or_empty(spark, "spark", self.op_id)
 
         # 3. 运行sql
         dataframe = spark.sql(sql_query)

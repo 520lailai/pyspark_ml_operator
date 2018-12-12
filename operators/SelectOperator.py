@@ -41,9 +41,9 @@ class SelectOperator(DataProcessingOperator):
         filter_condition = self.conf.get("filter_condition")
         df = dataframe_list[0]
         # 2、参数检测
-        check_dataframe(df)
-        check_strlist_parameter(column_names)
-        column_names = str_convert_strlist(column_names)
+        check_dataframe(df, self.op_id)
+        check_strlist_parameter(column_names, self.op_id)
+        column_names = str_convert_strlist(column_names, self.op_id)
 
         # 3、过滤查询
         if filter_condition:

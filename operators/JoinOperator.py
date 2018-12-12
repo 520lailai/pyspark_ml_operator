@@ -74,11 +74,11 @@ class JoinOperator(DataProcessingOperator):
         # 1、参数的检查
         df1 = dataframe_list[0]
         df2 = dataframe_list[1]
-        check_dataframe(df1)
-        check_dataframe(df2)
+        check_dataframe(df1, self.op_id)
+        check_dataframe(df2, self.op_id)
         if not join_columns:
-            raise ParameterException("the join_columns parameter is empty:" + str(join_columns))
-        check_parameter_null_or_empty(join_type, "join_type")
+            raise ParameterException("[arthur_error] the join_columns parameter is empty:" + str(join_columns)+",opid:"+str(self.op_id))
+        check_parameter_null_or_empty(join_type, "join_type", self.op_id)
 
         select_colums_list = []
 
@@ -87,7 +87,7 @@ class JoinOperator(DataProcessingOperator):
         if select_left_columns:
             left_col = df1.columns
             for col in select_left_columns:
-                check_cols([col[0]], left_col)
+                check_cols([col[0]], left_col, self.op_id)
                 left_columns_dict[col[0]] = col[1]
                 df1 = df1.withColumnRenamed(col[0], col[1])
                 select_colums_list.append(df1[col[1]])
@@ -101,7 +101,7 @@ class JoinOperator(DataProcessingOperator):
         if select_right_columns:
             right_col = df2.columns
             for col in select_right_columns:
-                check_cols([col[0]], right_col)
+                check_cols([col[0]], right_col, self.op_id)
                 right_columns_dict[col[0]] = col[1]
                 df2 = df2.withColumnRenamed(col[0], col[1])
                 select_colums_list.append(df2[col[1]])
@@ -113,8 +113,8 @@ class JoinOperator(DataProcessingOperator):
         # 4、拼接join表达式
         express_list = []
         for two_colums in join_columns:
-            check_cols([two_colums[0]], df1.columns)
-            check_cols([two_colums[1]], df1.columns)
+            check_cols([two_colums[0]], df1.columns, self.op_id)
+            check_cols([two_colums[1]], df1.columns, self.op_id)
             express_list.append(df1[left_columns_dict[two_colums[0]]] == df2[right_columns_dict[two_colums[1]]])
 
         # 5、join操作

@@ -52,19 +52,19 @@ class SampleOperator(DataProcessingOperator):
 
     def handle(self, dataframe_list, spark):
         # 1、参数获取
-        with_replacement = bool_convert(self.conf.get("with_replacement", False))
-        fraction = float_convert(self.conf.get("fraction"))
+        with_replacement = bool_convert(self.conf.get("with_replacement", False), self.op_id)
+        fraction = float_convert(self.conf.get("fraction"), self.op_id)
         seed = self.conf.get("seed")
         df = dataframe_list[0]
 
         # 2、参数检查
-        check_parameter_null_or_empty(fraction, "fraction")
-        check_dataframe(df)
+        check_parameter_null_or_empty(fraction, "fraction", self.op_id)
+        check_dataframe(df, self.op_id)
 
         if seed is None:
             seed = None
         else:
-            seed = float_convert(seed)
+            seed = float_convert(seed, self.op_id)
 
         # 3、随机采样
         dataframe = df.sample(with_replacement, fraction, seed)

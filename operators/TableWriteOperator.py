@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from DataProcessingOperator import DataProcessingOperator
 from tools.OperatorsParameterParseUtils import *
+from pyspark.sql.functions import lit
 
 """  
     模块功能： 把dataframe写到目标表中
@@ -20,10 +21,11 @@ from tools.OperatorsParameterParseUtils import *
     +---+------+---+------+
     
     2、cof参数配置：
-    conf_write = {"db_name": "lai_test",
-                  "table_name": "test_save_new",
-                  "partition_by": "id",
-                  "limit_num": 100};
+    conf_write = {
+                    "db_name": "lai_test",
+                    "table_name": "test_save_new",
+                    "partition_by": "p_date='20181015'"
+                  };
     
     3、结果表：
 """
@@ -38,17 +40,27 @@ class TableWriteOperator(DataProcessingOperator):
         save_format = "parquet"
         mode = "overwrite"
         partition_by = self.conf.get("partition_by")
+        df = dataframe_list[0]
 
         # 2、参数检查
-        check_parameter_null_or_empty(db_name, "db_name")
-        check_parameter_null_or_empty(table_name, "table_name")
+        check_dataframe(df, self.op_id)
+        check_parameter_null_or_empty(db_name, "db_name", self.op_id)
+        check_parameter_null_or_empty(table_name, "table_name", self.op_id)
         name = db_name + "." + table_name
-        if not partition_by:
-            partition_by = None
 
-        check_dataframe(dataframe_list)
+        if partition_by:
+            try:
+                partition_values = partition_by.split("=")
+            except Exception:
+                raise ParameterException(
+                    "the format partition_val is error, must be partirion_name = values, and the value will treated as string, op_id:" + self.op_id)
+            check_strlist_parameter(partition_values, self.op_id)
+            if partition_values[0].strip not in df.columns:
+                df = df.withColumn(partition_values[0].strip(), lit(partition_values[1].strip()))
+            # 3、写表
+            df.write.saveAsTable(name, format=save_format, mode=mode, partitionBy=partition_values[0])
+        else:
+            # 3、写表
+            df.write.saveAsTable(name, format=save_format, mode=mode)
 
-        # 3、写表
-        for df in dataframe_list:
-            df.write.saveAsTable(name, format=save_format, mode=mode, partitionBy=partition_by)
         return dataframe_list

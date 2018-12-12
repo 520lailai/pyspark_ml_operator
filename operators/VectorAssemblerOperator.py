@@ -42,9 +42,9 @@ class VectorAssemblerOperator(DataProcessingOperator):
         output = self.conf.get("output")
         df = dataframe_list[0]
         # 2、参数的检查
-        check_dataframe(df)
-        check_strlist_parameter(column_names)
-        check_parameter_null_or_empty(output, "output")
+        check_dataframe(df, self.op_id)
+        check_strlist_parameter(column_names, self.op_id)
+        check_parameter_null_or_empty(output, "output", self.op_id)
 
         # 2、特征聚合
         assembler = VectorAssembler(inputCols=column_names, outputCol=output)

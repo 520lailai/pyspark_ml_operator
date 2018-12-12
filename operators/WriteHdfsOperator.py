@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from DataProcessingOperator import DataProcessingOperator
 from tools.OperatorsParameterParseUtils import *
+import traceback
 
 
 """ 
@@ -16,8 +17,8 @@ class WriteHdfsOperator(DataProcessingOperator):
         file_path = self.conf.get("file_path")
 
         # 2、参数检查
-        check_parameter_null_or_empty(file_path, "file_path")
-        check_dataframe(dataframe_list)
+        check_parameter_null_or_empty(file_path, "file_path", self.op_id)
+        check_dataframe(dataframe_list, self.op_id)
 
         # 3、写hdfs
         for dataframe in dataframe_list:

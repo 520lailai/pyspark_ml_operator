@@ -58,10 +58,10 @@ class LabelFeatureToLibsvmOperator(DataProcessingOperator):
         df = dataframe_list[0]
 
         # 2、参数的检测
-        check_dataframe(df)
-        check_parameter_null_or_empty(column_name, "column_name!")
-        check_parameter_null_or_empty(label, "label")
-        check_parameter_null_or_empty(output, "output")
+        check_dataframe(df, self.op_id)
+        check_parameter_null_or_empty(column_name, "column_name!", self.op_id)
+        check_parameter_null_or_empty(label, "label", self.op_id)
+        check_parameter_null_or_empty(output, "output", self.op_id)
 
         # 3、映射转化
         rdd = df.rdd.map(lambda row: self.map_function(row, label, column_name))
@@ -80,7 +80,7 @@ class LabelFeatureToLibsvmOperator(DataProcessingOperator):
         type_feature = str(type(feature))
 
         if type(row[label]) != str and type(row[label]) != float and type(row[label]) != int :
-            raise ParameterException("the label column type must be a string or a number, but now is a "+str(type(row[label])))
+            raise ParameterException("the label column type must be a string or a number, but now is a "+str(type(row[label])+",opid:"+str(self.op_id)))
 
         if type_feature.find("pyspark.ml.linalg.SparseVector") != -1 or type_feature.find(
                 "pyspark.ml.linalg.DenseVector") != -1:
@@ -88,7 +88,7 @@ class LabelFeatureToLibsvmOperator(DataProcessingOperator):
         elif type_feature.find("mllib.linalg.SparseVector") == -1 and type_feature.find(
                 "mllib.linalg.DenseVector") == -1 and type_feature.find("list") == -1 and type_feature.find(
             'numpy.ndarray') == -1:
-            raise ParameterException("the input vector type is error,type:" + type_feature + ", opid" + self.op_id)
+            raise ParameterException("the input vector type is error,type:" + type_feature + ", opid" + str(self.op_id))
 
         pos = LabeledPoint(row[label], feature)
         str_libsvm = MLUtils._convert_labeled_point_to_libsvm(pos)

@@ -75,24 +75,24 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
     def handle(self, dataframe_list, spark):
         # 1、参数的解析与检测
         onehot_conf = self.conf.get("onehot_conf")
-        drop_last = bool_convert(self.conf.get("drop_last", True))
+        drop_last = bool_convert(self.conf.get("drop_last", True), self.op_id)
         handle_invalid = self.conf.get("handle_invalid", "keep")
         other_col_output = self.conf.get("other_col_output")
-        is_output_model = bool_convert(self.conf.get("is_output_model", True))
+        is_output_model = bool_convert(self.conf.get("is_output_model", True), self.op_id)
         if not other_col_output:
             other_col_output = []
         else:
-            other_col_output = str_convert_strlist(other_col_output)
+            other_col_output = str_convert_strlist(other_col_output, self.op_id)
 
-        check_parameter_null_or_empty(onehot_conf, "onehot_conf")
-        check_parameter_null_or_empty(handle_invalid, "handle_invalid")
+        check_parameter_null_or_empty(onehot_conf, "onehot_conf", self.op_id)
+        check_parameter_null_or_empty(handle_invalid, "handle_invalid", self.op_id)
 
         # 1.1、获得输入的表，和模型表
         df = dataframe_list[0]
-        check_dataframe(df)
+        check_dataframe(df, self.op_id)
         if len(dataframe_list) >= 2:
             input_modle = dataframe_list[1]
-            check_dataframe(input_modle)
+            check_dataframe(input_modle, self.op_id)
         else:
             input_modle = None
 
@@ -102,8 +102,8 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
             input_cols.append(conf[0])
             output_cols.append(conf[1])
 
-        check_parameter_null_or_empty(input_cols, "input_col")
-        check_parameter_null_or_empty(output_cols, "output_col")
+        check_parameter_null_or_empty(input_cols, "input_col", self.op_id)
+        check_parameter_null_or_empty(output_cols, "output_col", self.op_id)
 
         # 2、获得表的schema
         dtype = df.dtypes
@@ -113,7 +113,7 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
 
         # 3、StringIndex的编码
         if input_modle:
-            df, input_cols = string_index_from_model(input_cols, df, input_modle, col_type)
+            df, input_cols = self.string_index_from_model(input_cols, df, input_modle, col_type)
         else:
             for i, col in enumerate(input_cols):
                 if col_type[col] == 'string' or col_type[col] == 'double':
@@ -125,7 +125,7 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
         # 4、onehot encoder
         encoder = OneHotEncoderEstimator(inputCols=input_cols, outputCols=output_cols)
         if drop_last is not None:
-            drop_last = bool_convert(drop_last)
+            drop_last = bool_convert(drop_last, self.op_id)
             encoder.setDropLast(drop_last)
         if handle_invalid:
             encoder.setHandleInvalid(handle_invalid)
@@ -138,7 +138,7 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
             if input_modle:
                 output_model = input_modle
             else:
-                output_model = get_output_model(df, input_cols, spark)
+                output_model = self.get_output_model(df, input_cols, spark)
 
         # 6、获得输出表
         for name in encoded.columns:
@@ -148,68 +148,68 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
         return [encoded, output_model]
 
 
-def string_index_from_model(input_cols, df, modle, col_type):
-    '''
-    用模型表 对输入表进行StringIndex编码
-    :param input_cols: 编码的列名
-    :param df: dataframe
-    :param modle: 模型表
-    :param col_type: dataframe的schema
-    :return: df, input_cols
-    '''
-    if not input_cols or not df or not modle or not col_type:
-        msg = traceback.format_exc()
-        print(msg)
-        raise ParameterException("function:string_index_from_model, check parameter error")
+    def string_index_from_model(input_cols, df, modle, col_type):
+        '''
+        用模型表 对输入表进行StringIndex编码
+        :param input_cols: 编码的列名
+        :param df: dataframe
+        :param modle: 模型表
+        :param col_type: dataframe的schema
+        :return: df, input_cols
+        '''
+        if not input_cols or not df or not modle or not col_type:
+            msg = traceback.format_exc()
+            print(msg)
+            raise ParameterException("function:string_index_from_model, check parameter error,opid:"+str(self.op_id))
 
-    if modle.count() <= 0:
-        raise ParameterException("the input modle table is empty~")
+        if modle.count() <= 0:
+            raise ParameterException("the input modle table is empty~")
 
-    for i, input in enumerate(input_cols):
-        # 1、filter model
-        temp_modle = modle.filter(modle["col_name"] == input).select("col_value", "mapping")
-        if temp_modle and temp_modle.count() > 0:
-            # 2、col_value type cast
-            temp_modle = temp_modle.withColumn("col_value", temp_modle["col_value"].cast(col_type[input]))
-            # 3、 join, (add a mapping col)
-            df = df.join(temp_modle, df[input] == temp_modle["col_value"], "left").drop("col_value")
-            df = df.withColumnRenamed("mapping", input + "_arthur_index")
-            input_cols[i] = input + "_arthur_index"
-    return df, input_cols
+        for i, input in enumerate(input_cols):
+            # 1、filter model
+            temp_modle = modle.filter(modle["col_name"] == input).select("col_value", "mapping")
+            if temp_modle and temp_modle.count() > 0:
+                # 2、col_value type cast
+                temp_modle = temp_modle.withColumn("col_value", temp_modle["col_value"].cast(col_type[input]))
+                # 3、 join, (add a mapping col)
+                df = df.join(temp_modle, df[input] == temp_modle["col_value"], "left").drop("col_value")
+                df = df.withColumnRenamed("mapping", input + "_arthur_index")
+                input_cols[i] = input + "_arthur_index"
+        return df, input_cols
 
 
-def get_output_model(df, input_cols, spark):
-    '''
-    从dataframe中提取StringIndex的映射表
-    :param df: dataframe
-    :param input_cols: onehot编码的列
-    :param spark: SparkSession
-    :return: dataframe
-    '''
-    if not input_cols or not df or not spark:
-        msg = traceback.format_exc()
-        print(msg)
-        raise ParameterException("function:get_output_model, check parameter error")
+    def get_output_model(df, input_cols, spark):
+        '''
+        从dataframe中提取StringIndex的映射表
+        :param df: dataframe
+        :param input_cols: onehot编码的列
+        :param spark: SparkSession
+        :return: dataframe
+        '''
+        if not input_cols or not df or not spark:
+            msg = traceback.format_exc()
+            print(msg)
+            raise ParameterException("function:get_output_model, check parameter error")
 
-    # 1、构建模型表的schema
-    fields = []
-    fields.append(StructField("col_name", StringType(), True))
-    fields.append(StructField("col_value", StringType(), True))
-    fields.append(StructField("mapping", DoubleType(), True))
-    schema = StructType(fields)
+        # 1、构建模型表的schema
+        fields = []
+        fields.append(StructField("col_name", StringType(), True))
+        fields.append(StructField("col_value", StringType(), True))
+        fields.append(StructField("mapping", DoubleType(), True))
+        schema = StructType(fields)
 
-    # 2、组装模型表
-    model_list = []
-    for col in input_cols:
-        if "_arthur_index" in col:
-            col_name = col[:-13]
-            if col_name not in df.columns:
-                print("the df not have col_name: ", col_name)
-                continue
-            temp = df.select(col_name, col).distinct()
-            if not temp or temp.count == 0:
-                continue
-            for row in temp.collect():
-                model_list.append((col_name, str(row[col_name]), row[col]))
+        # 2、组装模型表
+        model_list = []
+        for col in input_cols:
+            if "_arthur_index" in col:
+                col_name = col[:-13]
+                if col_name not in df.columns:
+                    print("the df not have col_name: ", col_name)
+                    continue
+                temp = df.select(col_name, col).distinct()
+                if not temp or temp.count == 0:
+                    continue
+                for row in temp.collect():
+                    model_list.append((col_name, str(row[col_name]), row[col]))
 
-    return spark.createDataFrame(model_list, schema)
+        return spark.createDataFrame(model_list, schema)

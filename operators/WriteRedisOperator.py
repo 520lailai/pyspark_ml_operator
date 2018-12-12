@@ -32,8 +32,8 @@ class WriteRedisOperator(DataProcessingOperator):
         # 1、参数获取
         key = self.conf.get("key")
         # 2、参数检查
-        check_parameter_null_or_empty(key, "key")
-        check_dataframe(dataframe_list)
+        check_parameter_null_or_empty(key, "key", self.op_id)
+        check_dataframe(dataframe_list, self.op_id)
         # 3、写Redis
         for dataframe in dataframe_list:
             # 每一个row按照预定义的列顺序排序
