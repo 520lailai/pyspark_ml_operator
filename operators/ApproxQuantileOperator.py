@@ -55,6 +55,7 @@ class ApproxQuantileOperator(DataProcessingOperator):
         probabilities = str_convert_floatlist(probabilitie_str)
         relative_error = float_convert(relative_error)
         check_dataframe(df)
+        self.probabilities_check(probabilities)
 
         check_cols(input_cols, df.columns)
 

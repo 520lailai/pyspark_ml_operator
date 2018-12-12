@@ -55,7 +55,7 @@ class UnitTestOperators(unittest.TestCase):
              (4, "US", 12, 1.0)],
             ["id", "country", "hour", "clicked"])
 
-        self.assertEqual(case.sort(cols=["id"]).collect(), dataset_list[0].sort(cols=["id"]).collect())
+        self.assertEqual(case.sort(["id"]).collect(), dataset_list[0].sort(["id"]).collect())
 
         conf_read2 = {"db_name": None,
                       "table_name": "test1",
@@ -81,7 +81,7 @@ class UnitTestOperators(unittest.TestCase):
                        "limit_num": 100};
         operator = TableWriteOperator(op_id="123", op_type="readtable", conf=conf_write1, relation="", result_type="")
         dataframe_list = operator.handle([dataset], self.spark)
-        self.assertEqual(dataset.sort(cols=["id"]).collect(), dataframe_list[0].sort(cols=["id"]).collect())
+        self.assertEqual(dataset.sort(["id"]).collect(), dataframe_list[0].sort(["id"]).collect())
 
         # 2、测试读取的过程抛出异常
         conf_write2 = {"db_name": "lala",
@@ -122,7 +122,7 @@ class UnitTestOperators(unittest.TestCase):
 
         count = 0.0;
         # 1、测试数据的采样的比例是否合理
-        for i in range(1, 1000):
+        for i in range(1, 100):
             dataset_list = operator.handle([dataset], self.spark)
             count += dataset_list[0].count()
 
@@ -157,7 +157,7 @@ class UnitTestOperators(unittest.TestCase):
             ["id", "country", "hour", "clicked"])
 
         # 1、测试结果的正确性
-        self.assertEqual(dataset_list[0].sort(cols=["id"]).collect(), dataset_re.sort(cols=["id"]).collect())
+        self.assertEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
 
     def test_standardScalerOperator(self):
         conf = {"standard_scaler_conf": [["features", "scaled_features", "True", "False", "False"]]};
@@ -176,7 +176,7 @@ class UnitTestOperators(unittest.TestCase):
         ], ["id", "features", "scaled_features"])
 
         # 1、测试结果的正确性
-        self.assertEqual(dataset_list[0].sort(cols=["id"]).collect(), dataset_re.sort(cols =["id"]).collect())
+        self.assertEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
 
     def test_joinOperator(self):
         conf = {'join_columns': [['id1', 'id2'], ['country', 'country']],
@@ -208,7 +208,7 @@ class UnitTestOperators(unittest.TestCase):
             ["id1", "country1", "hour1", "id2", "country2", "hour2"])
 
         # 1、测试结果的正确性
-        self.assertEqual(dataset_list[0].sort(cols=["id"]).collect(), dataset_re.sort(cols=["id"]).collect())
+        self.assertEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
 
     def test_splitOperator(self):
         conf = {"left_weight": "0.2",
@@ -240,7 +240,7 @@ class UnitTestOperators(unittest.TestCase):
 
         left_count = 0.0;
         right_count = 0.0;
-        for i in range(1, 1000):
+        for i in range(1, 100):
             dataset_list = operator.handle([dataset], self.spark)
             left_count += dataset_list[0].count()
             right_count += dataset_list[1].count()
@@ -274,7 +274,7 @@ class UnitTestOperators(unittest.TestCase):
             ["id", "country", "scaled_hour", "clicked", "scaled_clicked"])
 
         # 1、测试结果的正确性
-        self.assertEqual(dataset_list[0].sort(cols=["id"]).collect(), dataset_re.sort(cols=["id"]).collect())
+        self.assertEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
 
     def test_bucketizerOperator(self):
         conf = {"bucketizer_conf": [["isometric_discretization", "100", "features", "features_bucketed", "True"]]}
@@ -293,7 +293,7 @@ class UnitTestOperators(unittest.TestCase):
             ["features", "features_bucketed"])
 
         # 1、测试结果的正确性
-        self.assertEqual(dataset_list[0].sort(cols=["features"]).collect(), dataset_re.sort(cols=["features"]).collect())
+        self.assertEqual(dataset_list[0].sort(["features"]).collect(), dataset_re.sort(["features"]).collect())
 
     def test_featureExceptionSmoothOperator(self):
         conf = {"smooth_conf": [["hour", "7", "15"], ["clicked", "10", "50"]]};
@@ -317,7 +317,7 @@ class UnitTestOperators(unittest.TestCase):
 
         dataset_list = operator.handle([dataset], self.spark)
         # 1、测试结果的正确性
-        self.assertEqual(dataset_list[0].sort(cols = ["id"]).collect(), dataset_re.sort(cols = ["id"]).collect())
+        self.assertEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
 
     def test_oneHotEncoderEstimatorOperator(self):
         conf = {"onehot_conf": [["country", "country_onehot"], ["hour", "hour-onehot"], ["score", "score-onehot"]],
@@ -359,9 +359,9 @@ class UnitTestOperators(unittest.TestCase):
 
         # 1、测试结果的正确性
         dataset_list = operator.handle([dataset], self.spark)
-        self.assertEqual(dataset_list[0].sort(cols = ["id"]).collect(), dataset_re.sort(cols =["id"]).collect())
-        self.assertEqual(dataset_list[1].sort(cols= ["col_name", "col_value"]).collect(),
-                         mapping_re.sort(cols=["col_name", "col_value"]).collect())
+        self.assertEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
+        self.assertEqual(dataset_list[1].sort(["col_name", "col_value"]).collect(),
+                         mapping_re.sort(["col_name", "col_value"]).collect())
 
         return dataset_list
 
@@ -405,8 +405,8 @@ class UnitTestOperators(unittest.TestCase):
             ["id", "clicked", "country_onehot", "hour-onehot", "score-onehot"])
 
         # 1、测试结果的正确性
-        self.assertNotEqual(dataset_list[0].sort(cols =["id"]).collect(), dataset_re.sort(cols =["id"]).collect())
-        self.assertNotEqual(dataset_list[1].sort(cols =["col_name","col_value"]).collect(), modle.sort(cols =["col_name","col_value"]).collect())
+        self.assertNotEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
+        self.assertNotEqual(dataset_list[1].sort(["col_name","col_value"]).collect(), modle.sort(["col_name","col_value"]).collect())
 
     def test_approxQuantileOperator(self):
         conf = {"input_cols": "hour, clicked",
@@ -454,7 +454,7 @@ class UnitTestOperators(unittest.TestCase):
 
         dataset_list = operator.handle([dataset], self.spark)
         # 1、测试结果的正确性
-        self.assertEqual(dataset_list[0].sort(cols=["summary"]).collect(), dataset_re.sort(cols=["summary"]).collect())
+        self.assertEqual(dataset_list[0].sort(["summary"]).collect(), dataset_re.sort(["summary"]).collect())
 
     def test_applyQuerySqlOperator(self):
         print("-------------14、testApplySqlOperator")
@@ -476,7 +476,7 @@ class UnitTestOperators(unittest.TestCase):
             ["id", "country", "hour", "clicked"])
 
         # 1、测试结果的正确性
-        self.assertEqual(dataset_list[0].sort(cols=["id"]).collect(), dataset_re.sort(cols=["id"]).collect())
+        self.assertEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
 
     def test_selectOperator(self):
         conf = {"column_names": ["country", "clicked"],
@@ -495,7 +495,7 @@ class UnitTestOperators(unittest.TestCase):
             ["country", "clicked"])
 
         # 1、测试结果的正确性
-        self.assertEqual(dataset_list[0].sort(cols=["country"]).collect(), dataset_re.sort(cols=["country"]).collect())
+        self.assertEqual(dataset_list[0].sort(["country"]).collect(), dataset_re.sort(["country"]).collect())
 
     def test_normalizedOperator(self):
         conf = {"normalize_scaler_conf": [["hour", "scaler_hour", "0", "1", "False"],
@@ -518,7 +518,7 @@ class UnitTestOperators(unittest.TestCase):
             ["id", "country", "hour", "clicked", "fetaure", "scaler_hour", "scaler_clicked", "scaler_fetaure"])
 
         # 1、测试结果的正确性
-        self.assertEqual(dataset_list[0].sort(cols=["id"]).collect(), dataset_re.sort(cols=["id"]).collect())
+        self.assertEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
 
     def test_labelFeatureToLibsvm(self):
         conf = {"column_name": "clicked",
@@ -541,7 +541,7 @@ class UnitTestOperators(unittest.TestCase):
             ["label_libsvm_clicked"])
 
         # 1、测试结果的正确性
-        self.assertEqual(dataset_list[0].sort(cols=["label_libsvm_clicked"]).collect(), dataset_re.sort(cols=["label_libsvm_clicked"]).collect())
+        self.assertEqual(dataset_list[0].sort(["label_libsvm_clicked"]).collect(), dataset_re.sort(["label_libsvm_clicked"]).collect())
 
     def test_VectorAssemblerOperator(self):
         conf = {"column_names": ["hour", "clicked"],
@@ -559,7 +559,7 @@ class UnitTestOperators(unittest.TestCase):
              (3, "NZ", 15, Vectors.dense(3.0, 2.6, 6.3), Vectors.dense(15.0, 3.0, 2.6, 6.3))],
             ["id", "country", "hour", "clicked", "label_libsvm_clicked"])
         # 1、测试结果的正确性
-        self.assertEqual(dataset_list[0].sort(cols=["id"]).collect(), dataset_re.sort(cols=["id"]).collect())
+        self.assertEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
 
     def test_writeRedisOperator(self):
         conf = {"key": ""}
@@ -572,13 +572,22 @@ class UnitTestOperators(unittest.TestCase):
         # 1、测试读取的过程抛出异常
         with self.assertRaises(ParameterException):
             operator.handle([dataset], self.spark)
+
         # 2、测试写数据
         conf = {"key": "test_redis_key"}
         operator = WriteRedisOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
         operator.handle([dataset], self.spark)
 
-        data = json.dumps(dataset.collect(), cls=ExtendJSONEncoder)
+        keyorder = dataset.columns
+        rows = []
+        for row in dataset.collect():
+            row_dict = row.asDict(True)
+            sorted(row_dict.items(), key=lambda i: keyorder.index(i[0]))
+            rows.append(row_dict)
+        data = json.dumps(rows, cls=ExtendJSONEncoder)
+
         data_r = RedisUtils.read_redis("test_redis_key")
+
         self.assertEqual(data, data_r)
 
 

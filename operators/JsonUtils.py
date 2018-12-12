@@ -1,12 +1,13 @@
+# -*- coding: utf-8 -*-
 import json
 from datetime import datetime
 from decimal import Decimal
-from functools import singledispatch
 from pyspark.mllib.linalg import Vector as MllibVector
 from pyspark.ml.linalg import Vector as MlVector
 from pyspark.ml.linalg import Matrix as MlMatrix
 from pyspark.ml.linalg import Matrix as MllibMatrix
 from pyspark.mllib.linalg import Matrix as MlMatrix
+from pyspark.sql.types import Row
 
 """
 功能： 当dataframe被转化为json存入Redis中的时候，对于很多特征类型无法转化，所以需要自定义转化器。
@@ -27,6 +28,8 @@ json.dumps(data, cls=ExtendJSONEncoder)
 
 class ExtendJSONEncoder(json.JSONEncoder):
     def default(self, obj):
+        if isinstance(obj, Row):
+            return obj.asDict()
         if isinstance(obj, Decimal):
             return float(obj)
         if isinstance(obj, datetime):

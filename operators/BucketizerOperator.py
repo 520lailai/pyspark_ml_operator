@@ -3,24 +3,28 @@ from DataProcessingOperator import DataProcessingOperator
 from pyspark.ml.feature import Bucketizer
 from OperatorsParameterParseUtils import *
 from pyspark.ml.feature import QuantileDiscretizer
+from pyspark.sql.functions import lit
 
 """ 
     模块功能： 特征离散分箱，将列值分段处理 将连续数值 转换为离散类别。
         目前支持离散的类型：
-        等距离散:   isometric_discretization
-        等频离散:   isofrequecy_discretization
-        自定义离散:  custom_discretization
+        (1)等距离散:   isometric_discretization
+        需要指定一个离散的值：float数字，表示每个桶的边界大小。
+        如果桶的边界大小设置得过大，则会把所有的数据全部放进一个桶里。
         
-        当选择 isometric_discretization  需要指定一个离散的值：float数字， 表示每个桶的边界距离大小。
-        当选择 isofrequecy_discretization 需要指定一个离散的值：float数字，表示每个桶的频率数。
-        当选择 custom_bucketize 需要输入一个List[float] ，表示分裂点。
+        (2)等频离散:   isofrequecy_discretization
+        需要指定一个离散的值：float数字，表示每个桶的数据量。
+        如果每个桶的数据量设置得过大，则会把所有的数据全部放进一个桶里。
+        
+        (3)自定义离散:  custom_discretization
+        需要输入一个List[float]，表示分裂点。
         
         自定义离散注意点：
         list[float] 分裂点列表：分箱数为n+1时，将产生n个区间。
         ex:
         split = [x, y, z] 将产生区间范围为[x,y) 和 [y,z]两个分箱，最后一个分箱包含z.
-        分箱必须是严格递增的, 例如: s0 < s1 < s2 < ... < sn 分裂点必须大于3个，
-        当不确定分裂的上下边界时，应当添加-inf和inf.以涵盖float的所有值,
+        分箱必须是严格递增的, 例如: s0 < s1 < s2 < ... < sn，分裂点一般必须大于3个，
+        当不确定分裂的上下边界时，应当添加-inf和inf 以涵盖float的所有值,
         否则，指定的分裂点之外的值将被视为错误值。
         
     conf 参数：
@@ -78,46 +82,67 @@ class BucketizerOperator(DataProcessingOperator):
         for conf in bucketizer_conf:
             if len(conf) < 5:
                 raise ParameterException("the parameter must more than 5!")
-
             splits_type = conf[0]
             split = str_convert_floatlist(conf[1])
             input_col = conf[2]
             output_col = conf[3]
             is_drop_input = bool_convert(conf[4])
-
+            # 判空
             check_parameter_null_or_empty(splits_type, "splits_type")
             check_parameter_null_or_empty(split, "split")
             check_parameter_null_or_empty(input_col, "input_col")
             check_parameter_null_or_empty(output_col, "output_col")
+            # 判列是否正确
+            check_cols([input_col], df.columns)
 
+            # 等频离散
             if splits_type == "isofrequecy_discretization":
-                if split == 0:
-                    raise ParameterException("the parameter split is equals to 0 !")
-                num_bucket = df.count() / split
-                if num_bucket <= 0:
-                    num_bucket = 1
-                discretizer = QuantileDiscretizer(numBuckets=num_bucket, inputCol=input_col, outputCol=output_col)
-                df = discretizer.fit(df).transform(df)
+                frequecy = split[0]
+                if frequecy <= 0:
+                    raise ParameterException("the parameter split(frequecy) must bigger than 0!")
+                num_bucket = df.count() / frequecy
+                if num_bucket <= 1:
+                    df = df.withColumn(output_col, lit(0))
+                else :
+                    df = quantile_discretizer(df, num_bucket, input_col, output_col)
+            # 等距离散,自定义离散
             else:
                 if splits_type == "isometric_discretization":
                     distance = split[0]
+                    if distance <= 0:
+                        raise ParameterException("the parameter split(distance) must bigger than 0!")
                     max_value = df.agg({input_col: "max"}).collect()[0][0]
                     min_value = df.agg({input_col: "min"}).collect()[0][0]
                     split = get_bucket_splits(max_value, min_value, distance)
+
                 check_split(split)
-                bucketizer = Bucketizer(splits=split, inputCol=input_col, outputCol=output_col)
-                df = bucketizer.transform(df)
+                if len(split) >= 3:
+                    df = bucketizer_discretizer(df, split, input_col, output_col)
+                elif len(split) == 2:
+                    df = df.withColumn(output_col, lit(0))
+                else :
+                    raise ParameterException("the length of parameter：split must greater than 1")
 
             if is_drop_input:
                 df.drop(input_col)
         return [df]
 
 
+def bucketizer_discretizer(df, split, input_col, output_col):
+    bucketizer = Bucketizer(splits=split, inputCol=input_col, outputCol=output_col)
+    df = bucketizer.transform(df)
+    return df
+
+def quantile_discretizer(df, num_bucket, input_col, output_col):
+    discretizer = QuantileDiscretizer(numBuckets=num_bucket, inputCol=input_col, outputCol=output_col)
+    df = discretizer.fit(df).transform(df)
+    return df
+
 def check_split(split):
     if not split:
         raise ParameterException("the parameter：split is null or empty")
     if type(split) != list:
-        raise ParameterException("the length of parameter：split must greater than 3")
+        raise ParameterException("the parameter：split must be a list type")
     for i in range(1, len(split) - 1):
         if split[i] <= split[i - 1]:
             raise ParameterException("the parameter：split must Strictly increasing, ex: s0 < s1 < s2 < ... < sn")
@@ -138,5 +163,6 @@ def get_bucket_splits(max_value, min_value, distance):
     while temp < max_value:
         splits.append(temp)
         temp += distance
+
     splits.append(temp)
     return splits

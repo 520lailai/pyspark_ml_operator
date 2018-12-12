@@ -41,7 +41,7 @@ from OperatorsParameterParseUtils import *
 
 
 class FeatureExceptionSmoothOperator(DataProcessingOperator):
-    support_type = ["bigint", "smallint", "int", "tinyint", "double", "float"]
+    support_type = ["bigint", "smallint", "int", "tinyint", "double", "float", "numeric"]
 
     def handle(self, dataframe_list, spark):
         # 1、参数获取
