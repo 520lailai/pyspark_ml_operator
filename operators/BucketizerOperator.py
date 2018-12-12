@@ -6,7 +6,7 @@ from pyspark.ml.feature import QuantileDiscretizer
 from pyspark.sql.functions import lit
 
 """ 
-    模块功能： 特征离散分箱，将列值分段处理 将连续数值 转换为离散类别。
+    模块功能： 特征离散分箱，将数值类型的列值分段处理 将连续数值 转换为离散类别。
         目前支持离散的类型：
         (1)等距离散:   isometric_discretization
         需要指定一个离散的值：float数字，表示每个桶的边界大小。

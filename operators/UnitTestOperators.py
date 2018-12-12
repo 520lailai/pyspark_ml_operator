@@ -333,15 +333,15 @@ class UnitTestOperators(unittest.TestCase):
             [(1, "China", 18, 1.5, 2),
              (2, "America", 12, 0.0, 4),
              (3, "Brazil", 5, 0.5, 5),
-             (4, "united kiongdom ", 4, 6.7, 9),
+             (4, "united kiongdom", 4, 6.7, 9),
              (5, "Vietnam", 15, 0.0, 5)],
             ["id", "country", "hour", "score", "clicked"])
 
         dataset_re = self.spark.createDataFrame(
             [(1, 2, Vectors.sparse(6, [0], [1.0]), Vectors.sparse(19, [18], [1.0]), Vectors.sparse(5, [2], [1.0])),
              (2, 4, Vectors.sparse(6, [4], [1.0]), Vectors.sparse(19, [12], [1.0]), Vectors.sparse(5, [0], [1.0])),
-             (3, 5, Vectors.sparse(6, [2], [1.0]), Vectors.sparse(19, [5], [1.0]), Vectors.sparse(5, [1], [1.0])),
-             (4, 9, Vectors.sparse(6, [1], [1.0]), Vectors.sparse(19, [4], [1.0]), Vectors.sparse(5, [3], [1.0])),
+             (3, 5, Vectors.sparse(6, [2], [1.0]), Vectors.sparse(19, [5], [1.0]),  Vectors.sparse(5, [1], [1.0])),
+             (4, 9, Vectors.sparse(6, [1], [1.0]), Vectors.sparse(19, [4], [1.0]),  Vectors.sparse(5, [3], [1.0])),
              (5, 5, Vectors.sparse(6, [3], [1.0]), Vectors.sparse(19, [15], [1.0]), Vectors.sparse(5, [0], [1.0]))],
             ["id", "clicked", "country_onehot", "hour-onehot", "score-onehot"])
 
@@ -378,7 +378,7 @@ class UnitTestOperators(unittest.TestCase):
             [(1, "China", 18, 1.5, 2),
              (2, "America", 12, 0.0, 4),
              (3, "Brazil", 5, 0.5, 5),
-             (4, "united kiongdom ", 4, 6.7, 9),
+             (4, "united kiongdom", 4, 6.7, 9),
              (5, "Vietnam", 15, 0.0, 5)],
             ["id", "country", "hour", "score", "clicked"])
 
@@ -399,8 +399,8 @@ class UnitTestOperators(unittest.TestCase):
         dataset_re = self.spark.createDataFrame(
             [(1, 2, Vectors.sparse(6, [0], [1.0]), Vectors.sparse(19, [18], [1.0]), Vectors.sparse(5, [2], [1.0])),
              (2, 4, Vectors.sparse(6, [4], [1.0]), Vectors.sparse(19, [12], [1.0]), Vectors.sparse(5, [0], [1.0])),
-             (3, 5, Vectors.sparse(6, [2], [1.0]), Vectors.sparse(19, [5], [1.0]), Vectors.sparse(5, [1], [1.0])),
-             (4, 9, Vectors.sparse(6, [1], [1.0]), Vectors.sparse(19, [4], [1.0]), Vectors.sparse(5, [3], [1.0])),
+             (3, 5, Vectors.sparse(6, [2], [1.0]), Vectors.sparse(19, [5], [1.0]),  Vectors.sparse(5, [1], [1.0])),
+             (4, 9, Vectors.sparse(6, [1], [1.0]), Vectors.sparse(19, [4], [1.0]),  Vectors.sparse(5, [3], [1.0])),
              (5, 5, Vectors.sparse(6, [3], [1.0]), Vectors.sparse(19, [15], [1.0]), Vectors.sparse(5, [0], [1.0]))],
             ["id", "clicked", "country_onehot", "hour-onehot", "score-onehot"])
 

@@ -4,7 +4,7 @@ from pyspark.sql.functions import when
 from OperatorsParameterParseUtils import *
 
 """ 
-    模块功能： 用户指定某些列，将该列中分布在[minThresh, maxThresh]之外的数据
+    模块功能： 用户指定数值类型的某些列，将该列中分布在[minThresh, maxThresh]之外的数据
     平滑到minThresh和maxThresh这两个数据点之内。
     
     conf 参数：

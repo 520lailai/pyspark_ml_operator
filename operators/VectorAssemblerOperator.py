@@ -5,7 +5,7 @@ from OperatorsParameterParseUtils import *
 from DataProcessingOperator import DataProcessingOperator
 
 """  
-    模块功能： 对部分列的数据合并转换为一个特征向量，并统一命名。
+    模块功能： 对部分数值类型的列的数据合并转换为一个特征向量，并统一命名。
     conf 参数：
        "column_names": List[String],聚合列名  ex:  ["id1","hour1","clicked1"]
        "output": String, 输出列名

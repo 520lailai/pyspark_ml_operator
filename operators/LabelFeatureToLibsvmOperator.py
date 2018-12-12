@@ -9,6 +9,8 @@ from pyspark.mllib.linalg import Vectors as MLLibVectors
 
 """ 
     模块功能：将带有标签的数据转换成libsvm 格式
+    label：数值类型
+    feature：向量类型
     假设有一个dataframe有两列 ["label", "features"]
     其中features是向量类型。
     算子的作用 ：把dataframe的数据 转换成libsvm 格式。
