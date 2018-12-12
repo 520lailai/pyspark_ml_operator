@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from OperatorsParameterParseUtils import *
+from tools.OperatorsParameterParseUtils import *
 from DataProcessingOperator import DataProcessingOperator
 
 ''' 

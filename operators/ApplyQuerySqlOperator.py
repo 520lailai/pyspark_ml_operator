@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from DataProcessingOperator import DataProcessingOperator
-from OperatorsParameterParseUtils import *
+from tools.OperatorsParameterParseUtils import *
 
 """ 
     模块功能： 运行用户自定义查询sql

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from DataProcessingOperator import DataProcessingOperator
-from OperatorsParameterParseUtils import *
-from WriteRedisOperator import WriteRedisOperator
+from tools.OperatorsParameterParseUtils import *
 
 """  
     模块功能： 全表的简单统计, 指定某些列，展示这些列的一些列的5个统计信息。 

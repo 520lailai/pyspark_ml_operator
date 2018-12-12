@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-from pyspark.ml.linalg import Vectors
 from pyspark.ml.feature import VectorAssembler
-from OperatorsParameterParseUtils import *
+from tools.OperatorsParameterParseUtils import *
 from DataProcessingOperator import DataProcessingOperator
 
 """  

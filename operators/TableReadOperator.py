@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from DataProcessingOperator import DataProcessingOperator
-from OperatorsParameterParseUtils import *
+from tools.OperatorsParameterParseUtils import *
 
 """  
     模块功能： 读取数据算子

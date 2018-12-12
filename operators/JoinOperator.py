@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from DataProcessingOperator import DataProcessingOperator
-from OperatorsParameterParseUtils import *
+from tools.OperatorsParameterParseUtils import *
 
 """ 
     模块功能： 实现两个表之间join
@@ -85,8 +85,9 @@ class JoinOperator(DataProcessingOperator):
         # 2、左表的提取字段
         left_columns_dict = {}
         if select_left_columns:
+            left_col = df1.column
             for col in select_left_columns:
-                check_cols([col[0]], df1.columns)
+                check_cols([col[0]], left_col)
                 left_columns_dict[col[0]] = col[1]
                 df1 = df1.withColumnRenamed(col[0], col[1])
                 select_colums_list.append(df1[col[1]])
@@ -98,8 +99,9 @@ class JoinOperator(DataProcessingOperator):
         # 3、右表的提取字段
         right_columns_dict = {}
         if select_right_columns:
+            right_col = df2.column
             for col in select_right_columns:
-                check_cols([col[0]], df2.columns)
+                check_cols([col[0]], right_col)
                 right_columns_dict[col[0]] = col[1]
                 df2 = df2.withColumnRenamed(col[0], col[1])
                 select_colums_list.append(df2[col[1]])
