@@ -208,7 +208,7 @@ class UnitTestOperators(unittest.TestCase):
             ["id1", "country1", "hour1", "id2", "country2", "hour2"])
 
         # 1、测试结果的正确性
-        self.assertEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
+        self.assertEqual(dataset_list[0].sort(["id1"]).collect(), dataset_re.sort(["id1"]).collect())
 
     def test_splitOperator(self):
         conf = {"left_weight": "0.2",
@@ -406,7 +406,8 @@ class UnitTestOperators(unittest.TestCase):
 
         # 1、测试结果的正确性
         self.assertNotEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
-        self.assertNotEqual(dataset_list[1].sort(["col_name","col_value"]).collect(), modle.sort(["col_name","col_value"]).collect())
+        self.assertNotEqual(dataset_list[1].sort(["col_name", "col_value"]).collect(),
+                            modle.sort(["col_name", "col_value"]).collect())
 
     def test_approxQuantileOperator(self):
         conf = {"input_cols": "hour, clicked",
@@ -541,7 +542,8 @@ class UnitTestOperators(unittest.TestCase):
             ["label_libsvm_clicked"])
 
         # 1、测试结果的正确性
-        self.assertEqual(dataset_list[0].sort(["label_libsvm_clicked"]).collect(), dataset_re.sort(["label_libsvm_clicked"]).collect())
+        self.assertEqual(dataset_list[0].sort(["label_libsvm_clicked"]).collect(),
+                         dataset_re.sort(["label_libsvm_clicked"]).collect())
 
     def test_VectorAssemblerOperator(self):
         conf = {"column_names": ["hour", "clicked"],
@@ -569,6 +571,7 @@ class UnitTestOperators(unittest.TestCase):
              (2, "CA", 12, Vectors.dense(2.0, 1.3, 7.1)),
              (3, "NZ", 15, Vectors.dense(3.0, 2.6, 6.3))],
             ["id", "country", "hour", "clicked"])
+
         # 1、测试读取的过程抛出异常
         with self.assertRaises(ParameterException):
             operator.handle([dataset], self.spark)

@@ -86,6 +86,7 @@ class JoinOperator(DataProcessingOperator):
         left_columns_dict = {}
         if select_left_columns:
             for col in select_left_columns:
+                check_cols([col[0]], df1.columns)
                 left_columns_dict[col[0]] = col[1]
                 df1 = df1.withColumnRenamed(col[0], col[1])
                 select_colums_list.append(df1[col[1]])
@@ -98,6 +99,7 @@ class JoinOperator(DataProcessingOperator):
         right_columns_dict = {}
         if select_right_columns:
             for col in select_right_columns:
+                check_cols([col[0]], df1.columns)
                 right_columns_dict[col[0]] = col[1]
                 df2 = df2.withColumnRenamed(col[0], col[1])
                 select_colums_list.append(df2[col[1]])
@@ -109,6 +111,8 @@ class JoinOperator(DataProcessingOperator):
         # 4、拼接join表达式
         express_list = []
         for two_colums in join_columns:
+            check_cols([two_colums[0]], df1.columns)
+            check_cols([two_colums[1]], df1.columns)
             express_list.append(df1[left_columns_dict[two_colums[0]]] == df2[right_columns_dict[two_colums[1]]])
 
         # 5、join操作

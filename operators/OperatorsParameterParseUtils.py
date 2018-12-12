@@ -81,7 +81,7 @@ def check_cols(select_col, cols):
 
     for name in select_col:
         if name not in cols:
-            raise ParameterException("the dataframe does not have this column name")
+            raise ParameterException("the dataframe does not have this column name:"+str(name))
 
 
 # "name, sex, id"
