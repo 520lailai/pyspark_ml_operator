@@ -99,7 +99,7 @@ class JoinOperator(DataProcessingOperator):
         right_columns_dict = {}
         if select_right_columns:
             for col in select_right_columns:
-                check_cols([col[0]], df1.columns)
+                check_cols([col[0]], df2.columns)
                 right_columns_dict[col[0]] = col[1]
                 df2 = df2.withColumnRenamed(col[0], col[1])
                 select_colums_list.append(df2[col[1]])

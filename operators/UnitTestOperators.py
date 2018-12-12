@@ -61,6 +61,7 @@ class UnitTestOperators(unittest.TestCase):
                       "table_name": "test1",
                       "limit": "2",
                       "partition_val": None};
+
         operator = TableReadOperator(op_id="123", op_type="readtable", conf=conf_read2, relation="", result_type="")
 
         # 2、测试读取的过程抛出异常
@@ -366,19 +367,20 @@ class UnitTestOperators(unittest.TestCase):
         return dataset_list
 
     def test_oneHotEncoderEstimatorOperator2(self):
-        conf = {"onehot_conf": [["country", "country_onehot"], ["hour", "hour-onehot"], ["score", "score-onehot"]],
+        conf = {"onehot_conf": [["country","country_onehot"],["hour", "hour-onehot"],["score","score-onehot"]],
                 "drop_last": True,
                 "handle_invalid": "keep",
                 "other_col_output": ["id", "clicked"],
                 "is_output_model": True,
                 };
-        operator = OneHotEncoderEstimatorOperator(op_id="123", op_type="readtable", conf=conf, relation="",
-                                                  result_type="")
+        
+        operator = OneHotEncoderEstimatorOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
+
         dataset = self.spark.createDataFrame(
             [(1, "China", 18, 1.5, 2),
              (2, "America", 12, 0.0, 4),
              (3, "Brazil", 5, 0.5, 5),
-             (4, "united kiongdom", 4, 6.7, 9),
+             (4, "united kiongdom ", 4, 6.7, 9),
              (5, "Vietnam", 15, 0.0, 5)],
             ["id", "country", "hour", "score", "clicked"])
 
