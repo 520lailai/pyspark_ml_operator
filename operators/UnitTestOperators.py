@@ -341,8 +341,8 @@ class UnitTestOperators(unittest.TestCase):
         dataset_re = self.spark.createDataFrame(
             [(1, 2, Vectors.sparse(6, [0], [1.0]), Vectors.sparse(19, [18], [1.0]), Vectors.sparse(5, [2], [1.0])),
              (2, 4, Vectors.sparse(6, [4], [1.0]), Vectors.sparse(19, [12], [1.0]), Vectors.sparse(5, [0], [1.0])),
-             (3, 5, Vectors.sparse(6, [2], [1.0]), Vectors.sparse(19, [5], [1.0]),  Vectors.sparse(5, [1], [1.0])),
-             (4, 9, Vectors.sparse(6, [1], [1.0]), Vectors.sparse(19, [4], [1.0]),  Vectors.sparse(5, [3], [1.0])),
+             (3, 5, Vectors.sparse(6, [2], [1.0]), Vectors.sparse(19, [5], [1.0]), Vectors.sparse(5, [1], [1.0])),
+             (4, 9, Vectors.sparse(6, [1], [1.0]), Vectors.sparse(19, [4], [1.0]), Vectors.sparse(5, [3], [1.0])),
              (5, 5, Vectors.sparse(6, [3], [1.0]), Vectors.sparse(19, [15], [1.0]), Vectors.sparse(5, [0], [1.0]))],
             ["id", "clicked", "country_onehot", "hour-onehot", "score-onehot"])
 
@@ -367,13 +367,14 @@ class UnitTestOperators(unittest.TestCase):
         return dataset_list
 
     def test_oneHotEncoderEstimatorOperator2(self):
-        conf = {"onehot_conf": [["country","country_onehot"],["hour", "hour-onehot"],["score","score-onehot"]],
+        conf = {"onehot_conf": [["country", "country_onehot"], ["hour", "hour-onehot"], ["score", "score-onehot"]],
                 "drop_last": True,
                 "handle_invalid": "keep",
                 "other_col_output": ["id", "clicked"],
                 "is_output_model": True,
                 };
-        operator = OneHotEncoderEstimatorOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
+        operator = OneHotEncoderEstimatorOperator(op_id="123", op_type="readtable", conf=conf, relation="",
+                                                  result_type="")
         dataset = self.spark.createDataFrame(
             [(1, "China", 18, 1.5, 2),
              (2, "America", 12, 0.0, 4),
@@ -399,17 +400,16 @@ class UnitTestOperators(unittest.TestCase):
         dataset_re = self.spark.createDataFrame(
             [(1, 2, Vectors.sparse(6, [0], [1.0]), Vectors.sparse(19, [18], [1.0]), Vectors.sparse(5, [2], [1.0])),
              (2, 4, Vectors.sparse(6, [4], [1.0]), Vectors.sparse(19, [12], [1.0]), Vectors.sparse(5, [0], [1.0])),
-             (3, 5, Vectors.sparse(6, [2], [1.0]), Vectors.sparse(19, [5], [1.0]),  Vectors.sparse(5, [1], [1.0])),
-             (4, 9, Vectors.sparse(6, [1], [1.0]), Vectors.sparse(19, [4], [1.0]),  Vectors.sparse(5, [3], [1.0])),
+             (3, 5, Vectors.sparse(6, [2], [1.0]), Vectors.sparse(19, [5], [1.0]), Vectors.sparse(5, [1], [1.0])),
+             (4, 9, Vectors.sparse(6, [1], [1.0]), Vectors.sparse(19, [4], [1.0]), Vectors.sparse(5, [3], [1.0])),
              (5, 5, Vectors.sparse(6, [3], [1.0]), Vectors.sparse(19, [15], [1.0]), Vectors.sparse(5, [0], [1.0]))],
             ["id", "clicked", "country_onehot", "hour-onehot", "score-onehot"])
 
         dataset_list[0].show()
         dataset_list[1].show()
         # 1、测试结果的正确性
-        #self.assertNotEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
-        #self.assertNotEqual(dataset_list[1].sort(["col_name", "col_value"]).collect(),
-                            modle.sort(["col_name", "col_value"]).collect())
+        # self.assertNotEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
+        # self.assertNotEqual(dataset_list[1].sort(["col_name", "col_value"]).collect(),modle.sort(["col_name", "col_value"]).collect())
 
     def test_approxQuantileOperator(self):
         conf = {"input_cols": "hour, clicked",
