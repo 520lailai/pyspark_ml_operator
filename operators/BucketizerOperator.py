@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from DataProcessingOperator import DataProcessingOperator
 from pyspark.ml.feature import Bucketizer
-from tools.OperatorsParameterParseUtils import *
 from pyspark.ml.feature import QuantileDiscretizer
 from pyspark.sql.functions import lit
+from tools.OperatorsParameterParseUtils import *
 
 """ 
     模块功能： 特征离散分箱，将数值类型的列值分段处理 将连续数值 转换为离散类别。

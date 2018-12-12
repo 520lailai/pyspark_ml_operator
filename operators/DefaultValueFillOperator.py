@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from tools.OperatorsParameterParseUtils import *
 from DataProcessingOperator import DataProcessingOperator
+from tools.OperatorsParameterParseUtils import *
 
 ''' 
     模块功能： 对于指定列中包含None的值进行指定值的填充

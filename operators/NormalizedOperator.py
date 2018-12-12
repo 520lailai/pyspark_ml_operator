@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from DataProcessingOperator import DataProcessingOperator
-from tools.OperatorsParameterParseUtils import *
 from pyspark.sql.functions import col
 from pyspark.ml.feature import MinMaxScaler
+from tools.OperatorsParameterParseUtils import *
 
 """ 
     模块功能：将每一维特征线性地映射到指定的区间[最小值，最大值]，通常可能是[0, 1]

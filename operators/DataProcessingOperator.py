@@ -1,6 +1,7 @@
 import collections
 from abc import abstractmethod
 from Operator import Operator
+from tools.OperatorsParameterParseUtils import *
 
 
 class DataProcessingOperator(Operator):

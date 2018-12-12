@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from tools.OperatorsParameterParseUtils import *
 from DataProcessingOperator import DataProcessingOperator
 from pyspark.sql.types import *
 from pyspark.sql import Row
 from pyspark.mllib.regression import LabeledPoint
 from pyspark.mllib.util import MLUtils
 from pyspark.mllib.linalg import Vectors as MLLibVectors
+from tools.OperatorsParameterParseUtils import *
 
 """ 
     模块功能：将带有标签的数据转换成libsvm 格式

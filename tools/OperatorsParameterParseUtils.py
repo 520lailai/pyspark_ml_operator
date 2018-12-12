@@ -188,3 +188,7 @@ def convert_cols_parameter(fields, col_name_value):
 class ParameterException(BaseException):
     def __init__(self, mesg=""):
         print(mesg)
+class InputColumnTypeException(BaseException):
+    def __init__(self, mesg=""):
+        print(mesg)
+

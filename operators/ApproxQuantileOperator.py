@@ -42,6 +42,7 @@ from tools.OperatorsParameterParseUtils import *
 
 
 class ApproxQuantileOperator(DataProcessingOperator):
+    support_type = ["bigint", "smallint", "int", "tinyint", "double", "float", "numeric"]
 
     def handle(self, dataframe_list, spark):
         # 1、参数获取
@@ -58,6 +59,7 @@ class ApproxQuantileOperator(DataProcessingOperator):
         self.probabilities_check(probabilities)
 
         check_cols(input_cols, df.columns)
+        self.check_input_cols_type(self, input_cols, get_df_schema())
 
         # 3、分位计算
         quantile_list = df.approxQuantile(input_cols, probabilities, relative_error)
@@ -83,3 +85,9 @@ class ApproxQuantileOperator(DataProcessingOperator):
                 raise ParameterException("the probabilities value is not a float")
             if pro < 0.0 or pro > 1.0:
                 raise ParameterException("the probabilities value must between(0,1)")
+
+    def check_input_cols_type(self, input_cols, df_col_schema):
+        for col in input_cols:
+            if df_col_schema[col] not in support_type :
+                raise InputColumnTypeException("the input c")
+

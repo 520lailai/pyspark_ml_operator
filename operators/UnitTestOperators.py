@@ -3,7 +3,7 @@ import unittest
 from pyspark.sql import SparkSession
 from pyspark.ml.linalg import Vectors
 import json
-from tools.RedisUtils import RedisUtils
+from operators.tools import RedisUtils
 from pyspark.sql import Row
 
 from TableReadOperator import TableReadOperator
@@ -26,7 +26,7 @@ from LabelFeatureToLibsvmOperator import *
 from VectorAssemblerOperator import VectorAssemblerOperator
 from WriteRedisOperator import WriteRedisOperator
 from tools.JsonUtils import ExtendJSONEncoder
-
+from tools.OperatorsParameterParseUtils import *
 
 class UnitTestOperators(unittest.TestCase):
     spark = None

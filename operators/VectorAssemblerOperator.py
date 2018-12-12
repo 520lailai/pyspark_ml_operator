@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from pyspark.ml.feature import VectorAssembler
-from tools.OperatorsParameterParseUtils import *
 from DataProcessingOperator import DataProcessingOperator
+from tools.OperatorsParameterParseUtils import *
 
 """  
     模块功能： 对部分数值类型的列的数据合并转换为一个特征向量，并统一命名。
