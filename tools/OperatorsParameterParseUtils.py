@@ -124,7 +124,7 @@ def str_convert_floatlist(float_str, op_id):
     else:
         float_str_list = float_str.split(",")
     for num in float_str_list:
-        float_list_re.append(float_convert(num))
+        float_list_re.append(float_convert(num, op_id))
     return float_list_re
 
 

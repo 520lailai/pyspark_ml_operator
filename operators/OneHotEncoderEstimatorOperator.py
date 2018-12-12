@@ -148,7 +148,7 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
         return [encoded, output_model]
 
 
-    def string_index_from_model(input_cols, df, modle, col_type):
+    def string_index_from_model(self, input_cols, df, modle, col_type):
         '''
         用模型表 对输入表进行StringIndex编码
         :param input_cols: 编码的列名
@@ -178,7 +178,7 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
         return df, input_cols
 
 
-    def get_output_model(df, input_cols, spark):
+    def get_output_model(self, df, input_cols, spark):
         '''
         从dataframe中提取StringIndex的映射表
         :param df: dataframe

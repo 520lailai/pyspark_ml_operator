@@ -113,8 +113,6 @@ class JoinOperator(DataProcessingOperator):
         # 4、拼接join表达式
         express_list = []
         for two_colums in join_columns:
-            check_cols([two_colums[0]], df1.columns, self.op_id)
-            check_cols([two_colums[1]], df1.columns, self.op_id)
             express_list.append(df1[left_columns_dict[two_colums[0]]] == df2[right_columns_dict[two_colums[1]]])
 
         # 5、join操作

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import sys
+sys.path.append("../")
 import unittest
 from pyspark.sql import SparkSession
 from pyspark.ml.linalg import Vectors
@@ -128,7 +130,7 @@ class UnitTestOperators(unittest.TestCase):
             dataset_list = operator.handle([dataset], self.spark)
             count += dataset_list[0].count()
 
-        self.assertEqual(round(count / (1000 * 20), 1), round(0.6, 1))
+        self.assertEqual(round(count / (100 * 20), 1), round(0.6, 1))
 
     def test_defaultValueFillOperator(self):
         conf = {"col_name_value": [["country", "china"], ["hour", "100"], ["clicked", "99.99"]]};
