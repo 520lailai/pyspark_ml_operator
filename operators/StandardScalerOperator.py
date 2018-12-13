@@ -5,6 +5,8 @@ from tools.OperatorsParameterParseUtils import *
 
 """ 
     模块功能： 将特征中的值进行标准差标准化，即转换为均值为0，方差为1的正态分布
+    #input_col 是vector类型，且是lib包下的类，如果不是的话将会报错。
+    from pyspark.ml.linalg import Vectors
     conf[]:
        "standard_scaler_conf"：
         格式：[[input_col, output_col, with_std, with_mean,is_drop_input]]
@@ -51,7 +53,7 @@ class StandardScalerOperator(DataProcessingOperator):
         for conf in standard_scaler_conf:
             if len(conf) < 4:
                 raise ParameterException("the lengths of parameter must more than  4:" + str(conf))
-
+            # 参数解析和检测
             input_col = conf[0]
             check_cols([input_col], df.columns, self.op_id)
 
@@ -74,6 +76,7 @@ class StandardScalerOperator(DataProcessingOperator):
                 with_mean = bool_convert(with_mean, self.op_id)
 
             try:
+                # 判断input_col 是否为vector类型，且是lib包下的类，如果不是的话将会报错。
                 scaler = StandardScaler(inputCol=input_col, outputCol=output_col,
                                         withStd=with_std, withMean=with_mean)
                 scaler_model = scaler.fit(df)

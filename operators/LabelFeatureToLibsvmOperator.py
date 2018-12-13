@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
-
 o_path = os.getcwd()
 sys.path.append(o_path)
 sys.path.append("..")
+
 from tools.OperatorsParameterParseUtils import *
 from DataProcessingOperator import DataProcessingOperator
 from pyspark.sql.types import *
-from pyspark.sql import Row
 from pyspark.mllib.regression import LabeledPoint
 from pyspark.mllib.util import MLUtils
 from pyspark.mllib.linalg import Vectors as MLLibVectors
