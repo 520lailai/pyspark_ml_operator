@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+import sys
+import os
+o_path = os.getcwd()
+sys.path.append(o_path)
+sys.path.append("..")
 from DataProcessingOperator import DataProcessingOperator
 from pyspark.sql.types import *
 from pyspark.sql import Row

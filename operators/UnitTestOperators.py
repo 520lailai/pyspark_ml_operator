@@ -133,7 +133,7 @@ class UnitTestOperators(unittest.TestCase):
             dataset_list = operator.handle([dataset], self.spark)
             count += dataset_list[0].count()
 
-        self.assertEqual(round(count / (100 * 20), 1), round(0.6, 1))
+        self.assertEqual(self.export_result(count / (100 * 20)), self.export_result(0.6, 1))
 
     def test_defaultValueFillOperator(self):
         conf = {"col_name_value": [["country", "china"], ["hour", "100"], ["clicked", "99.99"]]};
@@ -257,7 +257,7 @@ class UnitTestOperators(unittest.TestCase):
             weight = float(left_count) / float(right_count)
         except ZeroDivisionError:
             weight = 0.0
-        self.assertEqual(round(weight, 1), round(0.2 / 0.8, 1))
+        self.assertEqual(self.export_result(weight), self.export_result(0.2 / 0.8))
 
     def test_mathFunctionsOperator(self):
         spark = SparkSession.builder.enableHiveSupport().getOrCreate()
@@ -379,7 +379,7 @@ class UnitTestOperators(unittest.TestCase):
         return dataset_list
 
     def test_oneHotEncoderEstimatorOperator2(self):
-        conf = {"onehot_conf": [["country", "country_onehot"], ["hour", "hour-onehot"], ["score", "score-onehot"]],
+        conf = {"onehot_conf": [["country","country_onehot"],["hour", "hour-onehot"],["score","score-onehot"]],
                 "drop_last": True,
                 "handle_invalid": "keep",
                 "other_col_output": ["id", "clicked"],
@@ -391,21 +391,23 @@ class UnitTestOperators(unittest.TestCase):
             [(1, "China", 18, 1.5, 2),
              (2, "America", 12, 0.0, 4),
              (3, "Brazil", 5, 0.5, 5),
-             (4, "united kiongdom ", 4, 6.7, 9),
+             (4, "united kiongdom", 4, 6.7, 9),
              (5, "Vietnam", 15, 0.0, 5)],
             ["id", "country", "hour", "score", "clicked"])
 
         modle = self.spark.createDataFrame(
-            [("country", "united kiongdom", 1.0),
-             ("country", "China", 0.0),
-             ("country", "Vietnam", 3.0),
-             ("country", "Brazil", 2.0),
+            [("country", "united kiongdom", 0.0),
+             ("country", "Vietnam", 1.0),
+             ("country", "Brazil", 3.0),
+             ("country", "China", 2.0),
              ("country", "America", 4.0),
-             ("score", "6.7", 3.0),
-             ("score", "0.5", 1.0),
-             ("score", "1.5", 2.0),
-             ("score", "0.0", 0.0)],
+             ("score", "6.7", 0.0),
+             ("score", "1.5", 1.0),
+             ("score", "0.5", 2.0),
+             ("score", "0.0", 3.0)],
             ["col_name", "col_value", "mapping"])
+
+
         dataset.show()
         modle.show()
         print(conf)
@@ -615,6 +617,10 @@ class UnitTestOperators(unittest.TestCase):
 
         self.assertEqual(data, data_r)
 
+    def export_result(self, num):
+        num_x , num_y = str(num).split('.')
+        num = float(num_x+'.'+num_y[0:1])
+        return num
 
 if __name__ == "__main__":
     unittest.main()

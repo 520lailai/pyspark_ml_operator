@@ -59,7 +59,7 @@ class ApproxQuantileOperator(DataProcessingOperator):
         self.probabilities_check(probabilities)
 
         check_cols(input_cols, df.columns, self.op_id)
-        self.check_input_cols_type(self, input_cols, get_df_schema(df))
+        self.check_input_cols_type(input_cols, get_df_schema(df))
 
         # 3、分位计算
         quantile_list = df.approxQuantile(input_cols, probabilities, relative_error)
@@ -90,4 +90,5 @@ class ApproxQuantileOperator(DataProcessingOperator):
         for col in input_cols:
             if df_col_schema[col] not in self.support_type :
                 raise InputColumnTypeException("[arthur_error] the input columns type is not support, must a number type, opid:"+str(self.op_id))
+
 
