@@ -35,6 +35,7 @@ from tools.JsonUtils import ExtendJSONEncoder
 from tools.OperatorsParameterParseUtils import *
 
 
+
 class UnitTestOperators(unittest.TestCase):
     spark = None
 
@@ -662,4 +663,29 @@ class UnitTestOperators(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+
+    suite = unittest.TestSuite()
+    tests = [UnitTestOperators("test_applyQuerySqlOperator"),
+             UnitTestOperators("test_approxQuantileOperator"),
+             UnitTestOperators("test_bucketizerOperator"),
+             UnitTestOperators("test_defaultValueFillOperator"),
+             UnitTestOperators("test_featureExceptionSmoothOperator"),
+             UnitTestOperators("test_labelFeatureToLibsvm"),
+             UnitTestOperators("test_mathFunctionsOperator"),
+             UnitTestOperators("test_normalizedOperator"),
+             UnitTestOperators("test_oneHotEncoderEstimatorOperator"),
+             UnitTestOperators("test_oneHotEncoderEstimatorOperator2"),
+             UnitTestOperators("test_sampleOperator"),
+             UnitTestOperators("test_selectOperator"),
+             UnitTestOperators("test_splitOperator"),
+             UnitTestOperators("test_standardScalerOperator"),
+             UnitTestOperators("test_tableReadOperator"),
+             UnitTestOperators("test_tableStatsOperator"),
+             UnitTestOperators("test_tableWriteOperator"),
+             UnitTestOperators("test_VectorAssemblerOperator"),
+             UnitTestOperators("test_writeRedisOperator")
+            ]
+    suite.addTests(tests)
+
+    runner = unittest.TextTestRunner(verbosity=2)
+    runner.run(suite)

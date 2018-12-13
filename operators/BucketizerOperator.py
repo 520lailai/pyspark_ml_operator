@@ -182,7 +182,7 @@ class BucketizerOperator(DataProcessingOperator):
         df = discretizer.fit(df).transform(df)
         return df
 
-    def check_split(self, split, max, min):
+    def check_split(self, split):
         '''
         功能：check split参数，分裂点必须是单调递增的数字系列。
         :param split:
