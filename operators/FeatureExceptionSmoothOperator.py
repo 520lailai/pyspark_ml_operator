@@ -72,5 +72,5 @@ class FeatureExceptionSmoothOperator(DataProcessingOperator):
                 df = df.withColumn(col_name, when(df[col_name] < min_thresh, min_thresh).otherwise(df[col_name]))
             return [df]
         except Exception as e:
-            e.args += ' op_id :'+ str(self.op_id)
+            e.args += (' op_id :'+ str(self.op_id),)
             raise

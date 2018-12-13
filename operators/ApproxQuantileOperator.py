@@ -76,7 +76,7 @@ class ApproxQuantileOperator(DataProcessingOperator):
             return [dataset]
 
         except Exception as e:
-            e.args += ' op_id :'+ str(self.op_id)
+            e.args += (' op_id :'+ str(self.op_id),)
             raise
 
 

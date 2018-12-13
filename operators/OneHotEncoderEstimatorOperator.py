@@ -155,7 +155,7 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
             return [encoded, output_model]
 
         except Exception as e:
-            e.args += ' op_id :'+ str(self.op_id)
+            e.args += (' op_id :'+ str(self.op_id),)
             raise
 
 

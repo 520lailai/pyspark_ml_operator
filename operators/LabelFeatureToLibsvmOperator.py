@@ -4,13 +4,14 @@ import os
 o_path = os.getcwd()
 sys.path.append(o_path)
 sys.path.append("..")
+sys.path.append("../tools")
 
-from tools.OperatorsParameterParseUtils import *
 from DataProcessingOperator import DataProcessingOperator
 from pyspark.sql.types import *
 from pyspark.mllib.regression import LabeledPoint
 from pyspark.mllib.util import MLUtils
 from pyspark.mllib.linalg import Vectors as MLLibVectors
+from tools.OperatorsParameterParseUtils import *
 
 """ 
     模块功能：将带有标签的数据转换成libsvm 格式
@@ -113,5 +114,5 @@ class LabelFeatureToLibsvmOperator(DataProcessingOperator):
                 return {output_col: ""}
 
         except Exception as e:
-            e.args += ' op_id :' + str(self.op_id)
+            e.args += (' op_id :'+ str(self.op_id),)
             raise
