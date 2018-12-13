@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
+
 o_path = os.getcwd()
 sys.path.append(o_path)
 sys.path.append("..")
@@ -133,7 +134,7 @@ class UnitTestOperators(unittest.TestCase):
             dataset_list = operator.handle([dataset], self.spark)
             count += dataset_list[0].count()
 
-        self.assertEqual(self.export_result(count / (100 * 20)), self.export_result(0.6, 1))
+        self.assertEqual(self.export_result(count / (100 * 20)), 0.6)
 
     def test_defaultValueFillOperator(self):
         conf = {"col_name_value": [["country", "china"], ["hour", "100"], ["clicked", "99.99"]]};
@@ -364,22 +365,16 @@ class UnitTestOperators(unittest.TestCase):
              ("score", "0.0", 0.0)],
             ["col_name", "col_value", "mapping"])
 
-        dataset.show()
-        print(conf)
-
         # 1、测试结果的正确性
         dataset_list = operator.handle([dataset], self.spark)
-        #self.assertEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
-        #self.assertEqual(dataset_list[1].sort(["col_name", "col_value"]).collect(),
-                         #mapping_re.sort(["col_name", "col_value"]).collect())
-
-        dataset_list[0].show()
-        dataset_list[1].show()
+        self.assertEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
+        self.assertEqual(dataset_list[1].sort(["col_name", "col_value"]).collect(),
+                         mapping_re.sort(["col_name", "col_value"]).collect())
 
         return dataset_list
 
     def test_oneHotEncoderEstimatorOperator2(self):
-        conf = {"onehot_conf": [["country","country_onehot"],["hour", "hour-onehot"],["score","score-onehot"]],
+        conf = {"onehot_conf": [["country", "country_onehot"], ["hour", "hour-onehot"], ["score", "score-onehot"]],
                 "drop_last": True,
                 "handle_invalid": "keep",
                 "other_col_output": ["id", "clicked"],
@@ -407,11 +402,6 @@ class UnitTestOperators(unittest.TestCase):
              ("score", "0.0", 3.0)],
             ["col_name", "col_value", "mapping"])
 
-
-        dataset.show()
-        modle.show()
-        print(conf)
-
         dataset_list = operator.handle([dataset, modle], self.spark)
 
         dataset_re = self.spark.createDataFrame(
@@ -422,11 +412,10 @@ class UnitTestOperators(unittest.TestCase):
              (5, 5, Vectors.sparse(6, [3], [1.0]), Vectors.sparse(19, [15], [1.0]), Vectors.sparse(5, [0], [1.0]))],
             ["id", "clicked", "country_onehot", "hour-onehot", "score-onehot"])
 
-        dataset_list[0].show()
-        dataset_list[1].show()
         # 1、测试结果的正确性
-        # self.assertNotEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
-        # self.assertNotEqual(dataset_list[1].sort(["col_name", "col_value"]).collect(),modle.sort(["col_name", "col_value"]).collect())
+        self.assertNotEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
+        self.assertNotEqual(dataset_list[1].sort(["col_name", "col_value"]).collect(),
+                            modle.sort(["col_name", "col_value"]).collect())
 
     def test_approxQuantileOperator(self):
         conf = {"input_cols": "hour, clicked",
@@ -477,9 +466,7 @@ class UnitTestOperators(unittest.TestCase):
         dataset_list = operator.handle([dataset], self.spark)
         dataset_list[0].show()
         # 1、测试结果的正确性
-        #self.assertEqual(dataset_list[0].sort(["summary"]).collect(), dataset_re.sort(["summary"]).collect())
-
-
+        # self.assertEqual(dataset_list[0].sort(["summary"]).collect(), dataset_re.sort(["summary"]).collect())
 
     def test_applyQuerySqlOperator(self):
         print("-------------14、testApplySqlOperator")
@@ -618,9 +605,10 @@ class UnitTestOperators(unittest.TestCase):
         self.assertEqual(data, data_r)
 
     def export_result(self, num):
-        num_x , num_y = str(num).split('.')
-        num = float(num_x+'.'+num_y[0:1])
+        num_x, num_y = str(num).split('.')
+        num = float(num_x + '.' + num_y[0:1])
         return num
+
 
 if __name__ == "__main__":
     unittest.main()
