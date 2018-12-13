@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
+
 o_path = os.getcwd()
 sys.path.append(o_path)
 sys.path.append("..")
@@ -11,7 +12,6 @@ from pyspark.sql import Row
 from pyspark.mllib.regression import LabeledPoint
 from pyspark.mllib.util import MLUtils
 from pyspark.mllib.linalg import Vectors as MLLibVectors
-
 
 """ 
     模块功能：将带有标签的数据转换成libsvm 格式
@@ -89,7 +89,7 @@ class LabelFeatureToLibsvmOperator(DataProcessingOperator):
         try:
             float(row[label])
         except ValueError:
-            raise ParameterException("the input label type must could convert to a float, op_id:"+str(self.op_id))
+            raise ParameterException("the input label type must could convert to a float, op_id:" + str(self.op_id))
 
         # 2、feature的类型检查，必须为LabeledPoint支持的Local Vector的类型
         if "pyspark.ml.linalg.SparseVector" in type_feature or "pyspark.ml.linalg.DenseVector" in type_feature:
@@ -98,7 +98,8 @@ class LabelFeatureToLibsvmOperator(DataProcessingOperator):
         elif type_feature.find("mllib.linalg.SparseVector") == -1 and type_feature.find(
                 "mllib.linalg.DenseVector") == -1 and type_feature.find("list") == -1 and type_feature.find(
             'numpy.ndarray') == -1:
-            raise ParameterException("the input vector type is not a support type:" + type_feature + ", opid" + str(self.op_id))
+            raise ParameterException(
+                "the input vector type is not a support type:" + type_feature + ", opid" + str(self.op_id))
 
         try:
             # 3、先转化为LabeledPoint
@@ -107,11 +108,11 @@ class LabelFeatureToLibsvmOperator(DataProcessingOperator):
             # 4、再转化为libsvm格式
             str_libsvm = MLUtils._convert_labeled_point_to_libsvm(pos)
 
-            if str_libsvm :
-                return {output_col : str_libsvm}
-            else :
-                return {output_col : ""}
+            if str_libsvm:
+                return {output_col: str_libsvm}
+            else:
+                return {output_col: ""}
 
         except Exception as e:
-            e.args += ' op_id :'+ str(self.op_id)
+            e.args += ' op_id :' + str(self.op_id)
             raise

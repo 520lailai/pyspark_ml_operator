@@ -45,7 +45,6 @@ class TableWriteOperator(DataProcessingOperator):
 
         # 2、参数检查
         check_dataframe(df, self.op_id)
-        check_strlist_parameter(partition_by, self.op_id)
         check_parameter_null_or_empty(db_name, "db_name", self.op_id)
         check_parameter_null_or_empty(table_name, "table_name", self.op_id)
         name = db_name + "." + table_name
@@ -53,6 +52,7 @@ class TableWriteOperator(DataProcessingOperator):
         try :
             # 按照已有的列做分区
             if partition_by:
+                partition_by = str_convert_strlist(partition_by)
                 check_cols(partition_by, df.columns)
                 df.write.saveAsTable(name, format=save_format, mode=mode, partitionBy=partition_by)
             # 自动新加一列作为partition列名

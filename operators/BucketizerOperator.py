@@ -106,6 +106,7 @@ class BucketizerOperator(DataProcessingOperator):
             return [df]
 
         except Exception as e:
+            print(e.args)
             e.args += ' op_id :'+ str(self.op_id)
             raise
 
