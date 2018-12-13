@@ -46,7 +46,12 @@ class VectorAssemblerOperator(DataProcessingOperator):
         check_strlist_parameter(column_names, self.op_id)
         check_parameter_null_or_empty(output, "output", self.op_id)
 
-        # 2、特征聚合
-        assembler = VectorAssembler(inputCols=column_names, outputCol=output)
-        df = assembler.transform(df)
-        return [df]
+        try :
+            # 2、特征聚合
+            assembler = VectorAssembler(inputCols=column_names, outputCol=output)
+            df = assembler.transform(df)
+            return [df]
+
+        except Exception as e:
+            e.args += (' op_id :' + str(self.op_id))
+            raise

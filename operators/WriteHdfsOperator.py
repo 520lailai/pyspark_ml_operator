@@ -28,11 +28,8 @@ class WriteHdfsOperator(DataProcessingOperator):
                     dataframe = dataframe.withColumn(type[0], dataframe[type[0]].cast("string"))
             try:
                 dataframe.rdd.repartition(1).toDF().write.mode("overwrite").csv(path=file_path, quote="", sep=" ")
-            except WriteHDFSError:
-                msg = traceback.format_exc()
-                print(msg)
 
+            except Exception as e:
+                e.args += (' op_id :' + str(self.op_id))
+                raise
 
-class WriteHDFSError(BaseException):
-    def __init__(self, mesg="write hdfs meet error"):
-        print(mesg)

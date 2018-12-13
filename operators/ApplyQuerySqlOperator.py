@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from DataProcessingOperator import DataProcessingOperator
 from tools.OperatorsParameterParseUtils import *
+import traceback
 
 """ 
     模块功能： 运行用户自定义查询sql
@@ -21,6 +22,9 @@ class ApplyQuerySqlOperator(DataProcessingOperator):
         check_parameter_null_or_empty(spark, "spark", self.op_id)
 
         # 3. 运行sql
-        dataframe = spark.sql(sql_query)
-
-        return [dataframe]
+        try:
+            dataframe = spark.sql(sql_query)
+            return [dataframe]
+        except Exception as e:
+            e.args += (' op_id :' + str(self.op_id))
+            raise

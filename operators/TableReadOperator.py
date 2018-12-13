@@ -54,11 +54,13 @@ class TableReadOperator(DataProcessingOperator):
 
         if limit_num:
             sql += " limit " + str(limit_num)
-
-        # 4. query查询
-        dataframe = spark.sql(sql)
-        return [dataframe]
-
+        try:
+            # 4. query查询
+            dataframe = spark.sql(sql)
+            return [dataframe]
+        except Exception as e:
+            e.args += (' op_id :' + str(self.op_id))
+            raise
 
 class partitionValException(BaseException):
     def __init__(self, mesg="partition table must have partition value"):

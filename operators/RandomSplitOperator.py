@@ -65,8 +65,11 @@ class RandomSplitOperator(DataProcessingOperator):
         else:
             seed = float_convert(seed, self.op_id)
         check_dataframe(df, self.op_id)
-
-        # 3.随机拆分
-        weights = [left_weight, right_weight]
-        dataframe = df.randomSplit(weights, seed)
-        return dataframe
+        try:
+            # 3.随机拆分
+            weights = [left_weight, right_weight]
+            dataframe = df.randomSplit(weights, seed)
+            return dataframe
+        except Exception as e:
+            e.args += (' op_id :' + str(self.op_id))
+            raise

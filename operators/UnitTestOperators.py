@@ -285,12 +285,13 @@ class UnitTestOperators(unittest.TestCase):
         self.assertEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
 
     def test_bucketizerOperator(self):
-        conf = {"bucketizer_conf": [["isometric_discretization", "100", "features", "features_bucketed", "True"]]}
-        operator = BucketizerOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
         data = [(-999.9,), (-0.5,), (-0.3,), (0.0,), (0.2,), (999.9,)]
         dataset = self.spark.createDataFrame(data, ["features"])
-        dataset_list = operator.handle([dataset], self.spark)
 
+        # 1、测试等距离散
+        conf = {"bucketizer_conf": [["isometric_discretization", "100", "features", "features_bucketed", "True"]]}
+        operator = BucketizerOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
+        dataset_list = operator.handle([dataset], self.spark)
         dataset_re = self.spark.createDataFrame(
             [(-999.9, 0.0),
              (-0.5, 9.0),
@@ -299,9 +300,22 @@ class UnitTestOperators(unittest.TestCase):
              (0.2, 10.0),
              (999.9, 19.0)],
             ["features", "features_bucketed"])
-
-        # 1、测试结果的正确性
         self.assertEqual(dataset_list[0].sort(["features"]).collect(), dataset_re.sort(["features"]).collect())
+
+        # 2、测试等频离散
+        conf = {"bucketizer_conf": [["isofrequecy_discretization", "2", "features", "features_bucketed", "True"]]}
+        operator = BucketizerOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
+        dataset_list = operator.handle([dataset], self.spark)
+        print("------------等频离散--------")
+        dataset_list[0].show()
+
+        # 3、自定义离散
+        conf = {"bucketizer_conf": [["custom_discretization", "-inf,-1,1,inf", "features", "features_bucketed", "True"]]}
+        operator = BucketizerOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
+        dataset_list = operator.handle([dataset], self.spark)
+        print("------------自定义离散--------")
+        dataset_list[0].show()
+
 
     def test_featureExceptionSmoothOperator(self):
         conf = {"smooth_conf": [["hour", "7", "15"], ["clicked", "10", "50"]]};

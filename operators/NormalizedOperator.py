@@ -67,41 +67,48 @@ class NormalizedOperator(DataProcessingOperator):
         for tuple in df.dtypes:
             type_dict[tuple[0]] = tuple[1]
 
-        for i, conf in enumerate(normalize_scaler_conf):
-            if len(conf) < 4:
-                raise ParameterException("the lengths of parameter must more than 5:" + str(conf)+"opid:"+str(self.op_id))
+        try:
+            for i, conf in enumerate(normalize_scaler_conf):
+                if len(conf) < 4:
+                    raise ParameterException("the lengths of parameter must more than 5:" + str(conf)+"opid:"+str(self.op_id))
+                # 参数解析和校验
+                input_col = conf[0]
+                output_col = conf[1]
+                min = conf[2]
+                max = conf[3]
 
-            input_col = conf[0]
-            output_col = conf[1]
-            min = conf[2]
-            max = conf[3]
+                if not min:
+                    min = 0
+                else:
+                    min = float_convert(min, self.op_id)
 
-            if not min:
-                min = 0
-            else:
-                min = float_convert(min, self.op_id)
+                if not max:
+                    max = 1
+                else:
+                    max = float_convert(max, self.op_id)
 
-            if not max:
-                max = 1
-            else:
-                max = float_convert(max, self.op_id)
-            is_drop_input = bool_convert(conf[4], self.op_id)
-            check_parameter_null_or_empty(input_col, "input_col", self.op_id)
-            check_parameter_null_or_empty(output_col, "output_col", self.op_id)
+                is_drop_input = bool_convert(conf[4], self.op_id)
+                check_parameter_null_or_empty(input_col, "input_col", self.op_id)
+                check_parameter_null_or_empty(output_col, "output_col", self.op_id)
 
-            type = type_dict[input_col]
-            if type == "vector":
-                df = self.min_max_scaler(df, input_col, output_col, min, max)
-            elif type == 'bigint' or type == 'double':
-                max_value = df.agg({input_col: "max"}).collect()[0][0]
-                min_value = df.agg({input_col: "min"}).collect()[0][0]
-                df = df.withColumn(output_col, self.normalized(col(input_col), max_value, min_value))
-            else:
-                raise ParameterException("input col must be bigint/double/vector,does not support: " + type+"opid:"+str(self.op_id))
+                # 根据列值类型的不同进行不同的计算，vector类型直接调用MinMaxScaler,数值类型自己根据公式计算
+                type = type_dict[input_col]
+                if type == "vector":
+                    df = self.min_max_scaler(df, input_col, output_col, min, max)
+                elif type == 'bigint' or type == 'double':
+                    max_value = df.agg({input_col: "max"}).collect()[0][0]
+                    min_value = df.agg({input_col: "min"}).collect()[0][0]
+                    df = df.withColumn(output_col, self.normalized(col(input_col), max_value, min_value))
+                else:
+                    raise ParameterException("input col must be bigint/double/vector,does not support: " + type+"opid:"+str(self.op_id))
 
-            if is_drop_input:
-                df = df.drop(input_col)
-        return [df]
+                if is_drop_input:
+                    df = df.drop(input_col)
+            return [df]
+
+        except Exception as e:
+            e.args += (' op_id :' + str(self.op_id))
+            raise
 
 
     def normalized(self, value, max_value, min_value):

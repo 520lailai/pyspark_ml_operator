@@ -51,10 +51,14 @@ class TableStatsOperator(DataProcessingOperator):
         check_dataframe(df, self.op_id)
         check_parameter_null_or_empty(cols, "cols", self.op_id)
 
-        # 3、全表统计
-        if cols is None:
-            dataframe = df.summary()
-        else:
-            check_strlist_parameter(cols, self.op_id)
-            dataframe = df.select(cols).summary()
-        return [dataframe]
+        try:
+            # 3、全表统计
+            if cols is None:
+                dataframe = df.summary()
+            else:
+                check_strlist_parameter(cols, self.op_id)
+                dataframe = df.select(cols).summary()
+            return [dataframe]
+        except Exception as e:
+            e.args += (' op_id :' + str(self.op_id))
+            raise

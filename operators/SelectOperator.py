@@ -45,9 +45,13 @@ class SelectOperator(DataProcessingOperator):
         check_strlist_parameter(column_names, self.op_id)
         column_names = str_convert_strlist(column_names, self.op_id)
 
-        # 3、过滤查询
-        if filter_condition:
-            dataframe = df.select(column_names).filter(filter_condition)
-        else:
-            dataframe = df.select(column_names)
-        return [dataframe]
+        try:
+            # 3、过滤查询
+            if filter_condition:
+                dataframe = df.select(column_names).filter(filter_condition)
+            else:
+                dataframe = df.select(column_names)
+            return [dataframe]
+        except Exception as e:
+            e.args += (' op_id :' + str(self.op_id))
+            raise

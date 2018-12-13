@@ -43,6 +43,10 @@ class WriteRedisOperator(DataProcessingOperator):
                 row_dict = row.asDict(True)
                 sorted(row_dict.items(), key=lambda i: keyorder.index(i[0]))
                 rows.append(row_dict)
+            try:
+                data = json.dumps(rows, cls=ExtendJSONEncoder)
+                RedisUtils.write_redis(key, data)
 
-            data = json.dumps(rows, cls=ExtendJSONEncoder)
-            RedisUtils.write_redis(key, data)
+            except Exception as e:
+                e.args += (' op_id :' + str(self.op_id))
+                raise

@@ -63,8 +63,13 @@ class DefaultValueFillOperator(DataProcessingOperator):
         # 2、参数检查
         check_parameter_null_or_empty(col_name_value, "col_name_value", self.op_id)
         check_dataframe(df, self.op_id)
-        # 3、参数格式化
-        col_value_dict = convert_cols_parameter(df.schema.fields, col_name_value, self.op_id)
-        # 4、默认值填充
-        dataframe = df.na.fill(value=col_value_dict, subset=None)
-        return [dataframe]
+        try:
+            # 3、参数格式化
+            col_value_dict = convert_cols_parameter(df.schema.fields, col_name_value, self.op_id)
+            # 4、默认值填充
+            dataframe = df.na.fill(value=col_value_dict, subset=None)
+            return [dataframe]
+
+        except Exception as e:
+            e.args += (' op_id :' + str(self.op_id))
+            raise

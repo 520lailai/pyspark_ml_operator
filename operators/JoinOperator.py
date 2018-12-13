@@ -113,8 +113,20 @@ class JoinOperator(DataProcessingOperator):
         # 4、拼接join表达式
         express_list = []
         for two_colums in join_columns:
-            express_list.append(df1[left_columns_dict[two_colums[0]]] == df2[right_columns_dict[two_colums[1]]])
+            if len(two_colums) < 2 :
+                raise ParameterException("the parameter: join_columns ,format error, must be n*2 matrix, op_id:"+str(self.op_id))
+            if not left_columns_dict.get(two_colums[0]):
+                raise ParameterException("the left df does not have this cols, op_id:"+str(self.op_id))
+            if not right_columns_dict.get(two_colums[1]):
+                raise ParameterException("the right df does not have this cols, op_id:"+str(self.op_id))
 
-        # 5、join操作
-        dataframe = df1.join(df2, express_list, join_type).select(select_colums_list)
-        return [dataframe]
+            express_list.append(df1[left_columns_dict.get(two_colums[0])] == df2[right_columns_dict.get(two_colums[1])])
+
+        try:
+            # 5、join操作
+            dataframe = df1.join(df2, express_list, join_type).select(select_colums_list)
+            return [dataframe]
+
+        except Exception as e:
+            e.args += (' op_id :' + str(self.op_id))
+            raise

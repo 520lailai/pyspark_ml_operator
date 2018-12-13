@@ -52,22 +52,25 @@ class FeatureExceptionSmoothOperator(DataProcessingOperator):
         df = dataframe_list[0]
         check_dataframe(df, self.op_id)
         df_schema = get_df_schema(df)
+        try:
+            # 3、特征平滑
+            for conf in smooth_conf:
+                col_name = conf[0]
+                check_cols([col_name], df.columns, self.op_id)
+                col_type = df_schema.get(col_name)
+                if col_type not in self.support_type:
+                    raise ParameterException("[arthur_error] the input colums type must be a number type, but now is a :"+str(col_type))
 
-        # 3、特征平滑
-        for conf in smooth_conf:
-            col_name = conf[0]
-            check_cols([col_name], df.columns, self.op_id)
-            col_type = df_schema.get(col_name)
-            if col_type not in self.support_type:
-                raise ParameterException("[arthur_error] the input colums type must be a number type, but now is a :"+str(col_type))
+                min_thresh = float_convert(conf[1], self.op_id)
+                max_thresh = float_convert(conf[2], self.op_id)
 
-            min_thresh = float_convert(conf[1], self.op_id)
-            max_thresh = float_convert(conf[2], self.op_id)
+                if "int" in col_type:
+                    min_thresh = int_convert(conf[1], self.op_id)
+                    max_thresh = int_convert(conf[2], self.op_id)
 
-            if "int" in col_type:
-                min_thresh = int_convert(conf[1], self.op_id)
-                max_thresh = int_convert(conf[2], self.op_id)
-
-            df = df.withColumn(col_name, when(df[col_name] > max_thresh, max_thresh).otherwise(df[col_name]))
-            df = df.withColumn(col_name, when(df[col_name] < min_thresh, min_thresh).otherwise(df[col_name]))
-        return [df]
+                df = df.withColumn(col_name, when(df[col_name] > max_thresh, max_thresh).otherwise(df[col_name]))
+                df = df.withColumn(col_name, when(df[col_name] < min_thresh, min_thresh).otherwise(df[col_name]))
+            return [df]
+        except Exception as e:
+            e.args += (' op_id :' + str(self.op_id))
+            raise

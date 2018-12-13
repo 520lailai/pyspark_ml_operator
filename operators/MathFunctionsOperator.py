@@ -60,16 +60,17 @@ class MathFunctionsOperator(DataProcessingOperator):
             new_col_name.append(conf[3])
 
         # 2、参数的检查
-        check_parameter_null_or_empty(col_names, "col_names", self.op_id)
-        check_parameter_null_or_empty(scale_method, "scale_method", self.op_id)
-        check_parameter_null_or_empty(new_col_name, "new_col_name", self.op_id)
-        if not (len(col_names) == len(scale_method) == len(is_replace) == len(new_col_name)):
-            raise ParameterException("the Parameter error,opid:"+str(self.op_id))
+        check_strlist_parameter(col_names, self.op_id)
+        check_strlist_parameter(scale_method, self.op_id)
+        check_strlist_parameter(new_col_name, self.op_id)
 
-        # 3、计算函数的表达式
+        if not (len(col_names) == len(scale_method) == len(is_replace) == len(new_col_name)):
+            raise ParameterException("the Parameter error, opid:"+str(self.op_id))
         cols = df.columns
         check_cols(col_names, cols, self.op_id)
 
+
+        # 3、计算函数的表达式
         replace_index = []
         for index, col in enumerate(col_names):
             method_express = scale_method[index] + "(" + col + ")"
@@ -79,11 +80,16 @@ class MathFunctionsOperator(DataProcessingOperator):
                 cols.append(method_express)
             replace_index.append(cols.index(method_express))
 
-        # 4、列的计算
-        dataframe = df.selectExpr(cols)
+        try:
+            # 4、列的计算
+            dataframe = df.selectExpr(cols)
 
-        # 5、新列名的替换
-        new_colums = dataframe.columns
-        for i, new_name in enumerate(new_col_name):
-            dataframe = dataframe.withColumnRenamed(new_colums[replace_index[i]], new_name)
-        return [dataframe]
+            # 5、新列名的替换
+            new_colums = dataframe.columns
+            for i, new_name in enumerate(new_col_name):
+                dataframe = dataframe.withColumnRenamed(new_colums[replace_index[i]], new_name)
+            return [dataframe]
+
+        except Exception as e:
+            e.args += (' op_id :' + str(self.op_id))
+            raise

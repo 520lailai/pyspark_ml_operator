@@ -73,12 +73,15 @@ class StandardScalerOperator(DataProcessingOperator):
             else:
                 with_mean = bool_convert(with_mean, self.op_id)
 
-            scaler = StandardScaler(inputCol=input_col, outputCol=output_col,
-                                    withStd=with_std, withMean=with_mean)
-            scaler_model = scaler.fit(df)
-            df = scaler_model.transform(df)
+            try:
+                scaler = StandardScaler(inputCol=input_col, outputCol=output_col,
+                                        withStd=with_std, withMean=with_mean)
+                scaler_model = scaler.fit(df)
+                df = scaler_model.transform(df)
 
-            if is_drop_input:
-                df.drop(input_col)
-
+                if is_drop_input:
+                    df.drop(input_col)
+            except Exception as e:
+                e.args += (' op_id :' + str(self.op_id))
+                raise
         return [df]

@@ -2,6 +2,7 @@
 from DataProcessingOperator import DataProcessingOperator
 from tools.OperatorsParameterParseUtils import *
 from pyspark.sql.functions import lit
+import time
 
 """  
     模块功能： 把dataframe写到目标表中
@@ -26,7 +27,6 @@ from pyspark.sql.functions import lit
                     "table_name": "test_save_new",
                     "partition_by": "p_date='20181015'"
                   };
-    
     3、结果表：
 """
 
@@ -40,27 +40,29 @@ class TableWriteOperator(DataProcessingOperator):
         save_format = "parquet"
         mode = "overwrite"
         partition_by = self.conf.get("partition_by")
+        is_partition_by_date = self.conf.get("is_partition_by_date")
         df = dataframe_list[0]
 
         # 2、参数检查
         check_dataframe(df, self.op_id)
+        check_strlist_parameter(partition_by, self.op_id)
         check_parameter_null_or_empty(db_name, "db_name", self.op_id)
         check_parameter_null_or_empty(table_name, "table_name", self.op_id)
         name = db_name + "." + table_name
 
-        if partition_by:
-            try:
-                partition_values = partition_by.split("=")
-            except Exception:
-                raise ParameterException(
-                    "the format partition_val is error, must be partirion_name = values, and the value will treated as string, op_id:" + self.op_id)
-            check_strlist_parameter(partition_values, self.op_id)
-            if partition_values[0].strip not in df.columns:
-                df = df.withColumn(partition_values[0].strip(), lit(partition_values[1].strip()))
-            # 3、写表
-            df.write.saveAsTable(name, format=save_format, mode=mode, partitionBy=partition_values[0])
-        else:
-            # 3、写表
-            df.write.saveAsTable(name, format=save_format, mode=mode)
-
-        return dataframe_list
+        try :
+            # 按照已有的列做分区
+            if partition_by:
+                check_cols(partition_by, df.columns)
+                df.write.saveAsTable(name, format=save_format, mode=mode, partitionBy=partition_by)
+            # 自动新加一列作为partition列名
+            elif is_partition_by_date:
+                df = df.withColumn("arthur_p_date", lit(time.strftime("%Y-%m-%d|%H:%M:%S", time.localtime())))
+                df.write.saveAsTable(name, format=save_format, mode=mode, partitionBy="arthur_p_date")
+            else:
+                #不分区
+                df.write.saveAsTable(name, format=save_format, mode=mode)
+            return [df]
+        except Exception as e:
+            e.args += (' op_id :' + str(self.op_id))
+            raise

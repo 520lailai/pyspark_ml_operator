@@ -17,10 +17,15 @@ import traceback
     conf 参数：
         "onehot_conf": [[]]               输入输出列名 ：["输入列名"，"输出列名"]
         "drop_last": bool                 是否删除最后一个枚举量
-        "handle_invalid" :String          如何处理无效数据， "keep"，"error" 
+        "handle_invalid" :String          如何处理无效数据， "keep"，"error", "keep" 
         "other_col_output": List[String]  需要添加到结果表中的其他的列(除了编过码的列）
         "is_output_model": bool,default=True 是否输出StringIndex的模型表
-    
+   
+     其中"handle_invalid"对无效数据数据的处理有三个选项：
+        "keep"， 如果遇到无效的数据就保持下来
+        "error", 如果遇到无效的数据就抛出异常
+        "skip" ，编码过程中遇到无效的数据就丢弃那一行数据
+        
     例子：
     
     1、原始表：
@@ -76,7 +81,7 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
         # 1、参数的解析与检测
         onehot_conf = self.conf.get("onehot_conf")
         drop_last = bool_convert(self.conf.get("drop_last", True), self.op_id)
-        handle_invalid = self.conf.get("handle_invalid", "keep")
+        handle_invalid = self.conf.get("handle_invalid", "error")
         other_col_output = self.conf.get("other_col_output")
         is_output_model = bool_convert(self.conf.get("is_output_model", True), self.op_id)
         if not other_col_output:
@@ -87,6 +92,15 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
         check_parameter_null_or_empty(onehot_conf, "onehot_conf", self.op_id)
         check_parameter_null_or_empty(handle_invalid, "handle_invalid", self.op_id)
 
+        input_cols = []
+        output_cols = []
+        for conf in onehot_conf:
+            input_cols.append(conf[0])
+            output_cols.append(conf[1])
+
+        check_cols(input_cols, dataframe_list[0].columns)
+        check_strlist_parameter(output_cols, self.op_id)
+
         # 1.1、获得输入的表，和模型表
         df = dataframe_list[0]
         check_dataframe(df, self.op_id)
@@ -96,56 +110,53 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
         else:
             input_modle = None
 
-        input_cols = []
-        output_cols = []
-        for conf in onehot_conf:
-            input_cols.append(conf[0])
-            output_cols.append(conf[1])
-
-        check_parameter_null_or_empty(input_cols, "input_col", self.op_id)
-        check_parameter_null_or_empty(output_cols, "output_col", self.op_id)
-
         # 2、获得表的schema
         dtype = df.dtypes
         col_type = {}
         for name in dtype:
             col_type[name[0]] = name[1]
 
-        # 3、StringIndex的编码
-        if input_modle:
-            df, input_cols = self.string_index_from_model(input_cols, df, input_modle, col_type)
-        else:
-            for i, col in enumerate(input_cols):
-                if col_type[col] == 'string' or col_type[col] == 'double':
+        try:
+
+            # 3、StringIndex的编码, 如果有模型表，那么取出每一列与原表做join, 如果没有的模型表，新增StringIndex编码列
+            if input_modle:
+                df, input_cols = self.string_index_from_model(input_cols, df, input_modle, col_type)
+            else:
+                # 如果没有的模型表，全部的输入列将重新StringIndex编码
+                for i, col in enumerate(input_cols):
                     indexer = StringIndexer(inputCol=col, outputCol=col + "_arthur_index",
                                             handleInvalid=handle_invalid, stringOrderType="alphabetDesc")
                     df = indexer.fit(df).transform(df)
                     input_cols[i] = col + "_arthur_index"
 
-        # 4、onehot encoder
-        encoder = OneHotEncoderEstimator(inputCols=input_cols, outputCols=output_cols)
-        if drop_last is not None:
-            drop_last = bool_convert(drop_last, self.op_id)
-            encoder.setDropLast(drop_last)
-        if handle_invalid:
-            encoder.setHandleInvalid(handle_invalid)
-        model = encoder.fit(df)
-        encoded = model.transform(df)
+            # 4、onehot encoder
+            encoder = OneHotEncoderEstimator(inputCols=input_cols, outputCols=output_cols)
+            if drop_last is not None:
+                drop_last = bool_convert(drop_last, self.op_id)
+                encoder.setDropLast(drop_last)
 
-        # 5、获得输出模型表
-        output_model = None
-        if is_output_model:
-            if input_modle:
-                output_model = input_modle
-            else:
-                output_model = self.get_output_model(df, input_cols, spark)
+            model = encoder.fit(df)
+            encoded = model.transform(df)
 
-        # 6、获得输出表
-        for name in encoded.columns:
-            if name not in other_col_output and name not in output_cols:
-                encoded = encoded.drop(name)
 
-        return [encoded, output_model]
+            # 5、获得输出模型表
+            output_model = None
+            if is_output_model:
+                if input_modle:
+                    output_model = input_modle
+                else:
+                    output_model = self.get_output_model(df, input_cols, spark)
+
+            # 6、获得输出表
+            for name in encoded.columns:
+                if name not in other_col_output and name not in output_cols:
+                    encoded = encoded.drop(name)
+
+            return [encoded, output_model]
+
+        except Exception as e:
+            e.args += (' op_id :' + str(self.op_id))
+            raise
 
 
     def string_index_from_model(self, input_cols, df, modle, col_type):
@@ -213,3 +224,4 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
                     model_list.append((col_name, str(row[col_name]), row[col]))
 
         return spark.createDataFrame(model_list, schema)
+

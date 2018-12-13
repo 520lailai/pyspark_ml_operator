@@ -65,16 +65,16 @@ class LabelFeatureToLibsvmOperator(DataProcessingOperator):
 
         # 2、参数的检测
         check_dataframe(df, self.op_id)
-        check_parameter_null_or_empty(column_name, "column_name!", self.op_id)
+        check_parameter_null_or_empty(column_name, "column_name", self.op_id)
         check_parameter_null_or_empty(label, "label", self.op_id)
         check_parameter_null_or_empty(output, "output", self.op_id)
 
         # 3、映射转化
-        rdd = df.rdd.map(lambda row: self.map_function(row, label, column_name))
-        df = spark.createDataFrame(rdd, [output])
+        rdd = df.rdd.map(lambda row: self.map_function(row, label, column_name, output))
+        df = spark.createDataFrame(rdd)
         return [df]
 
-    def map_function(self, row, label, col_name):
+    def map_function(self, row, label, col_name, output_col):
         '''
         给定一个label和一个feature，转化为一个libsvm格式
         :param row: dataframe的row
@@ -85,17 +85,33 @@ class LabelFeatureToLibsvmOperator(DataProcessingOperator):
         feature = row[col_name]
         type_feature = str(type(feature))
 
-        if type(row[label]) != str and type(row[label]) != float and type(row[label]) != int :
-            raise ParameterException("the label column type must be a string or a number, but now is a "+str(type(row[label])+",opid:"+str(self.op_id)))
+        # 1、label的类型检查，必须为可以通过float()转化的类型
+        try:
+            float(row[label])
+        except ValueError:
+            raise ParameterException("the input label type must could convert to a float, op_id:"+str(self.op_id))
 
-        if type_feature.find("pyspark.ml.linalg.SparseVector") != -1 or type_feature.find(
-                "pyspark.ml.linalg.DenseVector") != -1:
+        # 2、feature的类型检查，必须为LabeledPoint支持的Local Vector的类型
+        if "pyspark.ml.linalg.SparseVector" in type_feature or "pyspark.ml.linalg.DenseVector" in type_feature:
             feature = MLLibVectors.fromML(feature)
+
         elif type_feature.find("mllib.linalg.SparseVector") == -1 and type_feature.find(
                 "mllib.linalg.DenseVector") == -1 and type_feature.find("list") == -1 and type_feature.find(
             'numpy.ndarray') == -1:
-            raise ParameterException("the input vector type is error,type:" + type_feature + ", opid" + str(self.op_id))
+            raise ParameterException("the input vector type is not a support type:" + type_feature + ", opid" + str(self.op_id))
 
-        pos = LabeledPoint(row[label], feature)
-        str_libsvm = MLUtils._convert_labeled_point_to_libsvm(pos)
-        return Row(str_libsvm)
+        try:
+            # 3、先转化为LabeledPoint
+            pos = LabeledPoint(row[label], feature)
+
+            # 4、再转化为libsvm格式
+            str_libsvm = MLUtils._convert_labeled_point_to_libsvm(pos)
+
+            if str_libsvm :
+                return {output_col : str_libsvm}
+            else :
+                return {output_col : ""}
+
+        except Exception as e:
+            e.args += (' op_id :' + str(self.op_id))
+            raise

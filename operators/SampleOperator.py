@@ -66,6 +66,10 @@ class SampleOperator(DataProcessingOperator):
         else:
             seed = float_convert(seed, self.op_id)
 
-        # 3、随机采样
-        dataframe = df.sample(with_replacement, fraction, seed)
-        return [dataframe]
+        try:
+            # 3、随机采样
+            dataframe = df.sample(with_replacement, fraction, seed)
+            return [dataframe]
+        except Exception as e:
+            e.args += (' op_id :' + str(self.op_id))
+            raise

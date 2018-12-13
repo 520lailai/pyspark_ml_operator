@@ -54,41 +54,49 @@ class ApproxQuantileOperator(DataProcessingOperator):
         # 2、参数转换与检查
         input_cols = str_convert_strlist(input_cols, self.op_id)
         probabilities = str_convert_floatlist(probabilitie_str, self.op_id)
-        relative_error = float_convert(relative_error,  self.op_id)
+        relative_error = float_convert(relative_error, self.op_id)
         check_dataframe(df, self.op_id)
         self.probabilities_check(probabilities)
-
         check_cols(input_cols, df.columns, self.op_id)
         self.check_input_cols_type(input_cols, get_df_schema(df))
 
-        # 3、分位计算
-        quantile_list = df.approxQuantile(input_cols, probabilities, relative_error)
+        try:
+            # 3、分位计算
+            quantile_list = df.approxQuantile(input_cols, probabilities, relative_error)
 
-        # 4、构建格式输出表
-        for i, quantile in enumerate(quantile_list):
-            quantile.insert(0, input_cols[i])
+            # 4、构建格式输出表
+            for i, quantile in enumerate(quantile_list):
+                quantile.insert(0, input_cols[i])
 
-        schema = ["colum_name"]
-        for p in probabilities:
-            schema.append("p" + str(p))
+            schema = ["colum_name"]
+            for p in probabilities:
+                schema.append("p" + str(p))
 
-        dataset = spark.createDataFrame(quantile_list, schema)
-        return [dataset]
+            dataset = spark.createDataFrame(quantile_list, schema)
+            return [dataset]
+
+        except Exception as e:
+            e.args += (' op_id :' + str(self.op_id))
+            raise
+
 
     def probabilities_check(self, probabilities):
         if not probabilities:
-            raise ParameterException("[arthur_error] the probabilities is null, opid:"+str(self.op_id))
+            raise ParameterException("[arthur_error] the probabilities is null, opid:" + str(self.op_id))
         if type(probabilities) != list:
-            raise ParameterException("[arthur_error] the probabilities is not a list, opid:"+str(self.op_id))
+            raise ParameterException("[arthur_error] the probabilities is not a list, opid:" + str(self.op_id))
         for pro in probabilities:
             if type(pro) != float:
-                raise ParameterException("[arthur_error] the probabilities value is not a float, opid:"+str(self.op_id))
+                raise ParameterException(
+                    "[arthur_error] the probabilities value is not a float, opid:" + str(self.op_id))
             if pro < 0.0 or pro > 1.0:
-                raise ParameterException("[arthur_error] the probabilities value must between(0,1), opid:"+str(self.op_id))
+                raise ParameterException(
+                    "[arthur_error] the probabilities value must between(0,1), opid:" + str(self.op_id))
 
     def check_input_cols_type(self, input_cols, df_col_schema):
+        if not input_cols or df_col_schema:
+            raise ParameterException("the parameter is error, op_id:" + str(self.op_id))
         for col in input_cols:
-            if df_col_schema[col] not in self.support_type :
-                raise InputColumnTypeException("[arthur_error] the input columns type is not support, must a number type, opid:"+str(self.op_id))
-
-
+            if df_col_schema[col] not in self.support_type:
+                raise InputColumnTypeException(
+                    "[arthur_error] the input columns type is not support, must a number type, opid:" + str(self.op_id))
