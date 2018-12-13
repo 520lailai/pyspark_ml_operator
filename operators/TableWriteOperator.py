@@ -52,7 +52,7 @@ class TableWriteOperator(DataProcessingOperator):
         try :
             # 按照已有的列做分区
             if partition_by:
-                partition_by = str_convert_strlist(partition_by)
+                partition_by = str_convert_strlist(partition_by, self.op_id)
                 check_cols(partition_by, df.columns)
                 df.write.saveAsTable(name, format=save_format, mode=mode, partitionBy=partition_by)
             # 自动新加一列作为partition列名

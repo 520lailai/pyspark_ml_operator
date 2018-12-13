@@ -521,7 +521,6 @@ class UnitTestOperators(unittest.TestCase):
         # self.assertEqual(dataset_list[0].sort(["summary"]).collect(), dataset_re.sort(["summary"]).collect())
 
     def test_applyQuerySqlOperator(self):
-        print("-------------14、testApplySqlOperator")
         conf = {"sql_query": "select * from lai_test.test1"};
         operator = ApplyQuerySqlOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
         dataset_list = operator.handle([], self.spark)

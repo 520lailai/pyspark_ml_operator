@@ -97,7 +97,7 @@ class BucketizerOperator(DataProcessingOperator):
                     self.isofrequecy_discretization(df, split[0], output_col, input_col)
                 # 等距离散
                 elif splits_type == "isometric_discretization":
-                    self.sometric_discretization(df, split[0], output_col, input_col)
+                    self.isometric_discretization(df, split[0], output_col, input_col)
                 # 自定义离散
                 elif splits_type == "custom_discretization":
                     self.bucketizer_discretizer(df, split, input_col, output_col)

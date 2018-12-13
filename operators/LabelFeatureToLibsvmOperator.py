@@ -6,7 +6,7 @@ sys.path.append(o_path)
 sys.path.append("..")
 sys.path.append("../tools")
 
-from DataProcessingOperator import DataProcessingOperator
+from DataProcessingOperator import *
 from pyspark.sql.types import *
 from pyspark.mllib.regression import LabeledPoint
 from pyspark.mllib.util import MLUtils
