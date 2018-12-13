@@ -64,5 +64,5 @@ class TableWriteOperator(DataProcessingOperator):
                 df.write.saveAsTable(name, format=save_format, mode=mode)
             return [df]
         except Exception as e:
-            e.args += (' op_id :' + str(self.op_id))
+            e.args += ' op_id :'+ str(self.op_id)
             raise

@@ -85,17 +85,17 @@ class UnitTestOperators(unittest.TestCase):
         # 1、测试写入数据的结果正确性
         conf_write1 = {"db_name": "lai_test",
                        "table_name": "test_save_new",
-                       "partition_by": "p_date=20180910",
-                       "limit_num": 100};
+                       "is_partition_by_date": True,
+                       };
         operator = TableWriteOperator(op_id="123", op_type="readtable", conf=conf_write1, relation="", result_type="")
         dataframe_list = operator.handle([dataset], self.spark)
         self.assertEqual(dataset.sort(["id"]).collect(), dataframe_list[0].sort(["id"]).collect())
 
         # 2、测试读取的过程抛出异常
-        conf_write2 = {"db_name": "lala",
+        conf_write2 = {"db_name": "lai_test",
                        "table_name": "test_save_new",
-                       "partition_by": "p_date=20180910",
-                       "limit_num": 100};
+                       "partition_by": "name",
+                       };
         operator = TableWriteOperator(op_id="123", op_type="readtable", conf=conf_write2, relation="", result_type="")
         with self.assertRaises(Exception):
             dataframe_list = operator.handle([dataset], self.spark)

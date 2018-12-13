@@ -76,7 +76,7 @@ class ApproxQuantileOperator(DataProcessingOperator):
             return [dataset]
 
         except Exception as e:
-            e.args += (' op_id :' + str(self.op_id))
+            e.args += ' op_id :'+ str(self.op_id)
             raise
 
 
@@ -94,8 +94,8 @@ class ApproxQuantileOperator(DataProcessingOperator):
                     "[arthur_error] the probabilities value must between(0,1), opid:" + str(self.op_id))
 
     def check_input_cols_type(self, input_cols, df_col_schema):
-        if not input_cols or df_col_schema:
-            raise ParameterException("the parameter is error, op_id:" + str(self.op_id))
+        if not input_cols or not df_col_schema:
+            raise ParameterException("the parameter is error, op_id:"+str(self.op_id))
         for col in input_cols:
             if df_col_schema[col] not in self.support_type:
                 raise InputColumnTypeException(

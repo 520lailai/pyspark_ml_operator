@@ -106,7 +106,7 @@ class BucketizerOperator(DataProcessingOperator):
             return [df]
 
         except Exception as e:
-            e.args += ('op_id :' + str(self.op_id))
+            e.args += ' op_id :'+ str(self.op_id)
             raise
 
     def isometric_discretization(self, df, distance, output_col, input_col):

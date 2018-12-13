@@ -30,6 +30,6 @@ class WriteHdfsOperator(DataProcessingOperator):
                 dataframe.rdd.repartition(1).toDF().write.mode("overwrite").csv(path=file_path, quote="", sep=" ")
 
             except Exception as e:
-                e.args += (' op_id :' + str(self.op_id))
+                e.args += ' op_id :'+ str(self.op_id)
                 raise
 

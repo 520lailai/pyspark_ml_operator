@@ -82,6 +82,6 @@ class StandardScalerOperator(DataProcessingOperator):
                 if is_drop_input:
                     df.drop(input_col)
             except Exception as e:
-                e.args += (' op_id :' + str(self.op_id))
+                e.args += ' op_id :'+ str(self.op_id)
                 raise
         return [df]

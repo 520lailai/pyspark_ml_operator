@@ -98,7 +98,7 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
             input_cols.append(conf[0])
             output_cols.append(conf[1])
 
-        check_cols(input_cols, dataframe_list[0].columns)
+        check_cols(input_cols, dataframe_list[0].columns, self.op_id)
         check_strlist_parameter(output_cols, self.op_id)
 
         # 1.1、获得输入的表，和模型表
@@ -155,7 +155,7 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
             return [encoded, output_model]
 
         except Exception as e:
-            e.args += (' op_id :' + str(self.op_id))
+            e.args += ' op_id :'+ str(self.op_id)
             raise
 
 
