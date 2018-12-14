@@ -650,6 +650,7 @@ if __name__ == "__main__":
              UnitTestOperators("test_mathFunctionsOperator"),
              UnitTestOperators("test_normalizedOperator"),
              UnitTestOperators("test_selectOperator"),
+             UnitTestOperators("test_JoinOperator"),
              UnitTestOperators("test_bucketizerOperator"),
              UnitTestOperators("test_oneHotEncoderEstimatorOperator"),
              UnitTestOperators("test_oneHotEncoderEstimatorOperator2"),
