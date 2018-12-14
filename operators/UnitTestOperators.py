@@ -686,5 +686,5 @@ if __name__ == "__main__":
     # UnitTestOperators("test_labelFeatureToLibsvm"),
     # UnitTestOperators("test_oneHotEncoderEstimatorOperator"),
     # UnitTestOperators("test_oneHotEncoderEstimatorOperator2"),
-    # UnitTestOperators("test_sampleOperator"),
-    # UnitTestOperators("test_splitOperator"),
+    # UnitTestOperators("test_sampleOperator"), 随机采样
+    # UnitTestOperators("test_splitOperator"), 随机拆分
