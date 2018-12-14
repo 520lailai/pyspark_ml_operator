@@ -307,21 +307,24 @@ class UnitTestOperators(unittest.TestCase):
              (999.9, 19.0)],
             ["features", "features_bucketed"])
         self.assertEqual(dataset_list[0].sort(["features"]).collect(), dataset_re.sort(["features"]).collect())
-
-        # 2、测试等频离散
-        conf = {"bucketizer_conf": [["isofrequecy_discretization", "2", "features", "features_bucketed", "False"]]}
-        operator = BucketizerOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
-        dataset_list = operator.handle([dataset], self.spark)
-        print("------------等频离散--------")
-        dataset_list[0].show()
-
+        # 2、 等频离散用的近似算法，目前不支持断言模式的单元测试
         # 3、自定义离散
         conf = {
             "bucketizer_conf": [["custom_discretization", "-inf,-1,1,inf", "features", "features_bucketed", "False"]]}
         operator = BucketizerOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
         dataset_list = operator.handle([dataset], self.spark)
         print("------------自定义离散--------")
-        dataset_list[0].show()
+
+        dataset_re = self.spark.createDataFrame(
+            [(-999.9, 0.0),
+             (-0.5, 1.0),
+             (-0.3, 1.0),
+             (0.0, 1.0),
+             (0.2, 1.0),
+             (999.9, 2.0)],
+            ["features", "features_bucketed"])
+        self.assertEqual(dataset_list[0].sort(["features"]).collect(), dataset_re.sort(["features"]).collect())
+
 
     def test_featureExceptionSmoothOperator(self):
         conf = {"smooth_conf": [["hour", "7", "15"], ["clicked", "10", "50"]]};
@@ -350,7 +353,7 @@ class UnitTestOperators(unittest.TestCase):
     def test_oneHotEncoderEstimatorOperator(self):
         conf = {"onehot_conf": [["country", "country_onehot"], ["hour", "hour-onehot"], ["score", "score-onehot"]],
                 "drop_last": True,
-                "handle_invalid": "keep",
+                "handle_invalid": "error",
                 "other_col_output": ["id", "clicked"],
                 "is_output_model": True,
                 };
@@ -369,11 +372,11 @@ class UnitTestOperators(unittest.TestCase):
         dataset.show()
 
         dataset_re = self.spark.createDataFrame(
-            [(1, 2, Vectors.sparse(5,[2],[1.0]), Vectors.sparse(5,[2],[1.0]), Vectors.sparse(4,[1],[1.0])),
-             (2, 4, Vectors.sparse(5,[4],[1.0]), Vectors.sparse(5,[4],[1.0]), Vectors.sparse(4,[3],[1.0])),
-             (3, 5, Vectors.sparse(5,[3],[1.0]), Vectors.sparse(5,[0],[1.0]), Vectors.sparse(4,[2],[1.0])),
-             (4, 9, Vectors.sparse(5,[0],[1.0]), Vectors.sparse(5,[1],[1.0]), Vectors.sparse(4,[0],[1.0])),
-             (5, 5, Vectors.sparse(5,[1],[1.0]), Vectors.sparse(5,[3],[1.0]), Vectors.sparse(4,[3],[1.0]))],
+            [(1, 2, Vectors.sparse(4,[2],[1.0]), Vectors.sparse(4,[2],[1.0]), Vectors.sparse(3,[2],[1.0])),
+             (2, 4, Vectors.sparse(4,[0],[1.0]), Vectors.sparse(4,[0],[1.0]), Vectors.sparse(3,[0],[1.0])),
+             (3, 5, Vectors.sparse(4,[1],[1.0]), Vectors.sparse(4,[],[]), Vectors.sparse(3,[1],[1.0])),
+             (4, 9, Vectors.sparse(4,[],[]), Vectors.sparse(4,[3],[1.0]), Vectors.sparse(3,[],[])),
+             (5, 5, Vectors.sparse(4,[3],[1.0]), Vectors.sparse(4,[1],[1.0]), Vectors.sparse(3,[0],[1.0]))],
             ["id", "clicked", "country_onehot", "hour-onehot", "score-onehot"])
 
         mapping_re = self.spark.createDataFrame(
@@ -393,27 +396,17 @@ class UnitTestOperators(unittest.TestCase):
              ("score", "0.0", 3.0)],
             ["col_name", "col_value", "mapping"])
 
-        print("----------my_predict_result_table")
-        dataset_re.show()
-        print("----------my_predict_result_modle")
-        mapping_re.show()
-
         # 1、测试结果的正确性
         dataset_list = operator.handle([dataset], self.spark)
-        # self.assertEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
-        # self.assertEqual(dataset_list[1].sort(["col_name", "col_value"]).collect(),
-        # mapping_re.sort(["col_name", "col_value"]).collect())
-        print("----------result_table")
-        dataset_list[0].show()
-        print("----------result_modle")
-        dataset_list[1].show()
+        self.assertEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
+        self.assertEqual(dataset_list[1].sort(["col_name", "col_value"]).collect(),mapping_re.sort(["col_name", "col_value"]).collect())
 
         return dataset_list
 
     def test_oneHotEncoderEstimatorOperator2(self):
         conf = {"onehot_conf": [["country", "country_onehot"], ["hour", "hour-onehot"], ["score", "score-onehot"]],
                 "drop_last": True,
-                "handle_invalid": "keep",
+                "handle_invalid": "error",
                 "other_col_output": ["id", "clicked"],
                 "is_output_model": True,
                 };
@@ -445,36 +438,17 @@ class UnitTestOperators(unittest.TestCase):
             ["col_name", "col_value", "mapping"])
 
         dataset_list = operator.handle([dataset, modle], self.spark)
-
-        print("---------input-table------")
-        dataset.show()
-
-        print("---------input-modle------")
-        modle.show()
-
-        print("---------result-table------")
-        dataset_list[0].show()
-        print("---------result-modle------")
-        dataset_list[1].show()
-
         dataset_re = self.spark.createDataFrame(
-            [(1, 2, Vectors.sparse(6, [0], [1.0]), Vectors.sparse(19, [18], [1.0]), Vectors.sparse(5, [2], [1.0])),
-             (2, 4, Vectors.sparse(6, [4], [1.0]), Vectors.sparse(19, [12], [1.0]), Vectors.sparse(5, [0], [1.0])),
-             (3, 5, Vectors.sparse(6, [2], [1.0]), Vectors.sparse(19, [5], [1.0]), Vectors.sparse(5, [1], [1.0])),
-             (4, 9, Vectors.sparse(6, [1], [1.0]), Vectors.sparse(19, [4], [1.0]), Vectors.sparse(5, [3], [1.0])),
-             (5, 5, Vectors.sparse(6, [3], [1.0]), Vectors.sparse(19, [15], [1.0]), Vectors.sparse(5, [0], [1.0]))],
+            [(1, 2, Vectors.sparse(4,[2],[1.0]), Vectors.sparse(4,[2],[1.0]), Vectors.sparse(3,[2],[1.0])),
+             (2, 4, Vectors.sparse(4,[0],[1.0]), Vectors.sparse(4,[0],[1.0]), Vectors.sparse(3,[0],[1.0])),
+             (3, 5, Vectors.sparse(4,[1],[1.0]), Vectors.sparse(4,[],[]), Vectors.sparse(3,[1],[1.0])),
+             (4, 9, Vectors.sparse(4,[],[]), Vectors.sparse(4,[3],[1.0]), Vectors.sparse(3,[],[])),
+             (5, 5, Vectors.sparse(4,[3],[1.0]), Vectors.sparse(4,[1],[1.0]), Vectors.sparse(3,[0],[1.0]))],
             ["id", "clicked", "country_onehot", "hour-onehot", "score-onehot"])
 
-        print("---------my_predict_result-table------")
-        dataset_re.show()
-
-        print("---------my_predict_result-model------")
-        modle.show()
-
         # 1、测试结果的正确性
-        # self.assertNotEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
-        # self.assertNotEqual(dataset_list[1].sort(["col_name", "col_value"]).collect(),
-        # modle.sort(["col_name", "col_value"]).collect())
+        self.assertNotEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
+        self.assertNotEqual(dataset_list[1].sort(["col_name", "col_value"]).collect(),modle.sort(["col_name", "col_value"]).collect())
 
     def test_approxQuantileOperator(self):
         conf = {"input_cols": "hour, clicked",
@@ -676,6 +650,9 @@ if __name__ == "__main__":
              UnitTestOperators("test_mathFunctionsOperator"),
              UnitTestOperators("test_normalizedOperator"),
              UnitTestOperators("test_selectOperator"),
+             UnitTestOperators("test_bucketizerOperator"),
+             UnitTestOperators("test_oneHotEncoderEstimatorOperator"),
+             UnitTestOperators("test_oneHotEncoderEstimatorOperator2"),
              UnitTestOperators("test_standardScalerOperator"),
              UnitTestOperators("test_tableReadOperator"),
              UnitTestOperators("test_tableWriteOperator"),
@@ -688,9 +665,6 @@ if __name__ == "__main__":
     runner.run(suite)
 
     # UnitTestOperators("test_labelFeatureToLibsvm"),
-    # UnitTestOperators("test_oneHotEncoderEstimatorOperator"),
-    # UnitTestOperators("test_oneHotEncoderEstimatorOperator2"),
     # UnitTestOperators("test_sampleOperator"), 随机采样
     # UnitTestOperators("test_splitOperator"), 随机拆分
-    # UnitTestOperators("test_tableStatsOperator")
-    # UnitTestOperators("test_bucketizerOperator"),
+    # UnitTestOperators("test_tableStatsOperator") 求方差小数点后随机性不支持断言单测

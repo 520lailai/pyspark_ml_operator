@@ -95,13 +95,13 @@ class BucketizerOperator(DataProcessingOperator):
                 check_cols([input_col], df.columns, self.op_id)
                 # 等频离散
                 if splits_type == "isofrequecy_discretization":
-                    self.isofrequecy_discretization(df, split[0], output_col, input_col)
+                    df = self.isofrequecy_discretization(df, split[0], output_col, input_col)
                 # 等距离散
                 elif splits_type == "isometric_discretization":
-                    self.isometric_discretization(df, split[0], output_col, input_col)
+                    df = self.isometric_discretization(df, split[0], output_col, input_col)
                 # 自定义离散
                 elif splits_type == "custom_discretization":
-                    self.bucketizer_discretizer(df, split, input_col, output_col)
+                    df = self.bucketizer_discretizer(df, split, input_col, output_col)
                 if is_drop_input:
                     df = df.drop(input_col)
             return [df]

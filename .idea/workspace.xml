@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cc8c202c-d9c5-4d6c-b9cd-fb746729fef3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/operators/LabelFeatureToLibsvmOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/LabelFeatureToLibsvmOperator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/operators/BucketizerOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/BucketizerOperator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/operators/OneHotEncoderEstimatorOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/OneHotEncoderEstimatorOperator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operators/TestOperatorsAdditional.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/TestOperatorsAdditional.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/OperatorsParameterParseUtils.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/OperatorsParameterParseUtils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/operators/UnitTestOperators.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/UnitTestOperators.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,41 +32,41 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="iml" value="3" />
-          <entry key="py" value="1530" />
+          <entry key="py" value="1531" />
           <entry key="pyi" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="IDEA_MODULE" value="3" />
-          <entry key="Python" value="1530" />
+          <entry key="Python" value="1531" />
           <entry key="PythonStub" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="66" />
-          <entry key="py" value="40145" />
+          <entry key="py" value="40299" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="66" />
-          <entry key="Python" value="40145" />
+          <entry key="Python" value="40299" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/operators/UnitTestOperators.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="335">
-              <caret line="348" lean-forward="true" selection-start-line="348" selection-end-line="348" />
+            <state relative-caret-position="307">
+              <caret line="659" column="23" selection-start-line="659" selection-start-column="23" selection-end-line="659" selection-end-column="23" />
               <folding>
                 <element signature="e#24#34#0" expanded="true" />
-                <marker date="1544763390217" expanded="true" signature="5780:5789" ph="..." />
+                <marker date="1544773892701" expanded="true" signature="5780:5789" ph="..." />
               </folding>
             </state>
           </provider>
@@ -115,13 +114,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/operators/OneHotEncoderEstimatorOperator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="366">
-              <caret line="157" column="59" selection-start-line="157" selection-start-column="54" selection-end-line="157" selection-end-column="59" />
+            <state relative-caret-position="2546">
+              <caret line="134" lean-forward="true" selection-start-line="134" selection-end-line="134" />
               <folding>
                 <element signature="e#24#81#0" expanded="true" />
-                <marker date="1544768275316" expanded="true" signature="5772:5779" ph="..." />
-                <marker date="1544768275316" expanded="true" signature="5773:5779" ph="..." />
-                <marker date="1544768275316" expanded="true" signature="5774:5775" ph="..." />
+                <marker date="1544772195509" expanded="true" signature="5802:5809" ph="..." />
+                <marker date="1544772195509" expanded="true" signature="5803:5809" ph="..." />
+                <marker date="1544772195509" expanded="true" signature="5804:5805" ph="..." />
               </folding>
             </state>
           </provider>
@@ -160,11 +159,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/operators/TestOperatorsAdditional.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="111" column="13" selection-start-line="111" selection-start-column="8" selection-end-line="111" selection-end-column="13" />
+            <state relative-caret-position="503">
+              <caret line="177" column="19" lean-forward="true" selection-start-line="177" selection-start-column="19" selection-end-line="177" selection-end-column="19" />
               <folding>
                 <element signature="e#24#34#0" expanded="true" />
                 <marker date="1544770684426" expanded="true" signature="656:657" ph="..." />
@@ -174,10 +173,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/operators/StandardScalerOperator.py">
+        <entry file="file://$PROJECT_DIR$/operators/BucketizerOperator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="488">
-              <caret line="87" column="56" selection-start-line="87" selection-start-column="56" selection-end-line="87" selection-end-column="56" />
+            <state relative-caret-position="576">
+              <caret line="108" column="30" selection-start-line="108" selection-start-column="30" selection-end-line="108" selection-end-column="30" />
               <folding>
                 <element signature="e#24#81#0" expanded="true" />
               </folding>
@@ -295,12 +294,12 @@
         <option value="$PROJECT_DIR$/operators/WriteHdfsOperator.py" />
         <option value="$PROJECT_DIR$/operators/WriteRedisOperator.py" />
         <option value="$PROJECT_DIR$/operators/TableWriteOperator.py" />
-        <option value="$PROJECT_DIR$/operators/BucketizerOperator.py" />
-        <option value="$PROJECT_DIR$/operators/UnitTestOperators.py" />
         <option value="$PROJECT_DIR$/operators/LabelFeatureToLibsvmOperator.py" />
-        <option value="$PROJECT_DIR$/operators/OneHotEncoderEstimatorOperator.py" />
         <option value="$PROJECT_DIR$/tools/OperatorsParameterParseUtils.py" />
         <option value="$PROJECT_DIR$/operators/TestOperatorsAdditional.py" />
+        <option value="$PROJECT_DIR$/operators/OneHotEncoderEstimatorOperator.py" />
+        <option value="$PROJECT_DIR$/operators/BucketizerOperator.py" />
+        <option value="$PROJECT_DIR$/operators/UnitTestOperators.py" />
       </list>
     </option>
   </component>
@@ -351,6 +350,19 @@
             <path>
               <item name="feartureEnginneringOperators" type="b2602c69:ProjectViewProjectNode" />
               <item name="feartureEnginneringOperators" type="462c0819:PsiDirectoryNode" />
+              <item name="operators" type="462c0819:PsiDirectoryNode" />
+              <item name="TestOperatorsAdditional.py" type="8704e2dd:PyFileNode" />
+              <item name="TestOperatorsAdditional" type="dd8bbb05:PyElementNode" />
+            </path>
+            <path>
+              <item name="feartureEnginneringOperators" type="b2602c69:ProjectViewProjectNode" />
+              <item name="feartureEnginneringOperators" type="462c0819:PsiDirectoryNode" />
+              <item name="operators" type="462c0819:PsiDirectoryNode" />
+              <item name="UnitTestOperators.py" type="8704e2dd:PyFileNode" />
+            </path>
+            <path>
+              <item name="feartureEnginneringOperators" type="b2602c69:ProjectViewProjectNode" />
+              <item name="feartureEnginneringOperators" type="462c0819:PsiDirectoryNode" />
               <item name="tools" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -370,7 +382,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544771438927" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544773765341" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -534,18 +546,18 @@
       <workItem from="1542170474835" duration="6423000" />
       <workItem from="1542178497606" duration="7717000" />
       <workItem from="1544013300123" duration="173016000" />
-      <workItem from="1544620237080" duration="54266000" />
+      <workItem from="1544620237080" duration="56429000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="567593000" />
+    <option name="totallyTimeSpent" value="569756000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="801" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8591118" visible="true" weight="0.15808298" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8591118" visible="true" weight="0.20386267" />
       <window_info id="Structure" order="1" sideWeight="0.14088821" side_tool="true" weight="0.17038691" />
       <window_info id="Designer" order="2" />
       <window_info id="Learn" order="3" />
@@ -819,16 +831,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/operators/BucketizerOperator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="547">
-          <caret line="107" lean-forward="true" selection-start-line="107" selection-end-line="107" />
-          <folding>
-            <element signature="e#24#81#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/operators/Operator.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="57">
@@ -906,37 +908,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/operators/UnitTestOperators.py">
+    <entry file="file://$PROJECT_DIR$/operators/OneHotEncoderEstimatorOperator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="335">
-          <caret line="348" lean-forward="true" selection-start-line="348" selection-end-line="348" />
+        <state relative-caret-position="2546">
+          <caret line="134" lean-forward="true" selection-start-line="134" selection-end-line="134" />
           <folding>
-            <element signature="e#24#34#0" expanded="true" />
-            <marker date="1544763390217" expanded="true" signature="5780:5789" ph="..." />
+            <element signature="e#24#81#0" expanded="true" />
+            <marker date="1544772195509" expanded="true" signature="5802:5809" ph="..." />
+            <marker date="1544772195509" expanded="true" signature="5803:5809" ph="..." />
+            <marker date="1544772195509" expanded="true" signature="5804:5805" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/operators/OneHotEncoderEstimatorOperator.py">
+    <entry file="file://$PROJECT_DIR$/operators/BucketizerOperator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="157" column="59" selection-start-line="157" selection-start-column="54" selection-end-line="157" selection-end-column="59" />
+        <state relative-caret-position="576">
+          <caret line="108" column="30" selection-start-line="108" selection-start-column="30" selection-end-line="108" selection-end-column="30" />
           <folding>
             <element signature="e#24#81#0" expanded="true" />
-            <marker date="1544768275316" expanded="true" signature="5772:5779" ph="..." />
-            <marker date="1544768275316" expanded="true" signature="5773:5779" ph="..." />
-            <marker date="1544768275316" expanded="true" signature="5774:5775" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/operators/TestOperatorsAdditional.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="111" column="13" selection-start-line="111" selection-start-column="8" selection-end-line="111" selection-end-column="13" />
+        <state relative-caret-position="503">
+          <caret line="177" column="19" lean-forward="true" selection-start-line="177" selection-start-column="19" selection-end-line="177" selection-end-column="19" />
           <folding>
             <element signature="e#24#34#0" expanded="true" />
             <marker date="1544770684426" expanded="true" signature="656:657" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operators/UnitTestOperators.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="307">
+          <caret line="659" column="23" selection-start-line="659" selection-start-column="23" selection-end-line="659" selection-end-column="23" />
+          <folding>
+            <element signature="e#24#34#0" expanded="true" />
+            <marker date="1544773892701" expanded="true" signature="5780:5789" ph="..." />
           </folding>
         </state>
       </provider>

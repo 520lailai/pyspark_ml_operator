@@ -129,7 +129,7 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
                     input_cols[i] = col + "_arthur_index"
 
             # 4、onehot 编码
-            encoder = OneHotEncoderEstimator(inputCols=input_cols, outputCols=output_cols, dropLast=drop_last)
+            encoder = OneHotEncoderEstimator(inputCols=input_cols, handleInvalid=handle_invalid, outputCols=output_cols, dropLast=drop_last)
             model = encoder.fit(df)
             df = model.transform(df)
 
