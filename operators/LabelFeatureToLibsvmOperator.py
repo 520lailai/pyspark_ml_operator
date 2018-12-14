@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import sys
-import os
 from DataProcessingOperator import *
 from pyspark.sql.types import *
 from pyspark.mllib.regression import LabeledPoint
