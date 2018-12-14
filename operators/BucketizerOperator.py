@@ -80,17 +80,18 @@ class BucketizerOperator(DataProcessingOperator):
             for conf in bucketizer_conf:
                 if len(conf) < 5:
                     raise ParameterException("the parameter must more than 5!")
+                # 参数解析
                 splits_type = conf[0]
                 split = str_convert_floatlist(conf[1], self.op_id)
                 input_col = conf[2]
                 output_col = conf[3]
                 is_drop_input = bool_convert(conf[4], self.op_id)
-                # 判空
+                # 参数判空
                 check_parameter_null_or_empty(splits_type, "splits_type", self.op_id)
                 check_parameter_null_or_empty(split, "split", self.op_id)
                 check_parameter_null_or_empty(input_col, "input_col", self.op_id)
                 check_parameter_null_or_empty(output_col, "output_col", self.op_id)
-                # 判列input_cols是否正确
+                # 判列输入列是否正确
                 check_cols([input_col], df.columns, self.op_id)
                 # 等频离散
                 if splits_type == "isofrequecy_discretization":

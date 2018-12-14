@@ -97,7 +97,7 @@ class UnitTestOperators(unittest.TestCase):
                        "partition_by": ["p_cloumns"],
                        };
         operator = TableWriteOperator(op_id="123", op_type="readtable", conf=conf_write2, relation="", result_type="")
-        with self.assertRaises(Exception):
+        with self.assertRaises(ParameterException):
             operator.handle([dataset], self.spark)
 
         # 3、测试写入数据的结果正确性——指定一列为partition的列
@@ -298,7 +298,7 @@ class UnitTestOperators(unittest.TestCase):
         dataset = self.spark.createDataFrame(data, ["features"])
 
         # 1、测试等距离散
-        conf = {"bucketizer_conf": [["isometric_discretization", "100", "features", "features_bucketed", "True"]]}
+        conf = {"bucketizer_conf": [["isometric_discretization", "100", "features", "features_bucketed", "False"]]}
         operator = BucketizerOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
         dataset_list = operator.handle([dataset], self.spark)
         dataset_re = self.spark.createDataFrame(
