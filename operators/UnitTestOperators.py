@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
+
 o_path = os.getcwd()
 sys.path.append(o_path)
 sys.path.append("..")
@@ -324,7 +325,6 @@ class UnitTestOperators(unittest.TestCase):
             ["features", "features_bucketed"])
         self.assertEqual(dataset_list[0].sort(["features"]).collect(), dataset_re.sort(["features"]).collect())
 
-
     def test_featureExceptionSmoothOperator(self):
         conf = {"smooth_conf": [["hour", "7", "15"], ["clicked", "10", "50"]]};
         operator = FeatureExceptionSmoothOperator(op_id="123", op_type="readtable", conf=conf, relation="",
@@ -371,11 +371,11 @@ class UnitTestOperators(unittest.TestCase):
         dataset.show()
 
         dataset_re = self.spark.createDataFrame(
-            [(1, 2, Vectors.sparse(4,[2],[1.0]), Vectors.sparse(4,[2],[1.0]), Vectors.sparse(3,[2],[1.0])),
-             (2, 4, Vectors.sparse(4,[0],[1.0]), Vectors.sparse(4,[0],[1.0]), Vectors.sparse(3,[0],[1.0])),
-             (3, 5, Vectors.sparse(4,[1],[1.0]), Vectors.sparse(4,[],[]), Vectors.sparse(3,[1],[1.0])),
-             (4, 9, Vectors.sparse(4,[],[]), Vectors.sparse(4,[3],[1.0]), Vectors.sparse(3,[],[])),
-             (5, 5, Vectors.sparse(4,[3],[1.0]), Vectors.sparse(4,[1],[1.0]), Vectors.sparse(3,[0],[1.0]))],
+            [(1, 2, Vectors.sparse(4, [2], [1.0]), Vectors.sparse(4, [2], [1.0]), Vectors.sparse(3, [2], [1.0])),
+             (2, 4, Vectors.sparse(4, [0], [1.0]), Vectors.sparse(4, [0], [1.0]), Vectors.sparse(3, [0], [1.0])),
+             (3, 5, Vectors.sparse(4, [1], [1.0]), Vectors.sparse(4, [], []), Vectors.sparse(3, [1], [1.0])),
+             (4, 9, Vectors.sparse(4, [], []), Vectors.sparse(4, [3], [1.0]), Vectors.sparse(3, [], [])),
+             (5, 5, Vectors.sparse(4, [3], [1.0]), Vectors.sparse(4, [1], [1.0]), Vectors.sparse(3, [0], [1.0]))],
             ["id", "clicked", "country_onehot", "hour-onehot", "score-onehot"])
 
         mapping_re = self.spark.createDataFrame(
@@ -398,7 +398,8 @@ class UnitTestOperators(unittest.TestCase):
         # 1、测试结果的正确性
         dataset_list = operator.handle([dataset], self.spark)
         self.assertEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
-        self.assertEqual(dataset_list[1].sort(["col_name", "col_value"]).collect(),mapping_re.sort(["col_name", "col_value"]).collect())
+        self.assertEqual(dataset_list[1].sort(["col_name", "col_value"]).collect(),
+                         mapping_re.sort(["col_name", "col_value"]).collect())
 
         return dataset_list
 
@@ -438,16 +439,17 @@ class UnitTestOperators(unittest.TestCase):
 
         dataset_list = operator.handle([dataset, modle], self.spark)
         dataset_re = self.spark.createDataFrame(
-            [(1, 2, Vectors.sparse(4,[2],[1.0]), Vectors.sparse(4,[2],[1.0]), Vectors.sparse(3,[2],[1.0])),
-             (2, 4, Vectors.sparse(4,[0],[1.0]), Vectors.sparse(4,[0],[1.0]), Vectors.sparse(3,[0],[1.0])),
-             (3, 5, Vectors.sparse(4,[1],[1.0]), Vectors.sparse(4,[],[]), Vectors.sparse(3,[1],[1.0])),
-             (4, 9, Vectors.sparse(4,[],[]), Vectors.sparse(4,[3],[1.0]), Vectors.sparse(3,[],[])),
-             (5, 5, Vectors.sparse(4,[3],[1.0]), Vectors.sparse(4,[1],[1.0]), Vectors.sparse(3,[0],[1.0]))],
+            [(1, 2, Vectors.sparse(4, [2], [1.0]), Vectors.sparse(4, [2], [1.0]), Vectors.sparse(3, [2], [1.0])),
+             (2, 4, Vectors.sparse(4, [0], [1.0]), Vectors.sparse(4, [0], [1.0]), Vectors.sparse(3, [0], [1.0])),
+             (3, 5, Vectors.sparse(4, [1], [1.0]), Vectors.sparse(4, [], []), Vectors.sparse(3, [1], [1.0])),
+             (4, 9, Vectors.sparse(4, [], []), Vectors.sparse(4, [3], [1.0]), Vectors.sparse(3, [], [])),
+             (5, 5, Vectors.sparse(4, [3], [1.0]), Vectors.sparse(4, [1], [1.0]), Vectors.sparse(3, [0], [1.0]))],
             ["id", "clicked", "country_onehot", "hour-onehot", "score-onehot"])
 
         # 1、测试结果的正确性
         self.assertNotEqual(dataset_list[0].sort(["id"]).collect(), dataset_re.sort(["id"]).collect())
-        self.assertNotEqual(dataset_list[1].sort(["col_name", "col_value"]).collect(),modle.sort(["col_name", "col_value"]).collect())
+        self.assertNotEqual(dataset_list[1].sort(["col_name", "col_value"]).collect(),
+                            modle.sort(["col_name", "col_value"]).collect())
 
     def test_approxQuantileOperator(self):
         conf = {"input_cols": "hour, clicked",

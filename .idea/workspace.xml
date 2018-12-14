@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cc8c202c-d9c5-4d6c-b9cd-fb746729fef3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/operators/UnitTestOperators.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/UnitTestOperators.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -19,12 +20,12 @@
     <session id="-466088271">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="6" />
-          <entry key="project.open.time.1" value="3" />
+          <entry key="project.closed" value="7" />
+          <entry key="project.open.time.1" value="4" />
           <entry key="project.open.time.14" value="1" />
           <entry key="project.open.time.7" value="1" />
           <entry key="project.open.time.8" value="2" />
-          <entry key="project.opened" value="7" />
+          <entry key="project.opened" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -44,13 +45,13 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="66" />
-          <entry key="py" value="40303" />
+          <entry key="py" value="40310" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="66" />
-          <entry key="Python" value="40303" />
+          <entry key="Python" value="40310" />
         </counts>
       </usages-collector>
     </session>
@@ -60,11 +61,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/operators/UnitTestOperators.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="36" column="23" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="23" />
+            <state relative-caret-position="339">
+              <caret line="365" column="47" lean-forward="true" selection-start-line="365" selection-start-column="47" selection-end-line="365" selection-end-column="47" />
               <folding>
                 <element signature="e#24#34#0" expanded="true" />
-                <marker date="1544776887392" expanded="true" signature="5779:5788" ph="..." />
+                <marker date="1544779047111" expanded="true" signature="5780:5789" ph="..." />
               </folding>
             </state>
           </provider>
@@ -73,8 +74,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/operators/TestOperatorsAdditional.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="20" column="29" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="29" />
+            <state>
+              <caret selection-end-column="23" />
               <folding>
                 <element signature="e#24#34#0" expanded="true" />
                 <marker date="1544770684426" expanded="true" signature="656:657" ph="..." />
@@ -86,7 +87,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/operators/JoinOperator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="395">
+            <state relative-caret-position="1216">
               <caret line="64" column="18" selection-start-line="64" selection-start-column="6" selection-end-line="64" selection-end-column="18" />
               <folding>
                 <element signature="e#24#81#0" expanded="true" />
@@ -98,7 +99,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/operators/StandardScalerOperator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="488">
+            <state relative-caret-position="1653">
               <caret line="87" column="56" selection-start-line="87" selection-start-column="56" selection-end-line="87" selection-end-column="56" />
               <folding>
                 <element signature="e#24#81#0" expanded="true" />
@@ -110,7 +111,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/operators/WriteRedisOperator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="488">
+            <state relative-caret-position="931">
               <caret line="49" column="34" selection-start-line="49" selection-start-column="34" selection-end-line="49" selection-end-column="34" />
               <folding>
                 <element signature="e#24#81#0" expanded="true" />
@@ -122,8 +123,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/operators/OneHotEncoderEstimatorOperator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="621">
-              <caret line="134" lean-forward="true" selection-start-line="134" selection-end-line="134" />
+            <state relative-caret-position="2546">
+              <caret line="134" selection-start-line="134" selection-end-line="134" />
               <folding>
                 <element signature="e#24#81#0" expanded="true" />
                 <marker date="1544772195509" expanded="true" signature="5802:5809" ph="..." />
@@ -137,7 +138,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/operators/WriteHdfsOperator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
+            <state relative-caret-position="608">
               <caret line="32" column="56" selection-start-line="32" selection-start-column="56" selection-end-line="32" selection-end-column="56" />
               <folding>
                 <element signature="e#24#81#0" expanded="true" />
@@ -150,8 +151,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/operators/VectorAssemblerOperator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="526">
-              <caret line="56" column="17" lean-forward="true" selection-start-line="56" selection-start-column="17" selection-end-line="56" selection-end-column="17" />
+            <state relative-caret-position="1064">
+              <caret line="56" column="17" selection-start-line="56" selection-start-column="17" selection-end-line="56" selection-end-column="17" />
               <folding>
                 <element signature="e#24#70#0" expanded="true" />
               </folding>
@@ -162,11 +163,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/operators/LabelFeatureToLibsvmOperator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1275">
-              <caret line="107" lean-forward="true" selection-start-line="107" selection-end-line="107" />
-              <folding>
-                <element signature="e#25#61#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="1938">
+              <caret line="107" selection-start-line="107" selection-end-line="107" />
             </state>
           </provider>
         </entry>
@@ -174,7 +172,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/operators/MathFunctionsOperator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="529">
+            <state relative-caret-position="760">
               <caret line="40" column="27" selection-start-line="40" selection-start-column="6" selection-end-line="40" selection-end-column="27" />
               <folding>
                 <element signature="e#24#81#0" expanded="true" />
@@ -316,9 +314,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
-    <option name="width" value="1440" />
-    <option name="height" value="801" />
+    <option name="x" value="-2505" />
+    <option name="y" value="-292" />
+    <option name="width" value="1817" />
+    <option name="height" value="1060" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -327,6 +326,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
@@ -349,14 +350,12 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544778076004" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544778896742" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -520,18 +519,18 @@
       <workItem from="1542170474835" duration="6423000" />
       <workItem from="1542178497606" duration="7717000" />
       <workItem from="1544013300123" duration="173016000" />
-      <workItem from="1544620237080" duration="60516000" />
+      <workItem from="1544620237080" duration="61115000" />
+      <workItem from="1544778691186" duration="354000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="573843000" />
+    <option name="totallyTimeSpent" value="574796000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="801" extended-state="0" />
-    <editor active="true" />
+    <frame x="-2505" y="-292" width="1817" height="1060" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8591118" visible="true" weight="0.20386267" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8591118" visible="true" weight="0.13070422" />
       <window_info id="Structure" order="1" sideWeight="0.14088821" side_tool="true" weight="0.17038691" />
       <window_info id="Designer" order="2" />
       <window_info id="Learn" order="3" />
@@ -821,9 +820,74 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/operators/UnitTestOperators.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="365" column="47" lean-forward="true" selection-start-line="365" selection-start-column="47" selection-end-line="365" selection-end-column="47" />
+          <folding>
+            <element signature="e#24#34#0" expanded="true" />
+            <marker date="1544779047111" expanded="true" signature="5780:5789" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operators/TestOperatorsAdditional.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-column="23" />
+          <folding>
+            <element signature="e#24#34#0" expanded="true" />
+            <marker date="1544770684426" expanded="true" signature="656:657" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operators/JoinOperator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1216">
+          <caret line="64" column="18" selection-start-line="64" selection-start-column="6" selection-end-line="64" selection-end-column="18" />
+          <folding>
+            <element signature="e#24#81#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operators/StandardScalerOperator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1653">
+          <caret line="87" column="56" selection-start-line="87" selection-start-column="56" selection-end-line="87" selection-end-column="56" />
+          <folding>
+            <element signature="e#24#81#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operators/WriteRedisOperator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="931">
+          <caret line="49" column="34" selection-start-line="49" selection-start-column="34" selection-end-line="49" selection-end-column="34" />
+          <folding>
+            <element signature="e#24#81#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operators/OneHotEncoderEstimatorOperator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2546">
+          <caret line="134" selection-start-line="134" selection-end-line="134" />
+          <folding>
+            <element signature="e#24#81#0" expanded="true" />
+            <marker date="1544772195509" expanded="true" signature="5802:5809" ph="..." />
+            <marker date="1544772195509" expanded="true" signature="5803:5809" ph="..." />
+            <marker date="1544772195509" expanded="true" signature="5804:5805" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/operators/WriteHdfsOperator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
+        <state relative-caret-position="608">
           <caret line="32" column="56" selection-start-line="32" selection-start-column="56" selection-end-line="32" selection-end-column="56" />
           <folding>
             <element signature="e#24#81#0" expanded="true" />
@@ -834,95 +898,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/operators/VectorAssemblerOperator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="526">
-          <caret line="56" column="17" lean-forward="true" selection-start-line="56" selection-start-column="17" selection-end-line="56" selection-end-column="17" />
+        <state relative-caret-position="1064">
+          <caret line="56" column="17" selection-start-line="56" selection-start-column="17" selection-end-line="56" selection-end-column="17" />
           <folding>
             <element signature="e#24#70#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/operators/WriteRedisOperator.py">
+    <entry file="file://$PROJECT_DIR$/operators/LabelFeatureToLibsvmOperator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="49" column="34" selection-start-line="49" selection-start-column="34" selection-end-line="49" selection-end-column="34" />
-          <folding>
-            <element signature="e#24#81#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/operators/StandardScalerOperator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="87" column="56" selection-start-line="87" selection-start-column="56" selection-end-line="87" selection-end-column="56" />
-          <folding>
-            <element signature="e#24#81#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="1938">
+          <caret line="107" selection-start-line="107" selection-end-line="107" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/operators/MathFunctionsOperator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
+        <state relative-caret-position="760">
           <caret line="40" column="27" selection-start-line="40" selection-start-column="6" selection-end-line="40" selection-end-column="27" />
           <folding>
             <element signature="e#24#81#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/operators/JoinOperator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="64" column="18" selection-start-line="64" selection-start-column="6" selection-end-line="64" selection-end-column="18" />
-          <folding>
-            <element signature="e#24#81#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/operators/TestOperatorsAdditional.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="20" column="29" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="29" />
-          <folding>
-            <element signature="e#24#34#0" expanded="true" />
-            <marker date="1544770684426" expanded="true" signature="656:657" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/operators/OneHotEncoderEstimatorOperator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="621">
-          <caret line="134" lean-forward="true" selection-start-line="134" selection-end-line="134" />
-          <folding>
-            <element signature="e#24#81#0" expanded="true" />
-            <marker date="1544772195509" expanded="true" signature="5802:5809" ph="..." />
-            <marker date="1544772195509" expanded="true" signature="5803:5809" ph="..." />
-            <marker date="1544772195509" expanded="true" signature="5804:5805" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/operators/LabelFeatureToLibsvmOperator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1275">
-          <caret line="107" lean-forward="true" selection-start-line="107" selection-end-line="107" />
-          <folding>
-            <element signature="e#25#61#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/operators/UnitTestOperators.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="36" column="23" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="23" />
-          <folding>
-            <element signature="e#24#34#0" expanded="true" />
-            <marker date="1544776887392" expanded="true" signature="5779:5788" ph="..." />
           </folding>
         </state>
       </provider>
