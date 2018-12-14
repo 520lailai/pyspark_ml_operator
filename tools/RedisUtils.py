@@ -20,7 +20,9 @@ class RedisUtils:
     @staticmethod
     def write_redis(key, value):
         try:
-            RedisUtils.__redis_client.set(key, value)
+            data_re = RedisUtils.__redis_client.get(key)
+            data_re.append(value)
+            RedisUtils.__redis_client.set(key, data_re)
             print("set to redis:", RedisUtils.__redis_client.get(key))
         except Exception:
             msg = traceback.format_exc()

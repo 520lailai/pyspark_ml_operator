@@ -6,8 +6,8 @@ from pyspark.mllib.util import MLUtils
 from pyspark.mllib.linalg import Vectors as MLLibVectors
 from tools.OperatorsParameterParseUtils import *
 
-""" 
-    模块功能：将带有标签的数据转换成libsvm 格式
+"""
+ 模块功能：将带有标签的数据转换成libsvm 格式
     label：数值类型
     feature：向量类型
     假设有一个dataframe有两列 ["label", "features"]
@@ -43,7 +43,6 @@ from tools.OperatorsParameterParseUtils import *
     |2.0 1:2.0 2:1.3 3:7.1|
     |3.0 1:3.0 2:2.6 3:6.3|
     +---------------------+
-        
 """
 
 
@@ -107,5 +106,5 @@ class LabelFeatureToLibsvmOperator(DataProcessingOperator):
                 return {output_col: ""}
 
         except Exception as e:
-            e.args += (' op_id :'+ str(self.op_id),)
+            e.args += (' op_id :' + str(self.op_id),)
             raise
