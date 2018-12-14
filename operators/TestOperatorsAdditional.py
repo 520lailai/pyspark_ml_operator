@@ -44,23 +44,28 @@ class TestOperatorsAdditional:
         dataset.show()
 
         dataset_re = self.spark.createDataFrame(
-            [(1, 2, Vectors.sparse(6, [0], [1.0]), Vectors.sparse(19, [18], [1.0]), Vectors.sparse(5, [2], [1.0])),
-             (2, 4, Vectors.sparse(6, [4], [1.0]), Vectors.sparse(19, [12], [1.0]), Vectors.sparse(5, [0], [1.0])),
-             (3, 5, Vectors.sparse(6, [2], [1.0]), Vectors.sparse(19, [5], [1.0]), Vectors.sparse(5, [1], [1.0])),
-             (4, 9, Vectors.sparse(6, [1], [1.0]), Vectors.sparse(19, [4], [1.0]), Vectors.sparse(5, [3], [1.0])),
-             (5, 5, Vectors.sparse(6, [3], [1.0]), Vectors.sparse(19, [15], [1.0]), Vectors.sparse(5, [0], [1.0]))],
+            [(1, 2, Vectors.sparse(5,[2],[1.0]), Vectors.sparse(5,[2],[1.0]), Vectors.sparse(4,[1],[1.0])),
+             (2, 4, Vectors.sparse(5,[4],[1.0]), Vectors.sparse(5,[4],[1.0]), Vectors.sparse(4,[3],[1.0])),
+             (3, 5, Vectors.sparse(5,[3],[1.0]), Vectors.sparse(5,[0],[1.0]), Vectors.sparse(4,[2],[1.0])),
+             (4, 9, Vectors.sparse(5,[0],[1.0]), Vectors.sparse(5,[1],[1.0]), Vectors.sparse(4,[0],[1.0])),
+             (5, 5, Vectors.sparse(5,[1],[1.0]), Vectors.sparse(5,[3],[1.0]), Vectors.sparse(4,[3],[1.0]))],
             ["id", "clicked", "country_onehot", "hour-onehot", "score-onehot"])
 
         mapping_re = self.spark.createDataFrame(
-            [("country", "united kiongdom", 1.0),
-             ("country", "China", 0.0),
-             ("country", "Vietnam", 3.0),
-             ("country", "Brazil", 2.0),
+            [("country", "Vietnam", 1.0),
+             ("country", "Brazil", 3.0),
+             ("country", "China", 2.0),
              ("country", "America", 4.0),
-             ("score", "6.7", 3.0),
-             ("score", "0.5", 1.0),
-             ("score", "1.5", 2.0),
-             ("score", "0.0", 0.0)],
+             ("country", "united kiongdom", 0.0),
+             ("hour", "12", 4.0),
+             ("hour", "15", 3.0),
+             ("hour", "18", 2.0),
+             ("hour", "4", 1.0),
+             ("hour", "5", 0.0),
+             ("score", "6.7", 0.0),
+             ("score", "1.5", 1.0),
+             ("score", "0.5", 2.0),
+             ("score", "0.0", 3.0)],
             ["col_name", "col_value", "mapping"])
 
         print("----------my_predict_result_table")
@@ -96,12 +101,25 @@ class TestOperatorsAdditional:
              (5, "Vietnam", 15, 0.0, 5)],
             ["id", "country", "hour", "score", "clicked"])
 
+        dataset_re = self.spark.createDataFrame(
+            [(1, 2, Vectors.sparse(5,[2],[1.0]), Vectors.sparse(5,[2],[1.0]), Vectors.sparse(4,[1],[1.0])),
+             (2, 4, Vectors.sparse(5,[4],[1.0]), Vectors.sparse(5,[4],[1.0]), Vectors.sparse(4,[3],[1.0])),
+             (3, 5, Vectors.sparse(5,[3],[1.0]), Vectors.sparse(5,[0],[1.0]), Vectors.sparse(4,[2],[1.0])),
+             (4, 9, Vectors.sparse(5,[0],[1.0]), Vectors.sparse(5,[1],[1.0]), Vectors.sparse(4,[0],[1.0])),
+             (5, 5, Vectors.sparse(5,[1],[1.0]), Vectors.sparse(5,[3],[1.0]), Vectors.sparse(4,[3],[1.0]))],
+            ["id", "clicked", "country_onehot", "hour-onehot", "score-onehot"])
+
         modle = self.spark.createDataFrame(
-            [("country", "united kiongdom", 0.0),
-             ("country", "Vietnam", 1.0),
+            [("country", "Vietnam", 1.0),
              ("country", "Brazil", 3.0),
              ("country", "China", 2.0),
              ("country", "America", 4.0),
+             ("country", "united kiongdom", 0.0),
+             ("hour", "12", 4.0),
+             ("hour", "15", 3.0),
+             ("hour", "18", 2.0),
+             ("hour", "4", 1.0),
+             ("hour", "5", 0.0),
              ("score", "6.7", 0.0),
              ("score", "1.5", 1.0),
              ("score", "0.5", 2.0),
@@ -121,13 +139,6 @@ class TestOperatorsAdditional:
         print("---------result-modle------")
         dataset_list[1].show()
 
-        dataset_re = self.spark.createDataFrame(
-            [(1, 2, Vectors.sparse(6, [0], [1.0]), Vectors.sparse(19, [18], [1.0]), Vectors.sparse(5, [2], [1.0])),
-             (2, 4, Vectors.sparse(6, [4], [1.0]), Vectors.sparse(19, [12], [1.0]), Vectors.sparse(5, [0], [1.0])),
-             (3, 5, Vectors.sparse(6, [2], [1.0]), Vectors.sparse(19, [5], [1.0]), Vectors.sparse(5, [1], [1.0])),
-             (4, 9, Vectors.sparse(6, [1], [1.0]), Vectors.sparse(19, [4], [1.0]), Vectors.sparse(5, [3], [1.0])),
-             (5, 5, Vectors.sparse(6, [3], [1.0]), Vectors.sparse(19, [15], [1.0]), Vectors.sparse(5, [0], [1.0]))],
-            ["id", "clicked", "country_onehot", "hour-onehot", "score-onehot"])
 
         print("---------my_predict_result-table------")
         dataset_re.show()
