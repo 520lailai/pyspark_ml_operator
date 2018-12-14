@@ -117,7 +117,6 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
             col_type[name[0]] = name[1]
 
         try:
-
             # 3、StringIndex的编码, 如果有模型表，那么取出每一列与原表做join, 如果没有的模型表，新增StringIndex编码列
             if input_modle:
                 df, input_cols = self.string_index_from_model(input_cols, df, input_modle, col_type)
@@ -132,8 +131,7 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
             # 4、onehot encoder
             encoder = OneHotEncoderEstimator(inputCols=input_cols, outputCols=output_cols)
             if drop_last is not None:
-                drop_last = bool_convert(drop_last, self.op_id)
-                encoder.setDropLast(drop_last)
+                encoder = encoder.setDropLast(drop_last)
 
             model = encoder.fit(df)
             encoded = model.transform(df)

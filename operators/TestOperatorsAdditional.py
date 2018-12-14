@@ -126,13 +126,13 @@ class TestOperatorsAdditional:
              ("score", "0.0", 3.0)],
             ["col_name", "col_value", "mapping"])
 
-        dataset_list = operator.handle([dataset, modle], self.spark)
-
         print("---------input-table------")
         dataset.show()
 
         print("---------input-modle------")
         modle.show()
+
+        dataset_list = operator.handle([dataset, modle], self.spark)
 
         print("---------result-table------")
         dataset_list[0].show()

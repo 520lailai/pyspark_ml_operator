@@ -8,7 +8,7 @@ from pyspark.sql.types import DoubleType
 
 def check_dataframe(df, op_id):
     if not df:
-        raise ParameterException("the handle function's input dataframe is null,op_id:" + str(op_id))
+        raise ParameterException("the handle function's input dataframe is null, op_id:" + str(op_id))
 
 
 def check_parameter_null_or_empty(param, param_name, op_id):
@@ -19,24 +19,24 @@ def check_parameter_null_or_empty(param, param_name, op_id):
 # check List[String] not null, and every element
 def check_strlist_parameter(param, op_id):
     if not param:
-        raise ParameterException("parameter null exception,op_id:" + str(op_id))
+        raise ParameterException("parameter null exception, op_id:" + str(op_id))
     if type(param) == list:
         for s in param:
             check_parameter_null_or_empty(s, "the parameter has null parameter", op_id)
     else:
-        raise ParameterException("not a str list : " + param + ",op_id:" + str(op_id))
+        raise ParameterException("not a str list : " + param + ", op_id:" + str(op_id))
 
 
 def int_convert(int_str, op_id):
     if type(int_str) == int:
         return int_str
     if not int_str:
-        raise ParameterException("the parameter is null,op_id:" + str(op_id))
+        raise ParameterException("the parameter is null, op_id:" + str(op_id))
     try:
         num = int(int_str)
         return num
     except Exception:
-        raise ParameterException("the parameter convert error : " + num + ",op_id:" + str(op_id))
+        raise ParameterException("the parameter convert error : " + num + ", op_id:" + str(op_id))
 
 
 def get_df_schema(df):
@@ -49,18 +49,18 @@ def get_df_schema(df):
 
 def float_convert(float_str, op_id):
     if not float_str:
-        raise ParameterException("the parameter is null,op_id: " + str(op_id))
+        raise ParameterException("the parameter is null, op_id: " + str(op_id))
     if type(float_str) == float:
         return float_str
     try:
         return float(float_str)
     except Exception:
-        raise ParameterException("the parameter convert error: " + float_str + ",op_id:" + str(op_id))
+        raise ParameterException("the parameter convert error: " + float_str + ", op_id:" + str(op_id))
 
 
 def bool_convert(bool_str, op_id):
     if bool_str is None:
-        raise ParameterException("the parameter convert error: " + bool_str + ",op_id:" + str(op_id))
+        raise ParameterException("the parameter convert error: " + bool_str + ", op_id:" + str(op_id))
     if type(bool_str) == bool:
         return bool_str
     if bool_str == 'False':
@@ -68,7 +68,7 @@ def bool_convert(bool_str, op_id):
     elif bool_str == 'True':
         return True
     else:
-        raise ParameterException("input bool parameter error:" + str(bool_str) + ",op_id" + str(op_id))
+        raise ParameterException("input bool parameter error:" + str(bool_str) + ", op_id" + str(op_id))
 
 
 def check_cols(select_col, cols, op_id):
@@ -81,7 +81,7 @@ def check_cols(select_col, cols, op_id):
     for name in select_col:
         if name not in cols:
             raise ParameterException(
-                "the dataframe does not have this column name:" + str(name) + "op_id:" + str(op_id))
+                "the dataframe does not have this column name:" + str(name) + ", op_id:" + str(op_id))
 
 
 # "name, sex, id"
@@ -102,7 +102,7 @@ def str_convert_strlist(str, op_id):
 # "False, True, False"
 def str_convert_boollist(str, op_id):
     if not str:
-        raise ParameterException("the parameter is null,op_id:" + str(op_id))
+        raise ParameterException("the parameter is null, op_id:" + str(op_id))
     if (type(str) == list):
         bool_str_list = str
     else:
@@ -167,7 +167,7 @@ def convert_cols_parameter(fields, col_name_value, op_id):
         col = col_value[0]
         value = col_value[1]
         if not col_type[col]:
-            raise ParameterException("the col name is error:" + str(col) + ",op_id:" + str(op_id))
+            raise ParameterException("the col name is error:" + str(col) + ", op_id:" + str(op_id))
         try:
             if isinstance(col_type[col], LongType):
                 value = long(value)
@@ -178,7 +178,7 @@ def convert_cols_parameter(fields, col_name_value, op_id):
             elif isinstance(col_type[col], BooleanType):
                 value = bool(value)
         except Exception:
-            raise ParameterException("parameter convert error :" + str(value) + ",op_id:" + str(op_id))
+            raise ParameterException("parameter convert error :" + str(value) + ", op_id:" + str(op_id))
         col_value_dict[col] = value
         if not col_value_dict:
             raise ParameterException("parameter null error :" + str(col_value_dict) + ", op_id:" + str(op_id))
