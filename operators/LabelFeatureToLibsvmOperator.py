@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from DataProcessingOperator import *
+from DataProcessingOperator import DataProcessingOperator
 from pyspark.sql.types import *
 from pyspark.mllib.regression import LabeledPoint
 from pyspark.mllib.util import MLUtils
