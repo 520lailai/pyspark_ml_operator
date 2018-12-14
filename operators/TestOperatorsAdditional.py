@@ -13,6 +13,7 @@ from OneHotEncoderEstimatorOperator import OneHotEncoderEstimatorOperator
 from SampleOperator import SampleOperator
 from LabelFeatureToLibsvmOperator import LabelFeatureToLibsvmOperator
 from RandomSplitOperator import RandomSplitOperator
+from TableStatsOperator import TableStatsOperator
 
 
 class TestOperatorsAdditional:
@@ -230,22 +231,60 @@ class TestOperatorsAdditional:
         print(conf)
         dataset_list[0].show()
 
-    if __name__ == "__main__":
 
-        test_oneHotEncoderEstimatorOperator()
-        print('\n')
+    def test_tableStatsOperator(self):
+        conf = {"cols": ["hour", "clicked"]};
+        operator = TableStatsOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
 
-        test_oneHotEncoderEstimatorOperator2()
-        print('\n')
+        dataset = self.spark.createDataFrame(
+            [(1, "US", 18, 10.0),
+             (2, "CA", 12, 20.0),
+             (3, "NZ", 15, 30.0),
+             (4, "HK", 19, 30.0),
+             (5, "MZ", 21, 30.0)],
+            ["id", "country", "hour", "clicked"])
 
-        test_splitOperator()
-        print('\n')
+        dataset.show()
+        print(conf)
+        dataset_re = self.spark.createDataFrame(
+            [("count", "5", "5"),
+             ("mean", "17.0", "24.0"),
+             ("stddev", "3.5355339059327378", "8.94427190999916"),
+             ("min", "12", "10.0"),
+             ("25%", "15", "20.0"),
+             ("50%", "18", "30.0"),
+             ("75%", "19", "30.0"),
+             ("max", "21", "30.0")],
+            ["summary", "hour", "clicked"])
 
-        test_labelFeatureToLibsvm()
-        print('\n')
+        dataset_list = operator.handle([dataset], self.spark)
+        print("-------- result_table -----")
+        dataset_list[0].show()
 
-        test_sampleOperator()
-        print('\n')
+        print("-------- dataset_re -----")
+        dataset_re.show()
+
+
+
+if __name__ == "__main__":
+    test = TestOperatorsAdditional()
+
+    test.test_oneHotEncoderEstimatorOperator()
+    print('\n')
+
+    test.test_oneHotEncoderEstimatorOperator2()
+    print('\n')
+
+    test.test_splitOperator()
+    print('\n')
+
+    test.test_labelFeatureToLibsvm()
+    print('\n')
+
+    test.test_sampleOperator()
+    print('\n')
+
+
 
 
 

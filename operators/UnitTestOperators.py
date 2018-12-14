@@ -524,7 +524,6 @@ class UnitTestOperators(unittest.TestCase):
         conf = {"sql_query": "select * from lai_test.test1"};
         operator = ApplyQuerySqlOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
         dataset_list = operator.handle([], self.spark)
-        dataset_list[0].show(truncate=False)
 
         dataset_re = self.spark.createDataFrame(
             [(7, "US", 18, 1.0),
@@ -673,7 +672,6 @@ if __name__ == "__main__":
              UnitTestOperators("test_selectOperator"),
              UnitTestOperators("test_standardScalerOperator"),
              UnitTestOperators("test_tableReadOperator"),
-             UnitTestOperators("test_tableStatsOperator"),
              UnitTestOperators("test_tableWriteOperator"),
              UnitTestOperators("test_vectorAssemblerOperator"),
              UnitTestOperators("test_writeRedisOperator")
@@ -688,3 +686,4 @@ if __name__ == "__main__":
     # UnitTestOperators("test_oneHotEncoderEstimatorOperator2"),
     # UnitTestOperators("test_sampleOperator"), 随机采样
     # UnitTestOperators("test_splitOperator"), 随机拆分
+    # UnitTestOperators("test_tableStatsOperator")
