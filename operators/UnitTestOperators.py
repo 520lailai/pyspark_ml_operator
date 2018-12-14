@@ -35,7 +35,6 @@ from tools.JsonUtils import ExtendJSONEncoder
 from tools.OperatorsParameterParseUtils import *
 
 
-
 class UnitTestOperators(unittest.TestCase):
     spark = None
 
@@ -99,7 +98,7 @@ class UnitTestOperators(unittest.TestCase):
                        };
         operator = TableWriteOperator(op_id="123", op_type="readtable", conf=conf_write2, relation="", result_type="")
         with self.assertRaises(Exception):
-            dataframe_list = operator.handle([dataset], self.spark)
+            operator.handle([dataset], self.spark)
 
         # 3、测试写入数据的结果正确性——指定一列为partition的列
         conf_write1 = {"db_name": "lai_test",
@@ -608,7 +607,7 @@ class UnitTestOperators(unittest.TestCase):
         self.assertEqual(dataset_list[0].sort(["label_libsvm_clicked"]).collect(),
                          dataset_re.sort(["label_libsvm_clicked"]).collect())
 
-    def test_VectorAssemblerOperator(self):
+    def test_vectorAssemblerOperator(self):
         conf = {"column_names": ["hour", "clicked"],
                 "output": "label_libsvm_clicked"}
         operator = VectorAssemblerOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
@@ -663,29 +662,29 @@ class UnitTestOperators(unittest.TestCase):
 
 
 if __name__ == "__main__":
-
     suite = unittest.TestSuite()
     tests = [UnitTestOperators("test_applyQuerySqlOperator"),
              UnitTestOperators("test_approxQuantileOperator"),
              UnitTestOperators("test_bucketizerOperator"),
              UnitTestOperators("test_defaultValueFillOperator"),
              UnitTestOperators("test_featureExceptionSmoothOperator"),
-             UnitTestOperators("test_labelFeatureToLibsvm"),
              UnitTestOperators("test_mathFunctionsOperator"),
              UnitTestOperators("test_normalizedOperator"),
-             UnitTestOperators("test_oneHotEncoderEstimatorOperator"),
-             UnitTestOperators("test_oneHotEncoderEstimatorOperator2"),
-             UnitTestOperators("test_sampleOperator"),
              UnitTestOperators("test_selectOperator"),
-             UnitTestOperators("test_splitOperator"),
              UnitTestOperators("test_standardScalerOperator"),
              UnitTestOperators("test_tableReadOperator"),
              UnitTestOperators("test_tableStatsOperator"),
              UnitTestOperators("test_tableWriteOperator"),
-             UnitTestOperators("test_VectorAssemblerOperator"),
+             UnitTestOperators("test_vectorAssemblerOperator"),
              UnitTestOperators("test_writeRedisOperator")
-            ]
+             ]
     suite.addTests(tests)
 
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)
+
+    # UnitTestOperators("test_labelFeatureToLibsvm"),
+    # UnitTestOperators("test_oneHotEncoderEstimatorOperator"),
+    # UnitTestOperators("test_oneHotEncoderEstimatorOperator2"),
+    # UnitTestOperators("test_sampleOperator"),
+    # UnitTestOperators("test_splitOperator"),

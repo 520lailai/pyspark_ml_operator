@@ -57,7 +57,7 @@ class TableWriteOperator(DataProcessingOperator):
                 df.write.saveAsTable(name, format=save_format, mode=mode, partitionBy=partition_by)
             # 自动新加一列作为partition列名
             elif is_partition_by_date:
-                df = df.withColumn("arthur_p_date", lit(time.strftime("%Y-%m-%d|%H:%M:%S", time.localtime())))
+                df = df.withColumn("arthur_p_date", lit(time.strftime("%Y-%m-%d", time.localtime())))
                 df.write.saveAsTable(name, format=save_format, mode=mode, partitionBy="arthur_p_date")
             else:
                 #不分区
