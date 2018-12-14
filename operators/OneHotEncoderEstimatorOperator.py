@@ -124,17 +124,14 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
                 # 如果没有的模型表，全部的输入列将重新StringIndex编码
                 for i, col in enumerate(input_cols):
                     indexer = StringIndexer(inputCol=col, outputCol=col + "_arthur_index",
-                                            handleInvalid=handle_invalid, stringOrderType="alphabetDesc")
+                                            handleInvalid=handle_invalid, stringOrderType="alphabetAsc")
                     df = indexer.fit(df).transform(df)
                     input_cols[i] = col + "_arthur_index"
 
-            # 4、onehot encoder
-            encoder = OneHotEncoderEstimator(inputCols=input_cols, outputCols=output_cols)
-            if drop_last is not None:
-                encoder = encoder.setDropLast(drop_last)
-
+            # 4、onehot 编码
+            encoder = OneHotEncoderEstimator(inputCols=input_cols, outputCols=output_cols, dropLast=drop_last)
             model = encoder.fit(df)
-            encoded = model.transform(df)
+            df = model.transform(df)
 
 
             # 5、获得输出模型表
@@ -146,15 +143,16 @@ class OneHotEncoderEstimatorOperator(DataProcessingOperator):
                     output_model = self.get_output_model(df, input_cols, spark)
 
             # 6、获得输出表
-            for name in encoded.columns:
+            for name in df.columns:
                 if name not in other_col_output and name not in output_cols:
-                    encoded = encoded.drop(name)
+                    df = df.drop(name)
 
-            return [encoded, output_model]
+            return [df, output_model]
 
         except Exception as e:
             e.args += (' op_id :'+ str(self.op_id),)
             raise
+
 
 
     def string_index_from_model(self, input_cols, df, modle, col_type):

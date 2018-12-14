@@ -59,8 +59,6 @@ def float_convert(float_str, op_id):
 
 
 def bool_convert(bool_str, op_id):
-    if bool_str is None:
-        raise ParameterException("the parameter convert error: " + bool_str + ", op_id:" + str(op_id))
     if type(bool_str) == bool:
         return bool_str
     if bool_str == 'False':

@@ -1,11 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
-o_path = os.getcwd()
-sys.path.append(o_path)
-sys.path.append("..")
-sys.path.append("../tools")
-
 from DataProcessingOperator import *
 from pyspark.sql.types import *
 from pyspark.mllib.regression import LabeledPoint

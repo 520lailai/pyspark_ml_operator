@@ -25,7 +25,7 @@ class TestOperatorsAdditional:
         print("------------test_oneHotEncoderEstimatorOperator:--------------")
         conf = {"onehot_conf": [["country", "country_onehot"], ["hour", "hour-onehot"], ["score", "score-onehot"]],
                 "drop_last": True,
-                "handle_invalid": "keep",
+                "handle_invalid": "error",
                 "other_col_output": ["id", "clicked"],
                 "is_output_model": True,
                 };
@@ -87,7 +87,7 @@ class TestOperatorsAdditional:
         print("------------test_oneHotEncoderEstimatorOperator2:--------------")
         conf = {"onehot_conf": [["country", "country_onehot"], ["hour", "hour-onehot"], ["score", "score-onehot"]],
                 "drop_last": True,
-                "handle_invalid": "keep",
+                "handle_invalid": "error",
                 "other_col_output": ["id", "clicked"],
                 "is_output_model": True,
                 };
