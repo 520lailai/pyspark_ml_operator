@@ -40,10 +40,13 @@ class RedisUtils:
 
     @staticmethod
     def save_file(key, conf):
+        if not conf:
+            raise ValueError("the parameter:conf is null")
+        if not key:
+            raise ValueError("the parameter:key is null")
+
         data_key = conf.get("data_key")
         file_path = conf.get("file_path")
-        if not key:
-            raise ValueError("the conf parameter:key ")
 
         if not os.path.exists(file_path):
             raise ValueError("the file_path is not exist:" + file_path)
@@ -58,16 +61,10 @@ class RedisUtils:
             try:
                 f = open(afile, 'r')
                 data = f.read()
-                RedisUtils.write_redis(key,{data_key:data})
+                RedisUtils.write_redis(key, {data_key: data})
             finally:
                 if f:
                     f.close()
-
-
-if __name__ == "__main__":
-    RedisUtils.write_redis("test_redis_key1",
-                           '[[1, "US", 15, 10.0], [2, "CA", 12, 10.0], [3, "CA", 7, 50.0], [4, "CA", 7, 17.0], [5, "NZ", 15, 10.0]]')
-    print(RedisUtils.read_redis("test_redis_key1"))
 
 
 class WriteRedisError(BaseException):
