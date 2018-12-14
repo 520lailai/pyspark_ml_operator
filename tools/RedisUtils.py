@@ -20,9 +20,7 @@ class RedisUtils:
     @staticmethod
     def write_redis(key, value):
         try:
-            data_re = RedisUtils.__redis_client.get(key)
-            data_re.append(value)
-            RedisUtils.__redis_client.set(key, data_re)
+            RedisUtils.__redis_client.set(key, value)
             print("set to redis:", RedisUtils.__redis_client.get(key))
         except Exception:
             msg = traceback.format_exc()
@@ -41,7 +39,9 @@ class RedisUtils:
         return data
 
     @staticmethod
-    def save_file(key, file_path):
+    def save_file(key, conf):
+        data_key = conf.get("data_key")
+        file_path = conf.get("file_path")
         if not key:
             raise ValueError("the conf parameter:key ")
 
@@ -58,7 +58,7 @@ class RedisUtils:
             try:
                 f = open(afile, 'r')
                 data = f.read()
-                RedisUtils.write_redis(key, data)
+                RedisUtils.write_redis(key,{data_key:data})
             finally:
                 if f:
                     f.close()
