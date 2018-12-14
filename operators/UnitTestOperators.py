@@ -11,7 +11,6 @@ from pyspark.ml.linalg import Vectors
 import json
 from tools.RedisUtils import *
 from pyspark.sql import Row
-
 from TableReadOperator import TableReadOperator
 from TableWriteOperator import TableWriteOperator
 from SampleOperator import SampleOperator
@@ -651,7 +650,7 @@ if __name__ == "__main__":
              UnitTestOperators("test_mathFunctionsOperator"),
              UnitTestOperators("test_normalizedOperator"),
              UnitTestOperators("test_selectOperator"),
-             UnitTestOperators("test_JoinOperator"),
+             UnitTestOperators("test_joinOperator"),
              UnitTestOperators("test_bucketizerOperator"),
              UnitTestOperators("test_oneHotEncoderEstimatorOperator"),
              UnitTestOperators("test_oneHotEncoderEstimatorOperator2"),

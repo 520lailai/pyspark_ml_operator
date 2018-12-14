@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cc8c202c-d9c5-4d6c-b9cd-fb746729fef3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/operators/UnitTestOperators.py" beforeDir="false" afterPath="$PROJECT_DIR$/operators/UnitTestOperators.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -61,11 +60,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/operators/UnitTestOperators.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="339">
-              <caret line="365" column="47" lean-forward="true" selection-start-line="365" selection-start-column="47" selection-end-line="365" selection-end-column="47" />
+            <state relative-caret-position="193">
+              <caret line="654" column="57" lean-forward="true" selection-start-line="654" selection-start-column="57" selection-end-line="654" selection-end-column="57" />
               <folding>
                 <element signature="e#24#34#0" expanded="true" />
-                <marker date="1544779047111" expanded="true" signature="5780:5789" ph="..." />
+                <marker date="1544779358491" expanded="true" signature="5779:5788" ph="..." />
               </folding>
             </state>
           </provider>
@@ -313,11 +312,10 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="-2505" />
-    <option name="y" value="-292" />
-    <option name="width" value="1817" />
-    <option name="height" value="1060" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="23" />
+    <option name="width" value="1440" />
+    <option name="height" value="801" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -355,7 +353,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544778896742" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544779212404" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -520,17 +518,18 @@
       <workItem from="1542178497606" duration="7717000" />
       <workItem from="1544013300123" duration="173016000" />
       <workItem from="1544620237080" duration="61115000" />
-      <workItem from="1544778691186" duration="354000" />
+      <workItem from="1544778691186" duration="630000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="574796000" />
+    <option name="totallyTimeSpent" value="575072000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-2505" y="-292" width="1817" height="1060" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="801" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8591118" visible="true" weight="0.13070422" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8591118" visible="true" weight="0.16595136" />
       <window_info id="Structure" order="1" sideWeight="0.14088821" side_tool="true" weight="0.17038691" />
       <window_info id="Designer" order="2" />
       <window_info id="Learn" order="3" />
@@ -822,11 +821,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/operators/UnitTestOperators.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="365" column="47" lean-forward="true" selection-start-line="365" selection-start-column="47" selection-end-line="365" selection-end-column="47" />
+        <state relative-caret-position="193">
+          <caret line="654" column="57" lean-forward="true" selection-start-line="654" selection-start-column="57" selection-end-line="654" selection-end-column="57" />
           <folding>
             <element signature="e#24#34#0" expanded="true" />
-            <marker date="1544779047111" expanded="true" signature="5780:5789" ph="..." />
+            <marker date="1544779358491" expanded="true" signature="5779:5788" ph="..." />
           </folding>
         </state>
       </provider>
