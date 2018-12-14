@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
+
 o_path = os.getcwd()
 sys.path.append(o_path)
 sys.path.append("..")
@@ -14,6 +15,7 @@ from SampleOperator import SampleOperator
 from LabelFeatureToLibsvmOperator import LabelFeatureToLibsvmOperator
 from RandomSplitOperator import RandomSplitOperator
 from TableStatsOperator import TableStatsOperator
+from BucketizerOperator import BucketizerOperator
 
 
 class TestOperatorsAdditional:
@@ -75,7 +77,6 @@ class TestOperatorsAdditional:
         dataset_list[1].show()
 
         return dataset_list
-
 
     def test_oneHotEncoderEstimatorOperator2(self):
         print("------------test_oneHotEncoderEstimatorOperator2:--------------")
@@ -167,7 +168,6 @@ class TestOperatorsAdditional:
         dataset_list = operator.handle([dataset], self.spark)
         dataset_list[0].show()
 
-
     def test_splitOperator(self):
         print("------------test_splitOperator:--------------")
         conf = {"left_weight": "0.2",
@@ -205,7 +205,6 @@ class TestOperatorsAdditional:
         dataset_list[0].show()
         dataset_list[1].show()
 
-
     def test_labelFeatureToLibsvm(self):
         print("-------------test_labelFeatureToLibsvm--")
         conf = {"column_name": "clicked",
@@ -230,7 +229,6 @@ class TestOperatorsAdditional:
         dataset.show()
         print(conf)
         dataset_list[0].show()
-
 
     def test_tableStatsOperator(self):
         conf = {"cols": ["hour", "clicked"]};
@@ -264,6 +262,50 @@ class TestOperatorsAdditional:
         print("-------- dataset_re -----")
         dataset_re.show()
 
+    def test_bucketizerOperator(self):
+        print("------------test_bucketizerOperator--------")
+        data = [(-999.9,), (-0.5,), (-0.3,), (0.0,), (0.2,), (999.9,)]
+        dataset = self.spark.createDataFrame(data, ["features"])
+
+        print("------------ dataset--------")
+        dataset.show()
+
+        # 1、测试等距离散
+        conf = {"bucketizer_conf": [["isometric_discretization", "100", "features", "features_bucketed", "False"]]}
+        operator = BucketizerOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
+        dataset_list = operator.handle([dataset], self.spark)
+        dataset_re = self.spark.createDataFrame(
+            [(-999.9, 0.0),
+             (-0.5, 9.0),
+             (-0.3, 9.0),
+             (0.0, 9.0),
+             (0.2, 10.0),
+             (999.9, 19.0)],
+            ["features", "features_bucketed"])
+
+        print("------------ predict : dataset_re--------")
+        dataset_re.show()
+
+        print("------------等距离散 result:--------")
+        print(conf)
+        dataset_list[0].show()
+
+        # 2、测试等频离散
+        conf = {"bucketizer_conf": [["isofrequecy_discretization", "2", "features", "features_bucketed", "False"]]}
+        operator = BucketizerOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
+        dataset_list = operator.handle([dataset], self.spark)
+        print("------------等频离散  result:--------")
+        print(conf)
+        dataset_list[0].show()
+
+        # 3、自定义离散
+        conf = {
+            "bucketizer_conf": [["custom_discretization", "-inf,-1,1,inf", "features", "features_bucketed", "False"]]}
+        operator = BucketizerOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
+        dataset_list = operator.handle([dataset], self.spark)
+        print("------------自定义离散  result:--------")
+        print(conf)
+        dataset_list[0].show()
 
 
 if __name__ == "__main__":
@@ -284,7 +326,5 @@ if __name__ == "__main__":
     test.test_sampleOperator()
     print('\n')
 
-
-
-
-
+    test.test_bucketizerOperator()
+    print('\n')

@@ -103,7 +103,7 @@ class BucketizerOperator(DataProcessingOperator):
                 elif splits_type == "custom_discretization":
                     self.bucketizer_discretizer(df, split, input_col, output_col)
                 if is_drop_input:
-                    df.drop(input_col)
+                    df = df.drop(input_col)
             return [df]
 
         except Exception as e:
