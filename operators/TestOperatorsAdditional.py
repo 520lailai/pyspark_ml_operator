@@ -16,10 +16,49 @@ from LabelFeatureToLibsvmOperator import LabelFeatureToLibsvmOperator
 from RandomSplitOperator import RandomSplitOperator
 from TableStatsOperator import TableStatsOperator
 from BucketizerOperator import BucketizerOperator
+from JoinOperator import JoinOperator
 
 
 class TestOperatorsAdditional:
     spark = SparkSession.builder.enableHiveSupport().getOrCreate()
+    def test_joinOperator(self):
+        print("----------------test_joinOperator:")
+        conf = {'join_columns': [['id1', 'id2'], ['country', 'country']],
+                'select_right_columns': [['id2', 'id2'], ['country', 'country2'], ['hour2', 'hour2']],
+                'join_type': 'inner',
+                'select_left_columns': [['id1', 'id1'], ['country', 'country1'], ['hour1', 'hour1']]};
+        operator = JoinOperator(op_id="123", op_type="readtable", conf=conf, relation="", result_type="")
+        df1 = self.spark.createDataFrame(
+            [(1, "US", 19, 1.0),
+             (2, "CA", 6, 4.0),
+             (3, "CA", 20, 0.0),
+             (4, "NO", 4, 7.0)],
+            ["id1", "country", "hour1", "clicked1"])
+
+        df2 = self.spark.createDataFrame(
+            [(1, "US", 19, 1.0),
+             (2, "CA", 6, 4.0),
+             (3, "CA", 20, 0.0),
+             (4, "NO", 4, 7.0)],
+            ["id2", "country", "hour2", "clicked2"])
+        df1.show()
+        df2.show()
+        print(conf)
+
+        dataset_list = operator.handle([df1, df2], self.spark)
+
+        dataset_re = self.spark.createDataFrame(
+            [(2, "CA", 6, 2, "CA", 6),
+             (3, "CA", 20, 3, "CA", 20),
+             (1, "US", 19, 1, "US", 19),
+             (4, "NO", 4, 4, "NO", 4)],
+            ["id1", "country1", "hour1", "id2", "country2", "hour2"])
+
+
+        print("----------------result_table:")
+        dataset_list[0].show()
+        print("----------------predict_table:")
+        dataset_re.show()
 
     def test_oneHotEncoderEstimatorOperator(self):
         print("------------test_oneHotEncoderEstimatorOperator:--------------")
@@ -44,11 +83,11 @@ class TestOperatorsAdditional:
         dataset.show()
 
         dataset_re = self.spark.createDataFrame(
-            [(1, 2, Vectors.sparse(5,[2],[1.0]), Vectors.sparse(5,[2],[1.0]), Vectors.sparse(4,[1],[1.0])),
-             (2, 4, Vectors.sparse(5,[4],[1.0]), Vectors.sparse(5,[4],[1.0]), Vectors.sparse(4,[3],[1.0])),
-             (3, 5, Vectors.sparse(5,[3],[1.0]), Vectors.sparse(5,[0],[1.0]), Vectors.sparse(4,[2],[1.0])),
-             (4, 9, Vectors.sparse(5,[0],[1.0]), Vectors.sparse(5,[1],[1.0]), Vectors.sparse(4,[0],[1.0])),
-             (5, 5, Vectors.sparse(5,[1],[1.0]), Vectors.sparse(5,[3],[1.0]), Vectors.sparse(4,[3],[1.0]))],
+            [(1, 2, Vectors.sparse(4, [2], [1.0]), Vectors.sparse(4, [2], [1.0]), Vectors.sparse(3, [2], [1.0])),
+             (2, 4, Vectors.sparse(4, [0], [1.0]), Vectors.sparse(4, [0], [1.0]), Vectors.sparse(3, [0], [1.0])),
+             (3, 5, Vectors.sparse(4, [1], [1.0]), Vectors.sparse(4, [], []), Vectors.sparse(3, [1], [1.0])),
+             (4, 9, Vectors.sparse(4, [], []), Vectors.sparse(4, [3], [1.0]), Vectors.sparse(3, [], [])),
+             (5, 5, Vectors.sparse(4, [3], [1.0]), Vectors.sparse(4, [1], [1.0]), Vectors.sparse(3, [0], [1.0]))],
             ["id", "clicked", "country_onehot", "hour-onehot", "score-onehot"])
 
         mapping_re = self.spark.createDataFrame(
@@ -67,6 +106,7 @@ class TestOperatorsAdditional:
              ("score", "0.5", 2.0),
              ("score", "0.0", 3.0)],
             ["col_name", "col_value", "mapping"])
+
 
         print("----------my_predict_result_table")
         dataset_re.show()
@@ -102,14 +142,14 @@ class TestOperatorsAdditional:
             ["id", "country", "hour", "score", "clicked"])
 
         dataset_re = self.spark.createDataFrame(
-            [(1, 2, Vectors.sparse(5,[2],[1.0]), Vectors.sparse(5,[2],[1.0]), Vectors.sparse(4,[1],[1.0])),
-             (2, 4, Vectors.sparse(5,[4],[1.0]), Vectors.sparse(5,[4],[1.0]), Vectors.sparse(4,[3],[1.0])),
-             (3, 5, Vectors.sparse(5,[3],[1.0]), Vectors.sparse(5,[0],[1.0]), Vectors.sparse(4,[2],[1.0])),
-             (4, 9, Vectors.sparse(5,[0],[1.0]), Vectors.sparse(5,[1],[1.0]), Vectors.sparse(4,[0],[1.0])),
-             (5, 5, Vectors.sparse(5,[1],[1.0]), Vectors.sparse(5,[3],[1.0]), Vectors.sparse(4,[3],[1.0]))],
+            [(1, 2, Vectors.sparse(4, [2], [1.0]), Vectors.sparse(4, [2], [1.0]), Vectors.sparse(3, [2], [1.0])),
+             (2, 4, Vectors.sparse(4, [0], [1.0]), Vectors.sparse(4, [0], [1.0]), Vectors.sparse(3, [0], [1.0])),
+             (3, 5, Vectors.sparse(4, [1], [1.0]), Vectors.sparse(4, [], []), Vectors.sparse(3, [1], [1.0])),
+             (4, 9, Vectors.sparse(4, [], []), Vectors.sparse(4, [3], [1.0]), Vectors.sparse(3, [], [])),
+             (5, 5, Vectors.sparse(4, [3], [1.0]), Vectors.sparse(4, [1], [1.0]), Vectors.sparse(3, [0], [1.0]))],
             ["id", "clicked", "country_onehot", "hour-onehot", "score-onehot"])
 
-        modle = self.spark.createDataFrame(
+        mapping_re = self.spark.createDataFrame(
             [("country", "Vietnam", 1.0),
              ("country", "Brazil", 3.0),
              ("country", "China", 2.0),
@@ -126,13 +166,14 @@ class TestOperatorsAdditional:
              ("score", "0.0", 3.0)],
             ["col_name", "col_value", "mapping"])
 
+
         print("---------input-table------")
         dataset.show()
 
         print("---------input-modle------")
-        modle.show()
+        mapping_re.show()
 
-        dataset_list = operator.handle([dataset, modle], self.spark)
+        dataset_list = operator.handle([dataset, mapping_re], self.spark)
 
         print("---------result-table------")
         dataset_list[0].show()
@@ -144,7 +185,7 @@ class TestOperatorsAdditional:
         dataset_re.show()
 
         print("---------my_predict_result-model------")
-        modle.show()
+        mapping_re.show()
 
     def test_sampleOperator(self):
         print("---------test_sampleOperator------")
@@ -331,11 +372,11 @@ if __name__ == "__main__":
     test.test_splitOperator()
     print('\n')
 
-    test.test_labelFeatureToLibsvm()
-    print('\n')
-
     test.test_sampleOperator()
     print('\n')
 
     test.test_bucketizerOperator()
+    print('\n')
+
+    test.test_labelFeatureToLibsvm()
     print('\n')

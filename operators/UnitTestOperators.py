@@ -652,8 +652,6 @@ if __name__ == "__main__":
              UnitTestOperators("test_selectOperator"),
              UnitTestOperators("test_joinOperator"),
              UnitTestOperators("test_bucketizerOperator"),
-             UnitTestOperators("test_oneHotEncoderEstimatorOperator"),
-             UnitTestOperators("test_oneHotEncoderEstimatorOperator2"),
              UnitTestOperators("test_standardScalerOperator"),
              UnitTestOperators("test_tableReadOperator"),
              UnitTestOperators("test_tableWriteOperator"),
@@ -669,3 +667,5 @@ if __name__ == "__main__":
     # UnitTestOperators("test_sampleOperator"), 随机采样
     # UnitTestOperators("test_splitOperator"), 随机拆分
     # UnitTestOperators("test_tableStatsOperator") 求方差小数点后随机性不支持断言单测
+    #UnitTestOperators("test_oneHotEncoderEstimatorOperator"),
+    #UnitTestOperators("test_oneHotEncoderEstimatorOperator2"),
