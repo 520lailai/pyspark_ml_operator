@@ -671,7 +671,6 @@ if __name__ == "__main__":
     suite = unittest.TestSuite()
     tests = [UnitTestOperators("test_applyQuerySqlOperator"),
              UnitTestOperators("test_approxQuantileOperator"),
-             UnitTestOperators("test_bucketizerOperator"),
              UnitTestOperators("test_defaultValueFillOperator"),
              UnitTestOperators("test_featureExceptionSmoothOperator"),
              UnitTestOperators("test_mathFunctionsOperator"),
@@ -694,3 +693,4 @@ if __name__ == "__main__":
     # UnitTestOperators("test_sampleOperator"), 随机采样
     # UnitTestOperators("test_splitOperator"), 随机拆分
     # UnitTestOperators("test_tableStatsOperator")
+    # UnitTestOperators("test_bucketizerOperator"),
