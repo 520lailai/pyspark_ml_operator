@@ -9,7 +9,8 @@ class Operator:
                  op_category,
                  conf,
                  relation,
-                 result_type="single"):
+                 result_type="single",
+                 user_defined=False):
 
         self.op_id = op_id
         self.op_type = op_type
@@ -21,6 +22,7 @@ class Operator:
         self.result_df_name_list = []
         self.conf = conf
         self.relation = relation
+        self.user_defined = user_defined
 
     @abstractmethod
     def handle(self, df_name_list, spark_session):
