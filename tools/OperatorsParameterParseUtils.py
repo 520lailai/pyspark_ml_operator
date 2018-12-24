@@ -33,11 +33,10 @@ def int_convert(int_str, op_id):
     if not int_str:
         raise ParameterException("the parameter is null, op_id:" + str(op_id))
     try:
-        num = int(int_str)
+        num = int(float(int_str))
         return num
     except Exception:
-        raise ParameterException("the parameter convert error : " + num + ", op_id:" + str(op_id))
-
+        raise ParameterException("the parameter convert error : " + str(int_str) + ", op_id:" + str(op_id))
 
 def get_df_schema(df):
     dtypes = df.dtypes
@@ -45,7 +44,6 @@ def get_df_schema(df):
     for type in dtypes:
         schema[type[0]] = type[1]
     return schema
-
 
 def float_convert(float_str, op_id):
     if not float_str:

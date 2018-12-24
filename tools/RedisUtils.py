@@ -8,9 +8,12 @@ import os
 class RedisUtils:
     try:
         config = ConfigParser.RawConfigParser()
-        config.read("conf/common.conf")
-        __host = config.get("redis", "redis_host")
-        __port = int(config.get("redis", "redis_port"))
+        current = os.path.dirname(__file__)
+        dirname_path = os.path.dirname(current)
+        conf_path = os.path.join(dirname_path, "conf/common.conf")
+        config.read(conf_path)
+        __host = config.get("redis_config", "redis_host")
+        __port = int(config.get("redis_config", "redis_port"))
     except IOError:
         __host = "bjpg-rs2856.yz02"
         __port = 14330

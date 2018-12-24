@@ -33,5 +33,6 @@ class DataProcessingOperator(Operator):
                 else:
                     relations = pre_operator.relation
                     if relations is not None:
-                        params[pre_operator.op_id] = int(relations[self.op_id]) - 1
+                        params[pre_operator.op_id] = int(relations[self.op_id])-1
         return params
+

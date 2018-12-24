@@ -34,7 +34,6 @@ class ExtendJSONEncoder(json.JSONEncoder):
             return float(obj)
         if isinstance(obj, datetime):
             return obj.strftime('%b %d %Y %H:%M:%S')
-        if isinstance(obj, MlVector) or isinstance(obj, MllibVector) or isinstance(obj, MllibMatrix) or isinstance(obj,
-                                                                                                                   MlMatrix):
+        if isinstance(obj, MlVector) or isinstance(obj, MllibVector) or isinstance(obj, MllibMatrix) or isinstance(obj, MlMatrix):
             return list(obj)
         return super(ExtendJSONEncoder, self).default(obj)
